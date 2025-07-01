@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="fr"> <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>TecHaven - Computer Store</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+</head>
+<body>
+ 
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+ 
+        <div class="search-wrapper">
+    <input type="text" id="searchInput" placeholder="Rechercher...">
+    <span class="search-icon">🔍</span>
+    <!-- ADD THIS DIV FOR SEARCH SUGGESTIONS DROPDOWN -->
+    <div id="searchResultsDropdown" class="search-results-dropdown"></div>
+</div>
+ 
+        <div id="user-controls">
+            <a href="login.html" class="icon-button">
+                <span class="icon">👤</span>
+                <span class="text" data-i18n="header.login">Connexion</span>
+            </a>
+        </div>
+ 
+        <a href="cart.html" class="icon-button cart-button">
+            <span class="icon">🛒</span>
+            <span class="badge">0</span>
+            <span class="text" data-i18n="header.cart">Mon Panier</span>
+        </a>
+ 
+        <div class="icon-button language-button">
+            <span class="icon">🌐</span>
+            <select class="language-select">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">🇹🇳 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+    </header>
+ 
+    <section class="hero-slider">
+        <div class="slides">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8');">
+                <div class="slide-content">
+                    <h1 data-i18n="hero1.title">Welcome to TecHaven</h1>
+                    <p data-i18n="hero1.subtitle">Your destination for computers, smartphones & smart things</p>
+                    <a href="#nos-categories" class="hero-button" data-i18n="hero1.button">Shop Now</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475');">
+                <div class="slide-content">
+                    <h1 data-i18n="hero2.title">🔥 Hot Offers This Week</h1>
+                    <a href="#nos-categories" class="hero-button" data-i18n="hero2.button">See Deals</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('images/bg.png');">
+                <div class="slide-content">
+                    <h1 data-i18n="hero3.title">Rejoignez la Communauté TechHaven!</h1>
+                    <p data-i18n="hero3.subtitle">Votre Source de Confiance pour la Technologie.</p>
+                    <a href="#customer-testimonials" class="hero-button primary" data-i18n="hero3.button1">Lire les Avis Clients</a>
+                    <a href="https://wa.me/21628257446" class="hero-button secondary" data-i18n="hero3.button2">Contactez-nous</a>
+                </div>
+            </div>
+        </div>
+ 
+        <button class="arrow left" onclick="prevSlide()">❮</button>
+        <button class="arrow right" onclick="nextSlide()">❯</button>
+ 
+        <div class="dots">
+            <span class="dot" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </section>
+ 
+    <section id="nos-categories" class="categories-section">
+        <h2 data-i18n="categories.title">Nos Catégories</h2>
+        <div class="categories-container">
+            <a href="pc.html" id="pcs" class="category-card pc">
+                <h3 data-i18n="category.pcs">PCs</h3>
+            </a>
+            <a href="smartphones.html" id="smartphones" class="category-card smartphone">
+                <h3 data-i18n="category.smartphones">Smartphones</h3>
+            </a>
+            <a href="smartthings.html" id="smartthings" class="category-card smart-things">
+                <h3 data-i18n="category.smartthings">Smart Things</h3>
+                <p data-i18n="category.smartthings_desc">(Montres, casques, enceintes, PS5, ...)</p>
+            </a>
+        </div>
+    </section>
+ 
+    <section id="customer-testimonials" class="customer-testimonials-section">
+        <h2 data-i18n="testimonials.title">Ce que nos clients satisfaits disent !</h2>
+        <p class="section-intro" data-i18n="testimonials.intro">Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <img src="./images/w0.jpeg" alt="Capture d'écran - Client satisfait 1" data-full-src="./images/w0.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w2.jpeg" alt="Capture d'écran - Client satisfait 2" data-full-src="./images/w2.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w1.jpeg" alt="Capture d'écran - Client satisfait 3" data-full-src="./images/w1.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w3.jpeg" alt="Capture d'écran - Client satisfait 4" data-full-src="./images/w3.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w4.jpeg" alt="Capture d'écran - Client satisfait 5" data-full-src="./images/w4.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w5.jpeg" alt="Capture d'écran - Client satisfait 6" data-full-src="./images/w5.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w6.jpeg" alt="Capture d'écran - Client satisfait 7" data-full-src="./images/w6.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w7.jpeg" alt="Capture d'écran - Client satisfait 8" data-full-src="./images/w7.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w8.jpeg" alt="Capture d'écran - Client satisfait 9" data-full-src="./images/w8.jpeg">
+            </div>
+        </div>
+       
+        <a href="review.html" class="submit-review-button" data-i18n="testimonials.button">Partagez votre expérience !</a>
+    </section>
+ 
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 data-i18n="footer.about_title">À Propos de TecHaven</h3>
+                <p data-i18n="footer.about_text">Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+            </div>
+            <div class="footer-section links">
+                <h3 data-i18n="footer.links_title">Liens Utiles</h3>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+                    <li><a href="pc.html" data-i18n="nav.pc">PCs</a></li>
+                    <li><a href="smartphones.html" data-i18n="nav.smartphones">Smartphones</a></li>
+                    <li><a href="smartthings.html" data-i18n="nav.smartthings">Smart Things</a></li>
+                    <li><a href="cart.html" data-i18n="header.cart">Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
+                <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/KB18031989"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                    <a href="https://wa.me/41767576430"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span data-i18n="footer.copyright">&copy; <span id="current-year"></span> TecHaven. Tous droits réservés.</span>
+        </div>
+    </footer>
+ 
+    <script src="js/cart.js"></script>
+ 
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+ 
+    <script>
+        // --- Configuration ---
+const API_BASE_URL = 'http://localhost:5000/api'; // Ensure this is consistent
+
+
+// ... (your existing event listeners for keypress and click) ...
+ 
+
+ 
+// Event Listener for click on search icon
+        // --- SLIDER FUNCTIONALITY ---
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        let slideInterval = setInterval(nextSlide, 5000);
+ 
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                    dots[i].classList.add('active');
+                }
+            });
+            currentSlide = index;
+        }
+ 
+        function nextSlide() {
+            showSlide((currentSlide + 1) % slides.length);
+        }
+ 
+        function prevSlide() {
+            showSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+ 
+        function goToSlide(index) {
+            showSlide(index);
+        }
+ 
+        showSlide(0); // Initialize slider
+ 
+        // --- USER LOGIN/LOGOUT UI ---
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
+ 
+        function updateLoginUI(lang) {
+            if (currentUser) {
+                userControls.innerHTML = `
+                    <div class="icon-button">
+                        <span class="icon">👋</span>
+                        <span class="text" data-i18n="header.greeting">${lang === "es" ? "Hola" : lang === 'en' ? 'Hello' : lang === 'ar' ? 'مرحباً' : 'Bonjour'}, ${currentUser.prenom}</span>
+                    </div>
+                    <button onclick="logout()" style="
+                        margin-left: 10px;
+                        background-color: #ff5e5e;
+                        color: white;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                    " data-i18n="header.logout_button"></button>
+                `;
+                // Manually set text for the dynamic logout button after creation
+                const logoutButton = userControls.querySelector('button');
+                if (logoutButton) {
+                    logoutButton.textContent = translations[lang]['header.logout_button'] || translations['fr']['header.logout_button'];
+                }
+ 
+            } else {
+                userControls.innerHTML = `
+                    <a href="login.html" class="icon-button">
+                        <span class="icon">👤</span>
+                        <span class="text" data-i18n="header.login"></span>
+                    </a>
+                `;
+                // Manually set text for the login link after creation
+                const loginLinkText = userControls.querySelector('[data-i18n="header.login"]');
+                if (loginLinkText) {
+                    loginLinkText.textContent = translations[lang]['header.login'] || translations['fr']['header.login'];
+                }
+            }
+        }
+ 
+ 
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
+        }
+        // --- CATEGORY IMAGE ROTATION ---
+        const categoryImages = {
+            pcs: [
+              "https://images.unsplash.com/photo-1537498425277-c283d32ef9db?q=80&w=2078&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1592919933511-ea9d487c85e4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBjfGVufDB8fDB8fHww"
+            ],
+            smartphones: [
+                "https://images.unsplash.com/photo-1673718424704-51d0d2ca1fd2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHNtYXJ0cGhvbmVzfGVufDB8fDB8fHww",
+                "https://images.unsplash.com/photo-1606594468925-47c7e77fa9f9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            smartthings: [
+                "https://images.unsplash.com/photo-1613497646519-ee1ab64293af?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTg1fHxTbWFydCUyMEhlYWRwaG9uZXN8ZW58MHwwfDB8fHww", // This URL appears broken, consider replacing.
+                "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHM1fGVufDB8fDB8fHww",
+                "https://images.unsplash.com/photo-1557438159-51eec7a6c9e8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU0fHxTbWFydCUyMFdhdGNoZXN8ZW58MHwwfDB8fHww"
+            ]
+        };
+ 
+        let currentIndex = {
+            pcs: 0,
+            smartphones: 0,
+            smartthings: 0
+        };
+        window.addEventListener('DOMContentLoaded', () => {
+    Object.keys(categoryImages).forEach(category => {
+        const element = document.getElementById(category);
+        if (element && categoryImages[category].length > 0) {
+            const imageUrl = categoryImages[category][0];
+            element.style.backgroundImage = `url('${imageUrl}')`;
+            console.log(`Setting initial background for ${category}: ${imageUrl}`);
+        } else if (!element) {
+            console.warn(`Element with ID '${category}' not found.`);
+        } else if (categoryImages[category].length === 0) {
+            console.warn(`No images defined for category: ${category}`);
+        }
+    });
+ 
+    // Rotation toutes les 3 secondes
+    setInterval(() => rotateCategoryImage('pcs', 'pcs'), 3000);
+    setInterval(() => rotateCategoryImage('smartphones', 'smartphones'), 3000);
+    setInterval(() => rotateCategoryImage('smartthings', 'smartthings'), 3000);
+});
+ 
+        function rotateCategoryImage(category, elementId) {
+            const images = categoryImages[category];
+            if (!images || images.length === 0) return; // Add check for empty array
+ 
+            currentIndex[category] = (currentIndex[category] + 1) % images.length;
+            document.getElementById(elementId).style.backgroundImage =
+                `url('${images[currentIndex[category]]}')`;
+        }
+ 
+        // --- LIGHTBOX FUNCTIONALITY ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeBtn = document.getElementsByClassName('lightbox-close')[0];
+ 
+        // Get all testimonial images
+        const testimonialImages = document.querySelectorAll('.testimonial-item img');
+ 
+        testimonialImages.forEach(img => {
+            img.addEventListener('click', function() {
+                lightbox.style.display = 'block';
+                lightboxImg.src = this.dataset.fullSrc || this.src;
+                lightboxCaption.innerHTML = this.alt;
+            });
+        });
+ 
+        closeBtn.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+        });
+ 
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+ 
+        // --- LANGUAGE TRANSLATION FUNCTIONALITY ---
+        const languageSelect = document.querySelector('.language-select');
+let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
+        // 1. Define your translations
+        const translations = {
+            fr: {
+                // Header/Navigation
+                "header.search_placeholder": "Rechercher...",
+                "header.login": "Connexion",
+                "header.cart": "Mon Panier",
+                "header.greeting": "Bonjour", // For dynamic greeting
+                "header.logout_button": "Déconnexion",
+ 
+                // Navigation Links
+                "nav.home": "Accueil",
+                "nav.pc": "PC",
+                "nav.smartphones": "Smartphones",
+                "nav.smartthings": "SmartThings",
+                "nav.contact": "Contact",
+ 
+                // Hero Banner (Slide 1)
+                "hero1.title": "Bienvenue à TecHaven",
+                "hero1.subtitle": "Votre destination pour ordinateurs, smartphones & objets connectés",
+                "hero1.button": "Acheter maintenant",
+ 
+                // Hero Banner (Slide 2)
+                "hero2.title": "🔥 Offres Exceptionnelles Cette Semaine",
+                "hero2.subtitle": "Jusqu'à 30% de réduction sur les accessoires de jeu",
+                "hero2.button": "Voir les offres",
+ 
+                // Hero Banner (Slide 3)
+                "hero3.title": "Rejoignez la Communauté TechHaven!",
+                "hero3.subtitle": "Votre Source de Confiance pour la Technologie.",
+                "hero3.button1": "Lire les Avis Clients",
+                "hero3.button2": "Contactez-nous",
+ 
+                // Categories Section
+                "categories.title": "Nos Catégories",
+                "category.pcs": "PCs",
+                "category.smartphones": "Smartphones",
+                "category.smartthings": "Smart Things",
+                "category.smartthings_desc": "(Montres, casques, enceintes, PS5, ...)",
+ 
+                // Testimonials Section
+                "testimonials.title": "Ce que nos clients satisfaits disent !",
+                "testimonials.intro": "Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.",
+                "testimonials.note": "*Pour des raisons de confidentialité, les noms et numéros ont été masqués sur les captures d'écran.",
+                "testimonials.button": "Partagez votre expérience !",
+                
+                "no_results_message": "Aucun résultat trouvé.",
+                "search_results.title": "Résultats de Recherche",
+                "search_results.no_products": "Aucun produit trouvé pour votre recherche.",
+                "product_card.add_to_cart": "Ajouter au panier",
+                "product_card.out_of_stock": "Rupture de Stock",
+
+                // Footer
+                "footer.about_title": "À Propos de TecHaven",
+                "footer.about_text": "Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
+                "footer.links_title": "Liens Utiles",
+                "footer.my_account": "",
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TecHaven. Tous droits réservés." // Placeholder for year
+            },
+            en: {
+                // Header/Navigation
+                "header.search_placeholder": "Search...",
+                "header.login": "Log In",
+                "header.cart": "My Cart",
+                "header.greeting": "Hello",
+                "header.logout_button": "Log Out",
+ 
+                // Navigation Links
+                "nav.home": "Home",
+                "nav.pc": "PCs",
+                "nav.smartphones": "Smartphones",
+                "nav.smartthings": "Smart Things",
+                "nav.contact": "Contact",
+ 
+                // Hero Banner (Slide 1)
+                "hero1.title": "Welcome to TechHaven",
+                "hero1.subtitle": "Your destination for computers, smartphones & smart things",
+                "hero1.button": "Shop Now",
+ 
+                // Hero Banner (Slide 2)
+                "hero2.title": "🔥 Hot Offers This Week",
+                "hero2.subtitle": "Get up to 30% off gaming accessories",
+                "hero2.button": "See Deals",
+ 
+                // Hero Banner (Slide 3)
+                "hero3.title": "Join the TechHaven Community!",
+                "hero3.subtitle": "Your Trusted Source for Technology.",
+                "hero3.button1": "Read Customer Reviews",
+                "hero3.button2": "Contact Us",
+ 
+                // Categories Section
+                "categories.title": "Our Categories",
+                "category.pcs": "PCs",
+                "category.smartphones": "Smartphones",
+                "category.smartthings": "Smart Things",
+                "category.smartthings_desc": "(Watches, headsets, speakers, PS5, ...)",
+ 
+                // Testimonials Section
+                "testimonials.title": "What Our Happy Customers Say!",
+                "testimonials.intro": "Authentic conversations that speak for themselves. Discover why our customers love TechHaven.",
+                "testimonials.note": "*For privacy reasons, names and numbers have been blurred in screenshots.",
+                "testimonials.button": "Share Your Experience!",
+ 
+                "no_results_message": "No results found.",
+                "search_results.title": "Search Results",
+                "search_results.no_products": "No products found for your search.",
+                "product_card.add_to_cart": "Add to Cart",
+                "product_card.out_of_stock": "Out of Stock",
+
+                // Footer
+                "footer.about_title": "About TecHaven",
+                "footer.about_text": "Your one-stop destination for high-quality PCs, components, and computer accessories. We are committed to providing the best technology and exceptional customer service.",
+                "footer.links_title": "Useful Links",
+                "footer.my_account": "My Account",
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TecHaven. All Rights Reserved."
+            },
+            ar: {
+                // Header/Navigation
+                "header.search_placeholder": "بحث...",
+                "header.login": "تسجيل الدخول",
+                "header.cart": "سلتي",
+                "header.greeting": "مرحباً",
+                "header.logout_button": "تسجيل الخروج",
+ 
+                // Navigation Links
+                "nav.home": "الرئيسية",
+                "nav.pc": "أجهزة الكمبيوتر",
+                "nav.smartphones": "الهواتف الذكية",
+                "nav.smartthings": "الأشياء الذكية",
+                "nav.contact": "اتصل بنا",
+ 
+                // Hero Banner (Slide 1)
+                "hero1.title": "مرحباً بكم في TecHaven",
+                "hero1.subtitle": "وجهتك لأجهزة الكمبيوتر، الهواتف الذكية، والأجهزة الذكية",
+                "hero1.button": "تسوق الآن",
+ 
+                // Hero Banner (Slide 2)
+                "hero2.title": "🔥 عروض ساخنة هذا الأسبوع",
+                "hero2.subtitle": "خصم يصل إلى 30% على إكسسوارات الألعاب",
+                "hero2.button": "شاهد العروض",
+ 
+                // Hero Banner (Slide 3)
+                "hero3.title": "انضم إلى مجتمع TecHaven!",
+                "hero3.subtitle": "مصدرك الموثوق للتكنولوجيا.",
+                "hero3.button1": "قراءة آراء العملاء",
+                "hero3.button2": "اتصل بنا",
+ 
+                // Categories Section
+                "categories.title": "فئاتنا",
+                "category.pcs": "أجهزة الكمبيوتر",
+                "category.smartphones": "الهواتف الذكية",
+                "category.smartthings": "الأجهزة الذكية",
+                "category.smartthings_desc": "(ساعات، سماعات رأس، مكبرات صوت، بلايستيشن 5، ...)",
+ 
+                // Testimonials Section
+                "testimonials.title": "ماذا يقول عملاؤنا الراضون!",
+                "testimonials.intro": "محادثات حقيقية تتحدث عن نفسها. اكتشف لماذا يحب عملاؤنا TecHaven.",
+                "testimonials.note": "*لأسباب تتعلق بالخصوصية، تم إخفاء الأسماء والأرقام في لقطات الشاشة.",
+                "testimonials.button": "شارك تجربتك!",
+ 
+                "no_results_message": "لم يتم العثور على نتائج.",
+                "search_results.title": "نتائج البحث",
+                "search_results.no_products": "لم يتم العثور على منتجات لبحثك.",
+                "product_card.add_to_cart": "أضف إلى السلة",
+                "product_card.out_of_stock": "نفدت الكمية",
+
+                // Footer
+                "footer.about_title": "حول TecHaven",
+                "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
+                "footer.links_title": "روابط مفيدة",
+                "footer.my_account": "حسابي",
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TecHaven. جميع الحقوق محفوظة."
+            },
+            // spanish
+             es: { // ADD THIS NEW SPANISH TRANSLATION BLOCK
+        // Header/Navigation
+        "header.search_placeholder": "Buscar...",
+        "header.login": "Iniciar Sesión",
+        "header.cart": "Mi Carrito",
+        "header.greeting": "Hola",
+        "header.logout_button": "Cerrar Sesión",
+ 
+        // Navigation Links
+        "nav.home": "Inicio",
+        "nav.pc": "PC",
+        "nav.smartphones": "Smartphones",
+        "nav.smartthings": "Smart Things",
+        "nav.contact": "Contacto",
+ 
+        // Hero Banner (Slide 1)
+        "hero1.title": "Bienvenido a TechHaven",
+        "hero1.subtitle": "Tu destino para ordenadores, smartphones y dispositivos inteligentes",
+        "hero1.button": "Comprar ahora",
+ 
+        // Hero Banner (Slide 2)
+        "hero2.title": "🔥 Ofertas Calientes Esta Semana",
+        "hero2.subtitle": "Hasta 30% de descuento en accesorios de gaming",
+        "hero2.button": "Ver Ofertas",
+ 
+        // Hero Banner (Slide 3)
+        "hero3.title": "¡Únete a la Comunidad TechHaven!",
+        "hero3.subtitle": "Tu Fuente de Confianza para la Tecnología.",
+        "hero3.button1": "Leer Opiniones de Clientes",
+        "hero3.button2": "Contáctanos",
+ 
+        // Categories Section
+        "categories.title": "Nuestras Categorías",
+        "category.pcs": "PCs",
+        "category.smartphones": "Smartphones",
+        "category.smartthings": "Smart Things",
+        "category.smartthings_desc": "(Relojes, auriculares, altavoces, PS5, ...)",
+ 
+        // Testimonials Section
+        "testimonials.title": "¡Lo que dicen nuestros clientes satisfechos!",
+        "testimonials.intro": "Conversaciones auténticas que hablan por sí solas. Descubre por qué nuestros clientes adoran TechHaven.",
+        "testimonials.note": "*Por razones de privacidad, los nombres y números han sido difuminados en las capturas de pantalla.",
+        "testimonials.button": "¡Comparte tu experiencia!",
+ 
+        // Footer
+        "footer.about_title": "Acerca de TechHaven",
+        "footer.about_text": "Tu destino único para PCs, componentes y accesorios informáticos de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
+        "footer.links_title": "Enlaces Útiles",
+        "footer.my_account": "Mi Cuenta",
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Todos los derechos reservados."
+    },
+     de: { // ADD THIS NEW GERMAN TRANSLATION BLOCK
+        // Header/Navigation
+        "header.search_placeholder": "Suchen...",
+        "header.login": "Anmelden",
+        "header.cart": "Mein Warenkorb",
+        "header.greeting": "Hallo",
+        "header.logout_button": "Abmelden",
+ 
+        // Navigation Links
+        "nav.home": "Startseite",
+        "nav.pc": "PCs",
+        "nav.smartphones": "Smartphones",
+        "nav.smartthings": "Smart Things",
+        "nav.contact": "Kontakt",
+ 
+        // Hero Banner (Slide 1)
+        "hero1.title": "Willkommen bei TechHaven",
+        "hero1.subtitle": "Ihr Ziel für Computer, Smartphones & Smart Things",
+        "hero1.button": "Jetzt einkaufen",
+ 
+        // Hero Banner (Slide 2)
+        "hero2.title": "🔥 Heiße Angebote diese Woche",
+        "hero2.subtitle": "Bis zu 30% Rabatt auf Gaming-Zubehör",
+        "hero2.button": "Angebote ansehen",
+ 
+        // Hero Banner (Slide 3)
+        "hero3.title": "Treten Sie der TechHaven-Community bei!",
+        "hero3.subtitle": "Ihre vertrauenswürdige Quelle für Technologie.",
+        "hero3.button1": "Kundenbewertungen lesen",
+        "hero3.button2": "Kontaktieren Sie uns",
+ 
+        // Categories Section
+        "categories.title": "Unsere Kategorien",
+        "category.pcs": "PCs",
+        "category.smartphones": "Smartphones",
+        "category.smartthings": "Smart Things",
+        "category.smartthings_desc": "(Uhren, Headsets, Lautsprecher, PS5, ...)",
+ 
+        // Testimonials Section
+        "testimonials.title": "Was unsere zufriedenen Kunden sagen!",
+        "testimonials.intro": "Authentische Gespräche, die für sich sprechen. Entdecken Sie, warum unsere Kunden TechHaven lieben.",
+        "testimonials.note": "*Aus Datenschutzgründen wurden Namen und Nummern auf den Screenshots unkenntlich gemacht.",
+        "testimonials.button": "Teilen Sie Ihre Erfahrung!",
+ 
+        // Footer
+        "footer.about_title": "Über TechHaven",
+        "footer.about_text": "Ihr One-Stop-Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
+        "footer.links_title": "Nützliche Links",
+        "footer.my_account": "Mein Konto",
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Alle Rechte vorbehalten."
+    },ja: { // ADD THIS NEW JAPANESE TRANSLATION BLOCK
+        // Header/Navigation
+        "header.search_placeholder": "検索...",
+        "header.login": "ログイン",
+        "header.cart": "マイカート",
+        "header.greeting": "こんにちは",
+        "header.logout_button": "ログアウト",
+ 
+        // Navigation Links
+        "nav.home": "ホーム",
+        "nav.pc": "PC",
+        "nav.smartphones": "スマートフォン",
+        "nav.smartthings": "スマートデバイス",
+        "nav.contact": "お問い合わせ",
+ 
+        // Hero Banner (Slide 1)
+        "hero1.title": "テックヘブンへようこそ",
+        "hero1.subtitle": "コンピューター、スマートフォン、スマートデバイスの専門店",
+        "hero1.button": "今すぐ購入",
+ 
+        // Hero Banner (Slide 2)
+        "hero2.title": "🔥 今週の特別オファー",
+        "hero2.subtitle": "ゲーミングアクセサリーが最大30%オフ",
+        "hero2.button": "セールを見る",
+ 
+        // Hero Banner (Slide 3)
+        "hero3.title": "テックヘブンコミュニティに参加しよう！",
+        "hero3.subtitle": "テクノロジーの信頼できる情報源。",
+        "hero3.button1": "お客様のレビューを読む",
+        "hero3.button2": "お問い合わせ",
+ 
+        // Categories Section
+        "categories.title": "カテゴリー",
+        "category.pcs": "PC",
+        "category.smartphones": "スマートフォン",
+        "category.smartthings": "スマートデバイス",
+        "category.smartthings_desc": "(時計、ヘッドセット、スピーカー、PS5など)",
+ 
+        // Testimonials Section
+        "testimonials.title": "お客様の声",
+        "testimonials.intro": "信頼できるお客様の声。なぜお客様がTechHavenを愛しているのかをご覧ください。",
+        "testimonials.note": "※プライバシー保護のため、スクリーンショットの氏名と番号は隠されています。",
+        "testimonials.button": "あなたの体験を共有する！",
+ 
+        // Footer
+        "footer.about_title": "TechHavenについて",
+        "footer.about_text": "高品質なPC、コンポーネント、コンピューターアクセサリーのワンストップショップです。最高のテクノロジーと優れた顧客サービスを提供することをお約束します。",
+        "footer.links_title": "便利なリンク",
+        "footer.my_account": "マイアカウント",
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. 無断複写・転載を禁じます。"
+    },
+it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
+        // Header/Navigation
+        "header.search_placeholder": "Cerca...",
+        "header.login": "Accedi",
+        "header.cart": "Il mio carrello",
+        "header.greeting": "Ciao",
+        "header.logout_button": "Esci",
+ 
+        // Navigation Links
+        "nav.home": "Home",
+        "nav.pc": "PC",
+        "nav.smartphones": "Smartphone",
+        "nav.smartthings": "Smart Things",
+        "nav.contact": "Contatti",
+ 
+        // Hero Banner (Slide 1)
+        "hero1.title": "Benvenuti a TechHaven",
+        "hero1.subtitle": "La tua destinazione per computer, smartphone e dispositivi intelligenti",
+        "hero1.button": "Acquista ora",
+ 
+        // Hero Banner (Slide 2)
+        "hero2.title": "🔥 Offerte imperdibili questa settimana",
+        "hero2.subtitle": "Fino al 30% di sconto sugli accessori gaming",
+        "hero2.button": "Vedi le offerte",
+ 
+        // Hero Banner (Slide 3)
+        "hero3.title": "Unisciti alla comunità TechHaven!",
+        "hero3.subtitle": "La tua fonte di fiducia per la tecnologia.",
+        "hero3.button1": "Leggi le recensioni dei clienti",
+        "hero3.button2": "Contattaci",
+ 
+        // Categories Section
+        "categories.title": "Le Nostre Categorie",
+        "category.pcs": "PC",
+        "category.smartphones": "Smartphone",
+        "category.smartthings": "Smart Things",
+        "category.smartthings_desc": "(Orologi, cuffie, altoparlanti, PS5, ...)",
+ 
+        // Testimonials Section
+        "testimonials.title": "Cosa dicono i nostri clienti soddisfatti!",
+        "testimonials.intro": "Conversazioni autentiche che parlano da sole. Scopri perché i nostri clienti amano TechHaven.",
+        "testimonials.note": "*Per motivi di privacy, nomi e numeri sono stati oscurati negli screenshot.",
+        "testimonials.button": "Condividi la tua esperienza!",
+ 
+        // Footer
+        "footer.about_title": "Informazioni su TechHaven",
+        "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire la migliore tecnologia e un servizio clienti eccezionale.",
+        "footer.links_title": "Link utili",
+        "footer.my_account": "Il mio account",
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Tutti i diritti riservati."
+    },
+    zh: { // ADD THIS NEW CHINESE TRANSLATION BLOCK (Simplified Chinese)
+        // Header/Navigation
+        "header.search_placeholder": "搜索...",
+        "header.login": "登录",
+        "header.cart": "我的购物车",
+        "header.greeting": "你好",
+        "header.logout_button": "退出",
+ 
+        // Navigation Links
+        "nav.home": "首页",
+        "nav.pc": "电脑",
+        "nav.smartphones": "智能手机",
+        "nav.smartthings": "智能设备",
+        "nav.contact": "联系我们",
+ 
+        // Hero Banner (Slide 1)
+        "hero1.title": "欢迎来到 TechHaven",
+        "hero1.subtitle": "您购买电脑、智能手机和智能设备的理想之地",
+        "hero1.button": "立即购买",
+ 
+        // Hero Banner (Slide 2)
+        "hero2.title": "🔥 本周热卖优惠",
+        "hero2.subtitle": "游戏配件最高30%折扣",
+        "hero2.button": "查看优惠",
+ 
+        // Hero Banner (Slide 3)
+        "hero3.title": "加入 TechHaven 社区！",
+        "hero3.subtitle": "您值得信赖的技术来源。",
+        "hero3.button1": "阅读客户评论",
+        "hero3.button2": "联系我们",
+ 
+        // Categories Section
+        "categories.title": "我们的分类",
+        "category.pcs": "电脑",
+        "category.smartphones": "智能手机",
+        "category.smartthings": "智能设备",
+        "category.smartthings_desc": "(手表、耳机、音箱、PS5等)",
+ 
+        // Testimonials Section
+        "testimonials.title": "客户评价",
+        "testimonials.intro": "真实的对话，不言而喻。了解为什么我们的客户喜爱 TechHaven。",
+        "testimonials.note": "*出于隐私原因，屏幕截图中的姓名和号码已模糊处理。",
+        "testimonials.button": "分享您的体验！",
+ 
+        // Footer
+        "footer.about_title": "关于 TechHaven",
+        "footer.about_text": "您购买高品质电脑、组件和电脑配件的一站式目的地。我们致力于提供最好的技术和卓越的客户服务。",
+        "footer.links_title": "有用链接",
+        "footer.my_account": "我的账户",
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. 保留所有权利。"
+    },
+    // ... (rest of your existing translations and script) ...
+};
+    // ... (rest of your existing translations and script) ...
+ 
+        // 2. Function to set the language
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                    // Special handling for the footer copyright to preserve the span
+                    if (key === "footer.copyright") {
+                        const currentYear = new Date().getFullYear();
+                        element.innerHTML = translations[lang][key].replace('<span id="current-year-placeholder"></span>', currentYear);
+                    }
+                } else {
+                    // Fallback to default language (fr) if translation not found
+                    element.textContent = translations['fr'][key] || element.textContent;
+                     if (key === "footer.copyright") {
+                        const currentYear = new Date().getFullYear();
+                        element.innerHTML = (translations['fr'][key] || element.textContent).replace('<span id="current-year-placeholder\"></span>', currentYear);
+                    }
+                }
+            });
+ 
+            // Handle placeholders
+            const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+            placeholderElements.forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                } else {
+                    element.placeholder = translations['fr'][key] || element.placeholder;
+                }
+            });
+ 
+ 
+            // Update login UI based on current language
+            updateLoginUI(lang);
+ 
+ 
+            // Save selected language to localStorage to remember user's choice
+            localStorage.setItem('selectedLanguage', lang);
+ 
+            // Update the select dropdown to show the active language
+            const langSelect = document.querySelector('.language-select');
+            if (langSelect) {
+                langSelect.value = lang;
+            }
+             // Set dir attribute for RTL languages
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+ 
+        }
+ 
+        // 3. Event Listener for language selector and initial load
+       
+        // --- Global Search Bar Logic (Common to multiple pages) ---
+const searchInput = document.getElementById('searchInput');
+const searchIcon = document.querySelector('.search-wrapper .search-icon');
+let searchResultsDropdown = document.getElementById('searchResultsDropdown'); // Already created in HTML
+
+let allProductsForSearch = []; // This will store all products for global search suggestions
+let searchTimeout;
+
+// Fetch ALL products once for the client-side search suggestions
+async function fetchAllProductsForSearch() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/products`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        allProductsForSearch = await response.json();
+    } catch (error) {
+        console.error("Could not fetch all products for global search bar suggestions:", error);
+    }
+}
+
+function displaySuggestions(query) {
+    searchResultsDropdown.innerHTML = ''; // Clear previous suggestions
+    searchResultsDropdown.style.display = 'none';
+
+    if (query.length < 2) { // Require at least 2 characters for suggestions
+        return;
+    }
+
+    const lowerCaseQuery = query.toLowerCase();
+    const filteredSuggestions = allProductsForSearch.filter(product =>
+        product.name.toLowerCase().includes(lowerCaseQuery) ||
+        (product.description && product.description.toLowerCase().includes(lowerCaseQuery)) ||
+        (product.category && product.category.toLowerCase().includes(lowerCaseQuery)) ||
+        (product.characteristics && product.characteristics.some(char => char.toLowerCase().includes(lowerCaseQuery)))
+    );
+
+    if (filteredSuggestions.length > 0) {
+        filteredSuggestions.slice(0, 5).forEach(product => { // Show top 5 suggestions
+            const suggestionItem = document.createElement('div');
+            suggestionItem.classList.add('search-result-item');
+            suggestionItem.dataset.productId = product._id; // Use _id for product detail page link
+
+            const imageUrl = product.images && product.images.length > 0
+                ? `${API_BASE_URL.replace('/api', '')}${product.images[0]}` // Correct URL for image
+                : 'https://via.placeholder.com/50x50?text=No+Image';
+
+            suggestionItem.innerHTML = `
+                <img src="${imageUrl}" alt="${product.name}">
+                <div class="search-result-item-info">
+                    <h4>${product.name}</h4>
+                    <p>${product.description ? product.description.substring(0, 50) + (product.description.length > 50 ? '...' : '') : ''}</p>
+                </div>
+                <span class="price-display">${
+                    product.promotion_price !== undefined && product.promotion_price !== null && typeof product.promotion_price === 'number' && product.promotion_price < product.price
+                        ? product.promotion_price.toFixed(2) + 'TND'
+                        : product.price.toFixed(2) + 'TND'
+                }</span>
+            `;
+            searchResultsDropdown.appendChild(suggestionItem);
+        });
+        searchResultsDropdown.style.display = 'block'; // Show dropdown
+    } else {
+        const noResultsDiv = document.createElement('div');
+        noResultsDiv.classList.add('no-search-results');
+        noResultsDiv.textContent = translations[currentLang]['no_results_message'];
+        searchResultsDropdown.appendChild(noResultsDiv);
+        searchResultsDropdown.style.display = 'block';
+    }
+}
+
+// Handle input for live suggestions
+if (searchInput) {
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const query = searchInput.value.trim();
+            displaySuggestions(query);
+        }, 300); // Debounce for 300ms
+    });
+
+
+    // Handle click on suggestion item (redirect to product detail page)
+    searchResultsDropdown.addEventListener('click', function(event) {
+        const clickedItem = event.target.closest('.search-result-item');
+        if (clickedItem && clickedItem.dataset.productId) {
+            const productId = clickedItem.dataset.productId;
+            window.location.href = `product-detail.html?id=${productId}`;
+            searchResultsDropdown.style.display = 'none'; // Hide dropdown
+        }
+    });
+
+    // Hide dropdown on outside click
+    document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !searchResultsDropdown.contains(event.target) && (!searchIcon || !searchIcon.contains(event.target))) {
+            searchResultsDropdown.style.display = 'none';
+        }
+    });
+}
+  document.addEventListener('DOMContentLoaded', () => {
+            const langSelect = document.querySelector('.language-select');
+            fetchAllProductsForSearch();
+            if (langSelect) {
+                // Get preferred language from localStorage or default to 'fr'
+                const savedLang = localStorage.getItem('selectedLanguage') || 'fr';
+                setLanguage(savedLang); // Set initial language on page load
+ 
+                langSelect.addEventListener('change', (event) => {
+                    setLanguage(event.target.value);
+                });
+            }
+            if (document.body.dataset.category) { // Check if data-category attribute is present
+        // Ensure fetchAndDisplayProducts is defined elsewhere in your script for category pages
+        // Or integrate it directly here if it's not a global function
+        fetchAndDisplayProducts(); // Call your function to display products for this category
+    }
+
+    // Example for product-detail.html:
+    if (document.getElementById('product-details')) { // Check if product-details container exists
+        // Ensure fetchAndDisplayProductDetails is defined elsewhere in your script for product-detail.html
+        fetchAndDisplayProductDetails(); // Call your function to display product details
+    }
+
+ 
+
+        });
+        async function loadProducts() {
+  const res = await fetch(`/api/products?_=${Date.now()}`); // cache-busting
+  const products = await res.json();
+  renderProducts(products);
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Commandes - Admin TechHaven</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        body {
+            background-color: #0f1a2b;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .admin-header {
+            background-color: #1c2b45;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .admin-header .logo a {
+            color: #ff5e5e;
+            text-decoration: none;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .admin-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+        .admin-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .admin-nav ul li a:hover {
+            color: #ff5e5e;
+        }
+        .admin-container {
+            flex-grow: 1;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1c2b45;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        .admin-header-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff5e5e;
+        }
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .orders-table th, .orders-table td {
+            border: 1px solid #334;
+            padding: 12px;
+            text-align: left;
+        }
+        .orders-table th {
+            background-color: #0f1a2b;
+            color: #ff5e5e;
+            font-weight: bold;
+        }
+        .orders-table tr:nth-child(even) {
+            background-color: #2a3b50;
+        }
+        .orders-table tr:hover {
+            background-color: #334;
+        }
+        .order-items-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        .order-items-list li {
+            margin-bottom: 3px;
+        }
+        .status-select {
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #2a3b50;
+            color: white;
+            border: 1px solid #ff5e5e;
+        }
+        .status-select.Pending { color: #ffc107; } /* Orange */
+        .status-select.Processing { color: #17a2b8; } /* Info Blue */
+        .status-select.Delivered { color: #28a745; } /* Success Green */
+        .status-select.Cancelled { color: #dc3545; } /* Danger Red */
+
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .pagination button {
+            background-color: #ff5e5e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .pagination button:hover:not(:disabled) {
+            background-color: #e64a4a;
+        }
+        .pagination button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+            }
+            .admin-nav ul {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+            .admin-nav ul li {
+                width: 100%;
+            }
+            .admin-container {
+                margin: 20px;
+                padding: 15px;
+            }
+            .orders-table, .orders-table thead, .orders-table tbody, .orders-table th, .orders-table td, .orders-table tr {
+                display: block;
+            }
+            .orders-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            .orders-table tr {
+                margin-bottom: 15px;
+                border: 1px solid #334;
+                border-radius: 8px;
+                display: block;
+            }
+            .orders-table td {
+                border: none;
+                border-bottom: 1px solid #334;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            .orders-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #ff5e5e;
+            }
+            .orders-table td:last-child {
+                border-bottom: none;
+            }
+        }
+        footer {
+            background-color: #1c2b45;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="logo">
+            <a href="admin.html">Admin Panel</a>
+        </div>
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="admin.html">Dashboard</a></li>
+                <li><a href="admin-products.html">Gestion des Produits</a></li>
+                <li><a href="admin-orders.html">Gestion des Commandes</a></li>
+                <li><a href="login.html" onclick="logoutAdmin()">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <h2 class="admin-header-title">Gestion des Commandes</h2>
+
+        <div id="ordersList">
+            <p>Chargement des commandes...</p>
+        </div>
+
+        <div class="pagination">
+            <button id="prevPageBtn" disabled>Précédent</button>
+            <span id="pageInfo">Page 1 de 1</span>
+            <button id="nextPageBtn" disabled>Suivant</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 TechHaven Admin. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script src="js/admin_orders.js"></script>
+</body>
+</html>

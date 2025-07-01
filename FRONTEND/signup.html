@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription - TechHaven</title>
+   <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+
+  <style>
+    body {
+      background-color: #0f1a2b;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .signup-box {
+      background: #1c2b45;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 360px;
+      height: 100%;
+      max-height: 1500px;
+    }
+    h2, h5 {
+      text-align: center;
+      margin: 8px 0;
+    
+    }
+    .login-link {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .login-link a {
+      color: #ff5e5e;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    form label {
+      display: block;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button[type="submit"] {
+      padding: 10px;
+      width: 100%;
+      background: #ff5e5e;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .back-link {
+   
+    margin-bottom: 20px; /* Espace en dessous du lien */
+    margin-left: 20px; /* Ou ajustez si vous voulez qu'il soit aligné avec le contenu */
+    color:  #f1f1f1; /* Couleur du lien */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+  </style>
+</head>
+<body>
+  <p id="signupMessage" class="message" style="display: none;"></p>
+  <div class="signup-box">
+    <div class="products-page-page-container">
+        <a href="login.html" class="back-link" data-i18n="back_to_home">&larr; Retour </a>
+    </div>
+    <h2>Inscrivez-vous gratuitement !</h2>
+    <div class="login-link">
+      <h5>Déjà inscrit ? <a href="login.html">Connectez-vous maintenant</a></h5>
+    </div>
+
+    <form onsubmit="validateForm(event)">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" required />
+
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" required />
+
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" required />
+
+      <label for="password">Mot de passe</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+      </div>
+
+      <label for="confirm-password">Vérification du mot de passe</label>
+      <div class="password-wrapper">
+        <input type="password" id="confirm-password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword('confirm-password')">👁</button>
+      </div>
+
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" required />
+
+      <label for="ville">Ville</label>
+      <select id="ville" required>
+        <option value="">-- Sélectionnez votre ville --</option>
+        <option>Ariana</option>
+        <option>Béja</option>
+        <option>Ben Arous</option>
+        <option>Bizerte</option>
+        <option>Gabès</option>
+        <option>Gafsa</option>
+        <option>Jendouba</option>
+        <option>Kairouan</option>
+        <option>Kasserine</option>
+        <option>Kébili</option>
+        <option>Kef</option>
+        <option>Mahdia</option>
+        <option>Manouba</option>
+        <option>Médenine</option>
+        <option>Monastir</option>
+        <option>Nabeul</option>
+        <option>Sfax</option>
+        <option>Sidi Bouzid</option>
+        <option>Siliana</option>
+        <option>Sousse</option>
+        <option>Tataouine</option>
+        <option>Tozeur</option>
+        <option>Tunis</option>
+        <option>Zaghouan</option>
+      </select>
+
+      <label for="adresse">Adresse</label>
+      <input type="text" id="adresse" required />
+
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+
+  <script>
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+async function validateForm(event) {
+  event.preventDefault();
+  const nom = document.getElementById('nom').value;
+  const prenom = document.getElementById('prenom').value;
+  const email = document.getElementById('email').value.toLowerCase();
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm-password').value;
+  const telephone = document.getElementById('telephone').value;
+  const ville = document.getElementById('ville').value;
+  const adresse = document.getElementById('adresse').value;
+
+  if (password.length < 8) {
+    alert("⚠️ Le mot de passe doit contenir au moins 8 caractères.");
+    return false;
+  }
+
+  if (password !== confirm) {
+    alert("❌ Les mots de passe ne correspondent pas.");
+    return false;
+  }
+
+  const userData = {
+    nom, prenom, email, password, telephone, ville, adresse
+  };
+
+  try {
+    const response = await fetch('http://localhost:5000/api/users/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    })
+
+
+    const contentType = response.headers.get("content-type");
+    let result = {};
+
+    if (contentType && contentType.includes("application/json")) {
+      result = await response.json();
+    }
+
+    if (response.ok) {
+      alert("✅ Inscription réussie !");
+      window.location.href = "index.html";
+    } else {
+      alert("❌ " + (result.message || "Erreur lors de l'inscription."));
+    }
+
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    alert("❌ Erreur de connexion au serveur.");
+  }
+
+}
+
+
+  </script>
+
+</body>
+</html>

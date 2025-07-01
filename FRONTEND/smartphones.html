@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TecHaven - Produits Smartphone</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png"> <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+    <style>
+        /* Styles spécifiques à cette page, peuvent être fusionnés dans styles.css si désiré */
+        /* Ces styles sont pour le conteneur du contenu principal de la page pc.html */
+        .products-page-container {
+            max-width: 1200px;
+            margin: 20px auto; /* Centre le conteneur et ajoute de l'espace par rapport au header */
+            background-color: #1a1a2e; /* Fond blanc pour le contenu sur le thème sombre */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333; /* Couleur de texte par défaut pour le contenu blanc */
+        }
+
+        .products-page-container h1 {
+            text-align: center;
+            color: #ffffff; /* Couleur du titre des catégories */
+            margin-bottom: 40px;
+            font-size: 2.8em;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .loading-message, .error-message, .no-products-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* --- Grille des Produits --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 30px; /* Espace entre les cartes */
+            padding: 20px;
+        }
+
+        /* --- Carte Produit Individuelle --- */
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer; /* Indique que la carte est cliquable */
+            position: relative; /* Pour positionner le badge 'Out of Stock' */
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007bff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-card .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+
+        /* Style pour "Out of Stock" */
+        .out-of-stock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+            border-radius: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none; /* Permet aux clics de passer à la carte sous-jacente */
+        }
+
+        /* If product is out of stock, image can be slightly faded */
+        .product-card.out-of-stock img {
+            filter: grayscale(80%) opacity(70%);
+        }
+        .product-card.out-of-stock .product-card-content {
+            opacity: 0.7;
+        }
+
+        /* Price display for promotions and old prices */
+        .product-card .promo-price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ff5e5e; /* Red for promo price */
+            margin-bottom: 5px;
+        }
+        .product-card .old-price {
+            font-size: 1.2em;
+            color: #999;
+            text-decoration: line-through;
+            margin-bottom: 0;
+        }
+        .product-card .current-price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .product-card .original-price-crossed { /* For original price when there's an oldPrice AND a promoPrice */
+            font-size: 1em;
+            color: #666;
+            text-decoration: line-through;
+            margin-bottom: 0;
+        }
+
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .add-to-cart-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            .products-page-container h1 {
+                font-size: 2em;
+            }
+            .product-card h3 {
+                font-size: 1.3em;
+            }
+            .product-card .price {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .products-page-container {
+                padding: 15px;
+            }
+            .products-page-container h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder">
+            <span class="search-icon">🔍</span>
+            <div id="searchResultsDropdown" class="search-results-dropdown"></div>
+        </div>
+
+        <div id="user-controls">
+            <a href="login.html" class="icon-button">
+                <span class="icon">👤</span>
+                <span class="text" data-i18n="login.text">Connexion</span>
+            </a>
+        </div>
+
+        <a href="cart.html" class="icon-button cart-button">
+            <span class="icon">🛒</span>
+            <span class="badge">0</span>
+            <span class="text" data-i18n="cart.text">Mon Panier</span>
+        </a>
+
+        <div class="icon-button language-button">
+            <span class="icon">🌐</span>
+            <select class="language-select">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">🇹🇳 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="products-page-page-container">
+        <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
+    </div>
+
+    <div class="products-page-container">
+        <h1 id="category-title" style="margin-top: 0;" data-i18n="category.smartphones_title">Notre Sélection de Smartphones</h1>
+        <div id="products-container" class="product-grid">
+            <p class="loading-message" id="loading-message" data-i18n="loading_products">Chargement des produits...</p>
+        </div>
+    </div>
+
+    <section id="customer-testimonials" class="customer-testimonials-section">
+        <h2 data-i18n="testimonials.title">Ce que nos clients satisfaits disent !</h2>
+        <p class="section-intro" data-i18n="testimonials.intro">Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <img src="./images/w0.jpeg" alt="Capture d'écran - Client satisfait 1" data-full-src="./images/w0.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w2.jpeg" alt="Capture d'écran - Client satisfait 2" data-full-src="./images/w2.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w1.jpeg" alt="Capture d'écran - Client satisfait 3" data-full-src="./images/w1.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w3.jpeg" alt="Capture d'écran - Client satisfait 4" data-full-src="./images/w3.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w4.jpeg" alt="Capture d'écran - Client satisfait 5" data-full-src="./images/w4.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w5.jpeg" alt="Capture d'écran - Client satisfait 6" data-full-src="./images/w5.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w6.jpeg" alt="Capture d'écran - Client satisfait 7" data-full-src="./images/w6.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w7.jpeg" alt="Capture d'écran - Client satisfait 8" data-full-src="./images/w7.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w8.jpeg" alt="Capture d'écran - Client satisfait 9" data-full-src="./images/w8.jpeg">
+            </div>
+        </div>
+        
+        <a href="review.html" class="submit-review-button" data-i18n="testimonials.button">Partagez votre expérience !</a>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 data-i18n="footer.about_title">À Propos de TecHaven</h3>
+                <p data-i18n="footer.about_text">Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+            </div>
+            <div class="footer-section links">
+                <h3 data-i18n="footer.links_title">Liens Utiles</h3>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+                    <li><a href="pc.html" data-i18n="nav.pcs">PCs</a></li>
+                    <li><a href="smartphones.html" data-i18n="nav.smartphones">Smartphones</a></li>
+                    <li><a href="smartthings.html" data-i18n="nav.smart_things">Smart Things</a></li>
+                    
+                    <li><a href="cart.html" data-i18n="nav.cart">Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
+                <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.address">123 Rue de la Tech, Tunis, Tunisie</span></p>
+                <p><i class="fas fa-phone"></i> <span data-i18n="footer.phone">+41 76 757 64 30</span></p>
+                <p><i class="fas fa-envelope"></i> <span data-i18n="footer.email">techaven03@gmail.com</span></p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/KB18031989"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                    <a href="https://wa.me/41767576430"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> TecHaven. <span data-i18n="footer.copyright">Tous droits réservés.</span>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <script src="js/cart.js"></script>
+
+    <script>
+        // --- Configuration ---
+        const API_BASE_URL = 'http://localhost:5000/api'; // Ensure this is consistent
+
+        // --- Language / Translation ---
+        const languageSelect = document.querySelector('.language-select');
+        let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
+
+        // COMPLETE TRANSLATIONS OBJECT
+       const translations = {
+                fr: {
+                    "page.smartphones_title": "TecHaven - Smartphones",
+                    "search.placeholder": "Rechercher...",
+                    "login.text": "Connexion",
+                    "logout.text": "Déconnexion",
+                    "cart.text": "Mon Panier",
+                    "greeting.text": "Bonjour",
+                    "no_results_message": "Aucun résultat trouvé.",
+                    "product_card.add_to_cart": "Ajouter au Panier",
+                    "product_card.out_of_stock": "Hors Stock",
+                    "back_to_home": "← Retour à l'accueil",
+                    "category.smartphones_title": "Notre Sélection de Smartphones",
+                    "loading_products": "Chargement des produits...",
+                    "no_products_found": "Aucun smartphone trouvé pour le moment.",
+                    "error_loading_products": "Erreur lors du chargement des produits. Veuillez réessayer plus tard ou contacter le support.",
+                    "testimonials.title": "Ce que disent nos clients satisfaits !",
+                    "testimonials.intro": "Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.",
+                    "testimonials.note": "*Pour des raisons de confidentialité, les noms et numéros ont été masqués dans les captures d'écran.",
+                    "testimonials.button": "Partagez votre expérience !",
+                    "footer.about_title": "À propos de TecHaven",
+                    "footer.about_text": "Votre destination unique pour PCs, composants et accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
+                    "footer.links_title": "Liens Utiles",
+                    "nav.home": "Accueil",
+                    "nav.pcs": "PCs",
+                    "nav.smartphones": "Smartphones",
+                    "nav.smart_things": "Smart Things",
+                    "nav.my_account": "",
+                    "nav.cart": "Panier",
+                    "footer.contact_title": "Contactez-nous",
+                    "footer.address": "123 Rue de la Tech, Tunis, Tunisie",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "Tous droits réservés."
+                },
+                en: {
+                    "page.smartphones_title": "TecHaven - Smartphones",
+                    "search.placeholder": "Search...",
+                    "login.text": "Login",
+                    "logout.text": "Logout",
+                    "cart.text": "My Cart",
+                    "greeting.text": "Hello",
+                    "no_results_message": "No results found.",
+                    "product_card.add_to_cart": "Add to Cart",
+                    "product_card.out_of_stock": "Out of Stock",
+                    "back_to_home": "← Back to Home",
+                    "category.smartphones_title": "Our Smartphone Selection",
+                    "loading_products": "Loading products...",
+                    "no_products_found": "No smartphones found at the moment.",
+                    "error_loading_products": "Error loading products. Please try again later or contact support.",
+                    "testimonials.title": "What our satisfied customers say!",
+                    "testimonials.intro": "Authentic conversations that speak for themselves. Discover why our customers love TechHaven.",
+                    "testimonials.note": "*For privacy reasons, names and numbers have been masked in screenshots.",
+                    "testimonials.button": "Share Your Experience!",
+                    "footer.about_title": "About TecHaven",
+                    "footer.about_text": "Your one-stop destination for high-quality PCs, components, and computer accessories. We are committed to delivering the best technology and exceptional customer service.",
+                    "footer.links_title": "Useful Links",
+                    "nav.home": "Home",
+                    "nav.pcs": "PCs",
+                    "nav.smartphones": "Smartphones",
+                    "nav.smart_things": "Smart Things",
+                    "nav.my_account": "My Account",
+                    "nav.cart": "Cart",
+                    "footer.contact_title": "Contact Us",
+                    "footer.address": "123 Tech Street, Tunis, Tunisia",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "All rights reserved."
+                },
+                ar: {
+                    "page.smartphones_title": "تيك هافن - هواتف ذكية",
+                    "search.placeholder": "بحث...",
+                    "login.text": "تسجيل الدخول",
+                    "logout.text": "تسجيل الخروج",
+                    "cart.text": "سلتي",
+                    "greeting.text": "مرحباً",
+                    "no_results_message": "لم يتم العثور على نتائج.",
+                    "product_card.add_to_cart": "أضف إلى السلة",
+                    "product_card.out_of_stock": "نفدت الكمية",
+                    "back_to_home": "← العودة إلى الرئيسية",
+                    "category.smartphones_title": "مجموعتنا من الهواتف الذكية",
+                    "loading_products": "جاري تحميل المنتجات...",
+                    "no_products_found": "لم يتم العثور على هواتف ذكية في الوقت الحالي.",
+                    "error_loading_products": "حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة مرة أخرى لاحقًا أو الاتصال بالدعم.",
+                    "testimonials.title": "ماذا يقول عملاؤنا الراضون!",
+                    "testimonials.intro": "محادثات حقيقية تتحدث عن نفسها. اكتشف لماذا يحب عملاؤنا TechHaven.",
+                    "testimonials.note": "*لأسباب تتعلق بالخصوصية، تم إخفاء الأسماء والأرقام في لقطات الشاشة.",
+                    "testimonials.button": "شارك تجربتك!",
+                    "footer.about_title": "عن TecHaven",
+                    "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
+                    "footer.links_title": "روابط مفيدة",
+                    "nav.home": "الرئيسية",
+                    "nav.pcs": "أجهزة الكمبيوتر",
+                    "nav.smartphones": "الهواتف الذكية",
+                    "nav.smart_things": "الأجهزة الذكية",
+                    "nav.my_account": "حسابي",
+                    "nav.cart": "السلة",
+                    "footer.contact_title": "اتصل بنا",
+                    "footer.address": "123 شارع التكنولوجيا، تونس، تونس",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "جميع الحقوق محفوظة."
+                },
+                es: {
+                    "page.smartphones_title": "TecHaven - Smartphones",
+                    "search.placeholder": "Buscar...",
+                    "login.text": "Iniciar Sesión",
+                    "logout.text": "Cerrar Sesión",
+                    "cart.text": "Mi Carrito",
+                    "greeting.text": "Hola",
+                    "no_results_message": "No se encontraron resultados.",
+                    "product_card.add_to_cart": "Añadir al Carrito",
+                    "product_card.out_of_stock": "Agotado",
+                    "back_to_home": "← Volver al Inicio",
+                    "category.smartphones_title": "Nuestra Selección de Smartphones",
+                    "loading_products": "Cargando productos...",
+                    "no_products_found": "No se encontraron smartphones por el momento.",
+                    "error_loading_products": "Error al cargar los productos. Por favor, inténtelo de nuevo más tarde o contacte con soporte.",
+                    "testimonials.title": "¡Lo que dicen nuestros clientes satisfechos!",
+                    "testimonials.intro": "Conversaciones auténticas que hablan por sí solas. Descubra por qué nuestros clientes adoran TechHaven.",
+                    "testimonials.note": "*Por razones de privacidad, los nombres y números han sido enmascarados en las capturas de pantalla.",
+                    "testimonials.button": "¡Comparta su experiencia!",
+                    "footer.about_title": "Acerca de TecHaven",
+                    "footer.about_text": "Su destino único para PCs, componentes y accesorios de informática de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
+                    "footer.links_title": "Enlaces Útiles",
+                    "nav.home": "Inicio",
+                    "nav.pcs": "PCs",
+                    "nav.smartphones": "Smartphones",
+                    "nav.smart_things": "Smart Things",
+                    "nav.my_account": "Mi Cuenta",
+                    "nav.cart": "Carrito",
+                    "footer.contact_title": "Contáctenos",
+                    "footer.address": "123 Calle de la Tecnología, Túnez, Túnez",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "Todos los derechos reservados."
+                },
+                de: {
+                    "page.smartphones_title": "TecHaven - Smartphones",
+                    "search.placeholder": "Suchen...",
+                    "login.text": "Anmelden",
+                    "logout.text": "Abmelden",
+                    "cart.text": "Mein Warenkorb",
+                    "greeting.text": "Hallo",
+                    "no_results_message": "Keine Ergebnisse gefunden.",
+                    "product_card.add_to_cart": "In den Warenkorb",
+                    "product_card.out_of_stock": "Nicht auf Lager",
+                    "back_to_home": "← Zurück zur Startseite",
+                    "category.smartphones_title": "Unsere Smartphone-Auswahl",
+                    "loading_products": "Produkte werden geladen...",
+                    "no_products_found": "Derzeit wurden keine Smartphone-Produkte gefunden.",
+                    "error_loading_products": "Fehler beim Laden der Produkte. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support.",
+                    "testimonials.title": "Was unsere zufriedenen Kunden sagen!",
+                    "testimonials.intro": "Authentische Gespräche, die für sich sprechen. Entdecken Sie, warum unsere Kunden TechHaven lieben.",
+                    "testimonials.note": "*Aus Datenschutzgründen wurden Namen und Nummern in den Screenshots maskiert.",
+                    "testimonials.button": "Teilen Sie Ihre Erfahrung!",
+                    "footer.about_title": "Über TecHaven",
+                    "footer.about_text": "Ihr einziges Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
+                    "footer.links_title": "Nützliche Links",
+                    "nav.home": "Startseite",
+                    "nav.pcs": "PCs",
+                    "nav.smartphones": "Smartphones",
+                    "nav.smart_things": "Smart Things",
+                    "nav.my_account": "Mein Konto",
+                    "nav.cart": "Warenkorb",
+                    "footer.contact_title": "Kontaktieren Sie uns",
+                    "footer.address": "123 Tech-Straße, Tunis, Tunesien",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "Alle Rechte vorbehalten."
+                },
+                it: {
+                    "page.smartphones_title": "TecHaven - Smartphones",
+                    "search.placeholder": "Cerca...",
+                    "login.text": "Accedi",
+                    "logout.text": "Esci",
+                    "cart.text": "Il Mio Carrello",
+                    "greeting.text": "Ciao",
+                    "no_results_message": "Nessun risultato trovato.",
+                    "product_card.add_to_cart": "Aggiungi al Carrello",
+                    "product_card.out_of_stock": "Esaurito",
+                    "back_to_home": "← Torna alla Home",
+                    "category.smartphones_title": "La Nostra Selezione di Smartphones",
+                    "loading_products": "Caricamento prodotti...",
+                    "no_products_found": "Nessun smartphone trovato al momento.",
+                    "error_loading_products": "Errore durante il caricamento dei prodotti. Riprova più tardi o contatta l'assistenza.",
+                    "testimonials.title": "Cosa dicono i nostri clienti soddisfatti!",
+                    "testimonials.intro": "Conversazioni autentiche che parlano da sole. Scopri perché i nostri clienti amano TechHaven.",
+                    "testimonials.note": "*Per motivi di privacy, nomi e numeri sono stati mascherati negli screenshot.",
+                    "testimonials.button": "Condividi la Tua Esperienza!",
+                    "footer.about_title": "Riguardo TecHaven",
+                    "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire le migliori tecnologie e un servizio clienti eccezionale.",
+                    "footer.links_title": "Link Utili",
+                    "nav.home": "Home",
+                    "nav.pcs": "PC",
+                    "nav.smartphones": "Smartphones",
+                    "nav.smart_things": "Smart Things",
+                    "nav.my_account": "Il Mio Account",
+                    "nav.cart": "Carrello",
+                    "footer.contact_title": "Contattaci",
+                    "footer.address": "123 Via della Tech, Tunisi, Tunisia",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "Tutti i diritti riservati."
+                },
+                zh: { // Simplified Chinese
+                    "page.smartphones_title": "TecHaven - 智能手机",
+                    "search.placeholder": "搜索...",
+                    "login.text": "登录",
+                    "logout.text": "退出",
+                    "cart.text": "我的购物车",
+                    "greeting.text": "您好",
+                    "no_results_message": "未找到结果。",
+                    "product_card.add_to_cart": "加入购物车",
+                    "product_card.out_of_stock": "缺货",
+                    "back_to_home": "← 返回首页",
+                    "category.smartphones_title": "我们的精选智能手机",
+                    "loading_products": "正在加载产品...",
+                    "no_products_found": "目前未找到任何智能手机产品。",
+                    "error_loading_products": "加载产品时出错。请稍后重试或联系支持。",
+                    "testimonials.title": "我们满意客户的评价！",
+                    "testimonials.intro": "真实的对话不言而喻。了解为什么我们的客户喜爱 TechHaven。",
+                    "testimonials.note": "*出于隐私原因，截图中已隐藏姓名和号码。",
+                    "testimonials.button": "分享您的体验！",
+                    "footer.about_title": "关于 TecHaven",
+                    "footer.about_text": "您购买高质量电脑、组件和电脑配件的一站式目的地。我们致力于提供最优质的技术和卓越的客户服务。",
+                    "footer.links_title": "有用链接",
+                    "nav.home": "首页",
+                    "nav.pcs": "电脑",
+                    "nav.smartphones": "智能手机",
+                    "nav.smart_things": "智能设备",
+                    "nav.my_account": "我的账户",
+                    "nav.cart": "购物车",
+                    "footer.contact_title": "联系我们",
+                    "footer.address": "突尼斯，突尼斯，科技路123号",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "保留所有权利。"
+                },
+                ja: {
+                    "page.smartphones_title": "TecHaven - スマートフォン",
+                    "search.placeholder": "検索...",
+                    "login.text": "ログイン",
+                    "logout.text": "ログアウト",
+                    "cart.text": "マイカート",
+                    "greeting.text": "こんにちは",
+                    "no_results_message": "結果が見つかりませんでした。",
+                    "product_card.add_to_cart": "カートに追加",
+                    "product_card.out_of_stock": "在庫切れ",
+                    "back_to_home": "← ホームに戻る",
+                    "category.smartphones_title": "スマートフォンのセレクション",
+                    "loading_products": "商品を読み込み中...",
+                    "no_products_found": "現在、スマートフォン製品は見つかりませんでした。",
+                    "error_loading_products": "商品の読み込み中にエラーが発生しました。後でもう一度お試しいただくか、サポートにお問い合わせください。",
+                    "testimonials.title": "お客様の声！",
+                    "testimonials.intro": "お客様の率直なご意見です。なぜお客様がTechHavenを愛用しているのかをご覧ください。",
+                    "testimonials.note": "※プライバシー保護のため、スクリーンショットの氏名と番号はマスクされています。",
+                    "testimonials.button": "あなたの体験を共有してください！",
+                    "footer.about_title": "TecHavenについて",
+                    "footer.about_text": "高品質なPC、コンポーネント、コンピュータアクセサリーのワンストップショップです。最高の技術と優れた顧客サービスを提供することをお約束します。",
+                    "footer.links_title": "便利なリンク",
+                    "nav.home": "ホーム",
+                    "nav.pcs": "PC",
+                    "nav.smartphones": "スマートフォン",
+                    "nav.smart_things": "スマートデバイス",
+                    "nav.my_account": "マイアカウント",
+                    "nav.cart": "カート",
+                    "footer.contact_title": "お問い合わせ",
+                    "footer.address": "チュニス、テック通り123番地、チュニジア",
+                    "footer.phone": "+41 76 757 64 30",
+                    "footer.email": "techaven03@gmail.com",
+                    "footer.copyright": "全著作権所有。"
+                }
+            };
+
+
+        function applyTranslations() {
+            // Translate elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                } else if (translations['fr'] && translations['fr'][key]) { // Fallback to French if key missing in current lang
+                    element.textContent = translations['fr'][key];
+                }
+            });
+
+            // Translate placeholder attributes
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.placeholder = translations[currentLang][key];
+                } else if (translations['fr'] && translations['fr'][key]) {
+                    element.placeholder = translations['fr'][key];
+                }
+            });
+
+            // Special handling for the footer copyright text to preserve the year
+            const footerCopyrightElement = document.querySelector('[data-i18n="footer.copyright"]');
+            if (footerCopyrightElement) {
+                const currentYear = new Date().getFullYear();
+                let copyrightText = translations[currentLang]['footer.copyright'] || translations['fr']['footer.copyright'];
+                // Replace the placeholder span in the original HTML with the actual year and translated text
+                footerCopyrightElement.innerHTML = `&copy; <span id="current-year">${currentYear}</span> TecHaven. ${copyrightText}`;
+            }
+
+            // Set dir attribute for RTL languages
+            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+        }
+
+        // --- User Authentication ---
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
+
+        function updateLoginUI() {
+            if (currentUser) {
+                userControls.innerHTML = `
+                    <div class="icon-button">
+                        <span class="icon">👋</span>
+                        <span class="text" data-i18n="greeting.text">${translations[currentLang]['greeting.text']}</span>, ${currentUser.prenom}
+                    </div>
+                    <button onclick="logout()" style="
+                        margin-left: 10px;
+                        background-color: #ff5e5e;
+                        color: white;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                    " data-i18n="logout.text">${translations[currentLang]['logout.text']}</button>
+                `;
+            } else {
+                userControls.innerHTML = `
+                    <a href="login.html" class="icon-button">
+                        <span class="icon">👤</span>
+                        <span class="text" data-i18n="login.text">${translations[currentLang]['login.text']}</span>
+                    </a>
+                `;
+            }
+            applyTranslations(); // Re-apply translations after dynamic content update
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
+        }
+
+        // Event listener for language change
+        if (languageSelect) {
+            languageSelect.value = currentLang; // Set dropdown to current language
+            languageSelect.addEventListener('change', (event) => {
+                currentLang = event.target.value;
+                localStorage.setItem('lang', currentLang); // Save language preference
+                applyTranslations(); // Apply new language
+                updateLoginUI(); // Update UI if greeting/logout button needs translation
+                // Re-fetch products to update any dynamically generated text (like out of stock)
+                fetchAndDisplayProducts();
+            });
+        }
+
+
+        // --- Global Search Bar Logic (Common to multiple pages) ---
+        const searchInput = document.getElementById('searchInput');
+        const searchIcon = document.querySelector('.search-wrapper .search-icon');
+        let searchResultsDropdown = document.getElementById('searchResultsDropdown');
+
+        let allProductsForSearch = []; // This will store all products for global search suggestions
+        let searchTimeout;
+
+        // Fetch ALL products once for the client-side search suggestions
+        async function fetchAllProductsForSearch() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allProductsForSearch = await response.json();
+            } catch (error) {
+                console.error("Could not fetch all products for global search bar suggestions:", error);
+            }
+        }
+
+        function displaySuggestions(query) {
+            searchResultsDropdown.innerHTML = ''; // Clear previous suggestions
+            searchResultsDropdown.style.display = 'none';
+
+            if (query.length < 2) { // Require at least 2 characters for suggestions
+                return;
+            }
+
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredSuggestions = allProductsForSearch.filter(product =>
+                product.name.toLowerCase().includes(lowerCaseQuery) ||
+                (product.description && product.description.toLowerCase().includes(lowerCaseQuery)) ||
+                (product.category && product.category.toLowerCase().includes(lowerCaseQuery)) ||
+                (product.characteristics && product.characteristics.some(char => char.toLowerCase().includes(lowerCaseQuery)))
+            );
+
+            if (filteredSuggestions.length > 0) {
+                filteredSuggestions.slice(0, 5).forEach(product => { // Show top 5 suggestions
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('search-result-item');
+                    suggestionItem.dataset.productId = product._id;
+
+                    const imageUrl = product.images && product.images.length > 0
+                        ? `${API_BASE_URL.replace('/api', '')}${product.images[0]}`
+                        : 'https://via.placeholder.com/50x50?text=No+Image';
+
+                    suggestionItem.innerHTML = `
+                        <img src="${imageUrl}" alt="${product.name}">
+                        <div class="search-result-item-info">
+                            <h4>${product.name}</h4>
+                            <p>${product.description ? product.description.substring(0, 50) + (product.description.length > 50 ? '...' : '') : ''}</p>
+                        </div>
+                        <span class="price-display">${
+                            product.promotion_price !== undefined && product.promotion_price !== null && typeof product.promotion_price === 'number' && product.promotion_price < product.price
+                                ? product.promotion_price.toFixed(2) + 'TND'
+                                : product.price.toFixed(2) + 'TND'
+                        }</span>
+                    `;
+                    searchResultsDropdown.appendChild(suggestionItem);
+                });
+                searchResultsDropdown.style.display = 'block';
+            } else {
+                const noResultsDiv = document.createElement('div');
+                noResultsDiv.classList.add('no-search-results');
+                noResultsDiv.textContent = translations[currentLang]['no_results_message'];
+                searchResultsDropdown.appendChild(noResultsDiv);
+                searchResultsDropdown.style.display = 'block';
+            }
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = searchInput.value.trim();
+                    displaySuggestions(query);
+                }, 300);
+            });
+
+            searchResultsDropdown.addEventListener('click', function(event) {
+                const clickedItem = event.target.closest('.search-result-item');
+                if (clickedItem && clickedItem.dataset.productId) {
+                    const productId = clickedItem.dataset.productId;
+                    window.location.href = `product-detail.html?id=${productId}`;
+                    searchResultsDropdown.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!searchInput.contains(event.target) && !searchResultsDropdown.contains(event.target) && (!searchIcon || !searchIcon.contains(event.target))) {
+                    searchResultsDropdown.style.display = 'none';
+                }
+            });
+        }
+
+        // --- Page-Specific Product Display Function for PC Category ---
+        async function fetchAndDisplayProducts() {
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = `<p class="loading-message" data-i18n="loading_products">${translations[currentLang]['loading_products']}</p>`;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const allProducts = await response.json();
+
+                const filteredProducts = allProducts.filter(product =>
+                    product.category && product.category.toLowerCase() === 'smartphone'
+                );
+
+                productsContainer.innerHTML = ''; // Clear loading message
+
+                if (filteredProducts.length === 0) {
+                    productsContainer.innerHTML = `<p class="no-products-message" data-i18n="no_products_found">${translations[currentLang]['no_products_found']}</p>`;
+                    return;
+                }
+
+                filteredProducts.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card');
+
+                    const isOutOfStock = product.quantity <= 0;
+                    if (isOutOfStock) {
+                        productCard.classList.add('out-of-stock');
+                    }
+
+                    productCard.onclick = (event) => {
+                         // Only navigate if the click is not on the add-to-cart button
+                        if (!event.target.classList.contains('add-to-cart-btn')) {
+                            window.location.href = `product-detail.html?id=${product._id}`;
+                        }
+                    };
+
+                    const imageUrl = product.images && product.images.length > 0
+                        ? `${API_BASE_URL.replace('/api', '')}${product.images[0]}`
+                        : 'https://via.placeholder.com/200x200?text=Image+Produit';
+
+                    const outOfStockOverlay = isOutOfStock ? `<div class="out-of-stock-overlay" data-i18n="product_card.out_of_stock">${translations[currentLang]['product_card.out_of_stock']}</div>` : '';
+
+                    let priceHtml = '';
+                    const hasPromotion = product.promotion_price !== undefined && product.promotion_price !== null &&
+                                         typeof product.promotion_price === 'number' && product.promotion_price < product.price;
+
+                    if (hasPromotion) {
+                        productCard.classList.add('has-promotion');
+                        // If there's an oldPrice (Prix Neuf) and it's higher than the regular price, display it crossed out first
+                        if (product.oldPrice !== undefined && product.oldPrice !== null &&
+                            typeof product.oldPrice === 'number' && product.oldPrice > product.price) {
+                            priceHtml = `
+                                <p class="original-price-crossed">${product.oldPrice.toFixed(2)}TND</p>
+                                <p class="old-price">${product.price.toFixed(2)}TND</p>
+                                <p class="promo-price">${product.promotion_price.toFixed(2)}TND</p>
+                            `;
+                        } else {
+                            // No separate oldPrice, so just cross out the regular price (which is now the "old price" for the promo)
+                            priceHtml = `
+                                <p class="old-price">${product.price.toFixed(2)}TND</p>
+                                <p class="promo-price">${product.promotion_price.toFixed(2)}TND</p>
+                            `;
+                        }
+                    }
+                    // If no promotion_price, but a regular discount (price < oldPrice)
+                    else if (product.oldPrice !== undefined && product.oldPrice !== null &&
+                             typeof product.oldPrice === 'number' && product.oldPrice > product.price) {
+                        productCard.classList.remove('has-promotion'); // Ensure no promo class if only oldPrice
+                        priceHtml = `
+                            <p class="old-price">${product.oldPrice.toFixed(2)}TND</p>
+                            <p class="current-price">${product.price.toFixed(2)}TND</p>
+                        `;
+                    }
+                    // Otherwise, just display the current price normally
+                    else {
+                        productCard.classList.remove('has-promotion'); // Ensure no promo class
+                        priceHtml = `<p class="current-price">${product.price.toFixed(2)}TND</p>`;
+                    }
+
+                    productCard.innerHTML = `
+                        ${outOfStockOverlay}
+                        <img src="${imageUrl}" alt="${product.name}">
+                        <div class="product-card-content">
+                            <h3>${product.name}</h3>
+                            ${priceHtml}
+                        </div>
+                        <button class="add-to-cart-btn" data-product-id="${product._id}" ${isOutOfStock ? 'disabled' : ''}>
+                            ${isOutOfStock ? translations[currentLang]['product_card.out_of_stock'] : translations[currentLang]['product_card.add_to_cart']}
+                        </button>
+                    `;
+                    productsContainer.appendChild(productCard);
+                });
+
+                // Attach event listeners for add-to-cart buttons after products are rendered
+                document.querySelectorAll('.add-to-cart-btn:not([disabled])').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent card click from firing
+                        const productId = button.dataset.productId;
+                        console.log('Adding to cart:', productId);
+                        // Assuming addToCart is defined in js/cart.js and available globally
+                        if (typeof addToCart === 'function') {
+                            addToCart(productId);
+                        } else {
+                            console.error("addToCart function not found. Make sure js/cart.js is loaded correctly.");
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error fetching and displaying products:', error);
+                productsContainer.innerHTML = `<p class="error-message" data-i18n="error_loading_products">${translations[currentLang]['error_loading_products']}</p>`;
+            }
+        }
+
+
+        // --- Initial Load Logic for pc.html ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial language and apply translations
+            currentLang = localStorage.getItem('lang') || 'fr';
+            languageSelect.value = currentLang; // Ensure dropdown reflects the saved language
+            applyTranslations(); // Apply translations immediately
+
+            // Update login UI based on initial language
+            updateLoginUI();
+
+            // Fetch all products for the global search bar suggestions
+            fetchAllProductsForSearch();
+
+            // Call the page-specific function to display PC products
+            fetchAndDisplayProducts();
+
+            // Update current year in footer
+            // This is now handled by applyTranslations, but keeping for direct access if needed
+            // const currentYearPlaceholder = document.getElementById('current-year');
+            // if (currentYearPlaceholder) {
+            //     currentYearPlaceholder.textContent = new Date().getFullYear();
+            // }
+
+            // Lightbox for testimonials
+            const testimonialImages = document.querySelectorAll('.testimonial-item img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const lightboxClose = document.querySelector('.lightbox-close');
+
+            testimonialImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.style.display = 'block';
+                    lightboxImg.src = img.dataset.fullSrc || img.src;
+                    lightboxCaption.innerHTML = img.alt;
+                });
+            });
+
+            lightboxClose.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        });
+    </script>

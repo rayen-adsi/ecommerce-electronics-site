@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement - TechHaven</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        /* Basic styling for the checkout page elements */
+        body {
+            background-color: #0f1a2b; /* Match your existing background */
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-header {
+            background-color: #1c2b45; /* Darker header background */
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-header .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .main-header .logo a {
+            color: #ff5e5e; /* Logo color */
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        .main-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            position: relative; /* For the underline effect */
+        }
+
+        .main-nav ul li a:hover {
+            color: #ff5e5e; /* Highlight on hover */
+        }
+
+        .main-nav .badge {
+            background-color: #ff5e5e;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.8em;
+            vertical-align: super;
+            margin-left: 5px;
+        }
+
+        .checkout-container {
+            flex-grow: 1; /* Allows container to take available space */
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1c2b45; /* Dark background */
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff5e5e; /* Highlight color */
+        }
+        .checkout-sections {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .checkout-details, .checkout-summary {
+            flex: 1;
+            padding: 20px;
+            background-color: #0f1a2b; /* Darker section background */
+            border-radius: 8px;
+        }
+        .checkout-summary {
+            min-width: 300px; /* Ensure summary doesn't get too small */
+        }
+        .checkout-details h3, .checkout-summary h3 {
+            margin-top: 0;
+            color: #ff5e5e;
+            border-bottom: 1px solid #ff5e5e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .cart-items-list {
+            list-style: none;
+            padding: 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #334;
+            font-size: 0.9em;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item-name {
+            flex-grow: 1;
+        }
+        .cart-item-price {
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        .order-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #ff5e5e;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff5e5e;
+        }
+        .checkout-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        #placeOrderBtn {
+            padding: 15px 30px;
+            background-color: #ff5e5e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #placeOrderBtn:hover {
+            background-color: #e64a4a;
+        }
+        #placeOrderBtn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: calc(100% - 20px); /* Adjust for padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #2a3b50;
+            color: white;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .payment-options div {
+            margin-bottom: 10px;
+        }
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+            width: auto; /* Override 100% width */
+        }
+        .notification-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .notification-message.error {
+            background-color: #dc3545;
+        }
+        .notification-message.success {
+            background-color: #28a745;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .checkout-sections {
+                flex-direction: column;
+            }
+            .checkout-details, .checkout-summary {
+                flex: none; /* Remove flex grow */
+                width: 100%; /* Take full width */
+            }
+            .checkout-container {
+                margin: 20px;
+                padding: 15px;
+            }
+             .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+            }
+            .main-nav ul {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+            .main-nav ul li {
+                width: 100%;
+            }
+        }
+        footer {
+            background-color: #1c2b45;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+ 
+
+    <div class="checkout-container">
+        <h2 class="checkout-header">Passer votre commande</h2>
+
+        <div class="checkout-sections">
+            <div class="checkout-details">
+                <h3>Informations de livraison et de facturation</h3>
+                <form id="customerInfoForm">
+                    <label for="fullName">Nom Complet</label>
+                    <input type="text" id="fullName" required placeholder="Votre nom complet">
+
+                    <label for="emailAddress">Adresse E-mail</label>
+                    <input type="email" id="emailAddress" required placeholder="votre.email@example.com">
+
+                    <label for="phone">Numéro de Téléphone</label>
+                    <input type="tel" id="phone" required placeholder="Ex: 20123456">
+
+                    <label for="shippingAddress">Adresse de livraison</label>
+                    <textarea id="shippingAddress" required placeholder="Numéro de rue, Nom de rue, Ville, Code Postal"></textarea>
+
+                    </form>
+
+                <h3>Méthode de paiement</h3>
+                <div class="payment-options">
+                    <div>
+                        <input type="radio" id="cashOnDelivery" name="paymentMethod" value="cash_on_delivery" checked>
+                        <label for="cashOnDelivery">Paiement à la livraison</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="creditCard" name="paymentMethod" value="credit_card" disabled>
+                        <label for="creditCard">Carte de crédit (Indisponible pour le moment)</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="paypal" name="paymentMethod" value="paypal" disabled>
+                        <label for="paypal">PayPal (Indisponible pour le moment)</label>
+                    </div>
+                </div>
+                <div id="paymentNotification" class="notification-message"></div>
+            </div>
+
+            <div class="checkout-summary">
+                <h3>Récapitulatif de la commande</h3>
+                <ul id="cartItemsSummary" class="cart-items-list">
+                    <li>Chargement du panier...</li> 
+                </ul>
+                <div class="order-total">
+                    <span>Total:</span>
+                    <span id="orderTotalPrice">0.00 DT</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-button-container">
+            <button id="placeOrderBtn">Confirmer la commande</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 TechHaven. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

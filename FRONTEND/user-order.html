@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Passer une Commande</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label, select, input {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .btn {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Passer une Commande</h1>
+
+  <form id="order-form">
+    <label for="client-name">Nom du Client :</label>
+    <input type="text" id="client-name" required>
+
+    <label for="product-select">Produit :</label>
+    <select id="product-select"></select>
+
+    <label for="product-qty">Quantité :</label>
+    <input type="number" id="product-qty" min="1" value="1" required>
+
+    <button type="submit" class="btn">Commander</button>
+  </form>
+
+  <script>
+    const productSelect = document.getElementById('product-select');
+    const orderForm = document.getElementById('order-form');
+
+    // Charger les produits depuis localStorage
+    const products = JSON.parse(localStorage.getItem('products')) || [];
+
+    // Afficher les produits dans le menu déroulant
+    products.forEach(prod => {
+      const option = document.createElement('option');
+      option.value = prod.id;
+      option.textContent = `${prod.name} - ${prod.price} TND`;
+      productSelect.appendChild(option);
+    });
+
+    orderForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const client = document.getElementById('client-name').value;
+      const productId = productSelect.value;
+      const quantity = parseInt(document.getElementById('product-qty').value);
+
+      const product = products.find(p => p.id == productId);
+      if (!product) {
+        alert("Produit non trouvé.");
+        return;
+      }
+
+      const order = {
+        id: 'CMD' + Date.now(),
+        client: client,
+        date: new Date().toLocaleDateString(),
+        items: [
+          {
+            name: product.name,
+            price: product.price,
+            quantity: quantity
+          }
+        ],
+        total: product.price * quantity
+      };
+
+      // Enregistrer la commande dans localStorage
+      const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+      existingOrders.push(order);
+      localStorage.setItem('orders', JSON.stringify(existingOrders));
+
+      alert("Commande enregistrée !");
+      orderForm.reset();
+    });
+  </script>
+
+</body>
+</html>

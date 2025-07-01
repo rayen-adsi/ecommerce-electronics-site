@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecHaven - Détails du Produit</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="stylesheet" href="css/styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+    <style>
+        /* --- Styles Spécifiques à cette page --- */
+        .product-detail-container {
+            max-width: 900px;
+            margin: 20px auto; /* Ajusté pour ne pas avoir de marge du slider */
+            background-color: #ffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading-message, .error-message, .no-product-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* --- Section Détails Produit --- */
+        #product-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product-media {
+            flex: 1 1 40%;
+            min-width: 300px;
+            position: relative; /* Pour le zoom overlay */
+        }
+
+        .product-media .main-media {
+            width: 100%;
+            height: 350px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer; /* Peut être zoom-in pour images, ou pointer pour videos */
+        }
+        .product-media .main-media.hidden {
+            display: none;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .thumbnail-gallery img,
+        .thumbnail-gallery video { /* Styles pour images ET vidéos en vignettes */
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .thumbnail-gallery img:hover,
+        .thumbnail-gallery video:hover,
+        .thumbnail-gallery .active {
+            border-color: #007bff;
+            transform: scale(1.05);
+        }
+
+        /* --- Zoom Overlay --- */
+        .zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: zoom-out;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .zoom-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .zoom-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* --- Contenu Informations Produit --- */
+        .product-info {
+            flex: 1 1 50%;
+            min-width: 350px;
+        }
+
+        .product-info h1 {
+            text-align: left;
+            font-size: 2.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-info .price-display {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .product-info .old-price {
+            font-size: 1.2em;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        .product-info .promo-price{
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #a72828;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .product-info h2 {
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .product-info p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .product-info ul {
+            list-style-type: disc;
+            margin-left: 25px;
+            padding: 0;
+            color: #555;
+        }
+
+        .product-info ul li {
+            margin-bottom: 8px;
+        }
+
+        .add-to-cart-btn {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .add-to-cart-btn.out-of-stock {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        /* Media Queries pour la responsivité */
+        @media (max-width: 768px) {
+            #product-details {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .product-media, .product-info {
+                min-width: unset;
+                flex: 1 1 100%;
+            }
+            .product-info h1 {
+                font-size: 2em;
+                text-align: center;
+            }
+            .product-info .price-display {
+                text-align: center;
+            }
+            .thumbnail-gallery {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+
+        
+
+        <div id="user-controls">
+            <a href="login.html" class="icon-button">
+                <span class="icon">👤</span>
+                <span class="text">Connexion</span>
+            </a>
+        </div>
+
+        <a href="cart.html" class="icon-button cart-button">
+    <span class="icon">🛒</span>
+    <span class="badge">0</span>
+    <span class="text">Mon Panier</span>
+</a>
+
+        
+    </header>
+    
+    <div class="product-detail-container">
+        <a href="index.html" class="back-link">&larr; Retour à l'Accueil</a>
+        <div id="product-details">
+            <p class="loading-message">Chargement des détails du produit...</p>
+        </div>
+
+        <div class="zoom-overlay" id="zoomOverlay">
+            <img id="zoomImage" src="" alt="Image zoomée">
+        </div>
+    </div>
+
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
+
+        if (currentUser) {
+            userControls.innerHTML = `
+                <div class="icon-button">
+                    <span class="icon">👋</span>
+                    <span class="text">Bonjour, ${currentUser.prenom}</span>
+                </div>
+                <button onclick="logout()" style="
+                    margin-left: 10px;
+                    background-color: #ff5e5e;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                ">Déconnexion</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
+        }
+    </script>
+    <script src="js/cart.js"></script>
+   <script>
+    // IMPORTANT: Define your API_URL here. Make sure this matches your backend API endpoint.
+
+    async function fetchAndDisplayProductDetails() {
+        const productDetailsContainer = document.getElementById('product-details');
+        productDetailsContainer.innerHTML = '<p class="loading-message">Chargement des détails du produit...</p>';
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            productDetailsContainer.innerHTML = '<p class="no-product-message">Aucun ID de produit spécifié dans l\'URL.</p>';
+            console.error('Erreur: Aucun ID de produit spécifié dans l\'URL. Utilisez ?id=YOUR_PRODUCT_ID');
+            return;
+        }
+        
+        try {
+          const response = await fetch(`http://localhost:5000/api/products/${productId}?_=${Date.now()}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch product');
+        }
+        const product = await response.json();
+        // Update the specific product quantity display on the current page
+        // Example: document.getElementById('product-quantity').textContent = product.quantity;
+        const quantityElement = document.getElementById('productQuantity');
+if (quantityElement) {
+    quantityElement.textContent = `Stock disponible : ${product.quantity}`;
+}
+
+
+        console.log(`Product ${productId} re-fetched with updated quantity:`, product.quantity);
+        // You would typically update the specific quantity element on the product detail page here
+        // updateProductDetailsUI(product); // Call a function that updates quantity, stock status etc.
+
+            // Clear the loading message before rendering content
+            productDetailsContainer.innerHTML = ''; 
+
+            // Collect all media URLs (images and videos) and their types
+            const allMedia = [];
+            if (product.images && product.images.length > 0) {
+                product.images.forEach(img => allMedia.push({ type: 'image', url: `http://localhost:5000${img}` }));
+            }
+            if (product.videos && product.videos.length > 0) {
+                product.videos.forEach(vid => allMedia.push({ type: 'video', url: `http://localhost:5000${vid}` }));
+            }
+
+            let mainMediaTag = '';
+            let thumbnailGalleryHtml = '';
+
+            if (allMedia.length > 0) {
+                // Initialize main media with the first item in the list
+                const firstMedia = allMedia[0];
+                if (firstMedia.type === 'image') {
+                    mainMediaTag = `<img id="main-product-media" class="main-media" src="${firstMedia.url}" alt="${product.name}">`;
+                } else { // type === 'video'
+                    // For video thumbnails, preload metadata to show a frame if possible
+                    mainMediaTag = `<video id="main-product-media" class="main-media" src="${firstMedia.url}" controls></video>`;
+                }
+
+                // Generate all thumbnails
+                allMedia.forEach((media, index) => {
+                    const activeClass = index === 0 ? 'active' : '';
+                    if (media.type === 'image') {
+                        thumbnailGalleryHtml += `<img src="${media.url}" alt="Thumbnail" class="${activeClass}" onclick="changeMainMedia('${media.url}', 'image', this)">`;
+                    } else { // type === 'video'
+                        thumbnailGalleryHtml += `<video src="${media.url}#t=1" alt="Video Thumbnail" class="${activeClass}" onclick="changeMainMedia('${media.url}', 'video', this)" preload="metadata"></video>`;
+                    }
+                });
+            } else {
+                // If no media is available
+                mainMediaTag = `<img id="main-product-media" class="main-media" src="https://via.placeholder.com/350x350?text=Aucun+m%C3%A9dia" alt="Aucun média">`;
+                thumbnailGalleryHtml = '<p style="text-align: center; width: 100%;">Aucun média disponible.</p>';
+            }
+
+            // Characteristics
+            let characteristicsHtml = '';
+            if (product.characteristics && product.characteristics.length > 0) {
+                characteristicsHtml = '<h2>Caractéristiques</h2><ul>';
+                product.characteristics.forEach(char => {
+                    characteristicsHtml += `<li>${char}</li>`;
+                });
+                characteristicsHtml += '</ul>';
+            }
+
+            // Old Price
+            let oldPriceHtml = '';
+            if (product.oldPrice) {
+                oldPriceHtml = `<span class="old-price">Prix Neuf: ${product.oldPrice.toFixed(2)}TND</span>`;
+            }
+            let promopriceHtml = "";
+            if (product.promotion_price){
+                         promopriceHtml=`<span class="promo-price">prix en promo: ${product.promotion_price.toFixed(2)}TND</span>` ;
+                }
+            
+            // "Add to Cart" button logic
+            const isOutOfStock = product.quantity <= 0;
+            const buttonText = isOutOfStock ? 'Rupture de Stock' : 'Ajouter au Panier';
+            const buttonClass = isOutOfStock ? 'add-to-cart-btn out-of-stock' : 'add-to-cart-btn' ;
+            // Populate the product details container
+            productDetailsContainer.innerHTML = `
+                <div class="product-media">
+                    ${mainMediaTag}
+                    <div class="thumbnail-gallery">
+                        ${thumbnailGalleryHtml}
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1>${product.name}</h1>
+                    ${promopriceHtml}
+                    <span class="price-display">${product.price.toFixed(2)}TND</span>
+                    ${oldPriceHtml}
+                    
+                    <h2>Description</h2>
+                    <p>${product.description || 'Aucune description fournie.'}</p>
+                    
+                    ${characteristicsHtml}
+                    
+                    <p><strong>Quantité disponible:</strong> ${product.quantity}</p>
+                    <button id="addToCartBtn" class="${buttonClass}" ${isOutOfStock ? 'disabled' : ''}>${buttonText}</button>
+                </div>
+            `;
+
+            // --- IMPORTANT: Attach the Add to Cart button event listener HERE, after it's in the DOM ---
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            if (addToCartBtn && !isOutOfStock) { // Ensure button exists and is not out of stock
+                addToCartBtn.addEventListener('click', () => {
+                    console.log('Click event detected for Add to Cart button. Adding product ID:', product._id);
+                    // 'addToCart' function is expected to be in js/cart.js, loaded earlier
+                    addToCart(product._id); 
+                });
+            } else if (addToCartBtn && isOutOfStock) {
+                 console.log('Add to Cart button disabled: Product out of stock.');
+            } else {
+                 console.error('Error: addToCartBtn not found after rendering product details.');
+            }
+            // --- END IMPORTANT ADDITION ---
+
+            // Initialize main product media zoom functionality
+            const mainProductMedia = document.getElementById('main-product-media');
+            const zoomOverlay = document.getElementById('zoomOverlay');
+            const zoomImage = document.getElementById('zoomImage');
+
+            // Handle click on main media for zoom (only if it's an image)
+            if (mainProductMedia.tagName === 'IMG') {
+                mainProductMedia.style.cursor = 'zoom-in'; 
+                mainProductMedia.addEventListener('click', () => {
+                    zoomImage.src = mainProductMedia.src;
+                    zoomOverlay.classList.add('active');
+                });
+            } else {
+                mainProductMedia.style.cursor = 'default'; 
+            }
+
+            // Handle click to close the zoom overlay
+            zoomOverlay.addEventListener('click', () => {
+                zoomOverlay.classList.remove('active');
+            });
+
+        } catch (error) {
+            console.error('Erreur lors du chargement des détails du produit :', error);
+            productDetailsContainer.innerHTML = `<p class="error-message">Erreur lors du chargement des détails du produit : ${error.message}.</p>`;
+        }
+    }
+
+    // Function to change the main displayed media (image or video)
+    function changeMainMedia(url, type, clickedElement) {
+        const mainMediaContainer = document.querySelector('.product-media'); 
+        let mainMedia = document.getElementById('main-product-media');
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img, .thumbnail-gallery video');
+
+        // Remove 'active' class from all thumbnails
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        // Add 'active' class to the clicked thumbnail
+        clickedElement.classList.add('active');
+
+        // If the type of the main media changes (e.g., from IMG to VIDEO or vice-versa)
+        if ((type === 'image' && mainMedia.tagName !== 'IMG') || (type === 'video' && mainMedia.tagName !== 'VIDEO')) {
+            mainMedia.remove(); // Remove the old element
+            
+            if (type === 'image') {
+                mainMedia = document.createElement('img');
+                mainMedia.alt = "Image principale du produit";
+                mainMedia.style.cursor = 'zoom-in'; // Enable zoom for images
+            } else { // type === 'video'
+                mainMedia = document.createElement('video');
+                mainMedia.controls = true;
+                mainMedia.autoplay = true; // Autoplay selected video
+                mainMedia.muted = false; // Don't auto-mute clicked video
+                mainMedia.loop = false; // No loop by default
+                mainMedia.style.cursor = 'default'; // No zoom for video
+            }
+            mainMedia.id = 'main-product-media';
+            mainMedia.classList.add('main-media');
+            mainMediaContainer.prepend(mainMedia); // Add the new element to the beginning of the container
+        }
+
+        // Update the source of the main media
+        mainMedia.src = url;
+
+        // Update zoom/cursor behavior on main media
+        if (mainMedia.tagName === 'IMG') {
+            mainMedia.style.cursor = 'zoom-in';
+            mainMedia.onclick = () => { // Re-attach zoom event if it's an image
+                document.getElementById('zoomImage').src = mainMedia.src;
+                document.getElementById('zoomOverlay').classList.add('active');
+            };
+        } else {
+            mainMedia.style.cursor = 'default';
+            mainMedia.onclick = null; // Disable zoom event for videos
+        }
+    }
+
+    // Call the function when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayProductDetails);
+</script>
+    <footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>À Propos de TecHaven</h3>
+            <p>Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+        </div>
+        <div class="footer-section links">
+            <h3>Liens Utiles</h3>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="pc.html">PCs</a></li>
+                <li><a href="smartphones.html">Smartphones</a></li>
+                <li><a href="smartthings.html">Smart Things</a></li>
+                <li><a href="login.html"></a></li>
+                <li><a href="#">Panier</a></li>
+            </ul>
+        </div>
+        <div class="footer-section contact">
+            <h3>Contactez-nous</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+            <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
+            <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/KB18031989"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                <a href="https://wa.me/41767576430"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; <span id="current-year"></span> TecHaven. Tous droits réservés.
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard - TechHaven</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f1a2b; /* Darker background */
+            margin: 0;
+            padding: 0;
+            color: #e0e0e0; /* Light grey text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #1c2b45; /* Dark blue header */
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: #ff5e5e; /* Accent color for title */
+        }
+
+        .logout-btn {
+            background-color: #ff5e5e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04b4b;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1; /* Allows main content to fill available space */
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        h2.welcome-title {
+            font-weight: 700;
+            color: #ff5e5e; /* Accent color for welcome */
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Admin Actions Grid */
+        .admin-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .action-card {
+            background: #1c2b45; /* Card background */
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none; /* Remove underline for links */
+            color: inherit; /* Inherit text color */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 150px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .action-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #0a74da; /* Card title color */
+            font-size: 1.5rem;
+        }
+
+        .action-card p {
+            font-size: 0.95rem;
+            color: #b0b0b0; /* Lighter text for description */
+            line-height: 1.5;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #1c2b45;
+            color: #b0b0b0;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 20px;
+                text-align: center;
+            }
+            header h1 {
+                margin-bottom: 10px;
+                font-size: 1.5rem;
+            }
+            main {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+            h2.welcome-title {
+                font-size: 1.8rem;
+            }
+            .admin-actions-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Admin Dashboard</h1>
+        <button id="logoutBtn" class="logout-btn">Déconnexion</button>
+    </header>
+
+    <main>
+        <h2 class="welcome-title">Bienvenue, <span id="adminName"></span> !</h2>
+        
+        <div class="admin-actions-grid">
+            <a href="admin.html" class="action-card">
+                <h3>Dashboard</h3>
+                <p>Aperçu général de l'activité du site et des statistiques clés.</p>
+            </a>
+            <a href="admin-products.html" class="action-card">
+                <h3>Gestion des Produits</h3>
+                <p>Ajoutez, modifiez ou supprimez les produits de votre catalogue.</p>
+            </a>
+            <a href="admin-orders.html" class="action-card">
+                <h3>Gestion des Commandes</h3>
+                <p>Visualisez et gérez toutes les commandes passées par les clients.</p>
+            </a>
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TechHaven Admin. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("admin.html: DOMContentLoaded - Initializing admin dashboard.");
+
+            // Function to check if the user is an admin
+            function isAdmin() {
+                const user = getCurrentUser(); // Assuming getCurrentUser is available from cart.js
+                // Check if user exists, has the specific admin ID, and the 'role' in localStorage is 'admin'
+                const isAdminUser = user && user._id === "admin_techhaven_id" && localStorage.getItem('role') === "admin";
+                console.log("admin.html isAdmin check: User:", user, "Role:", localStorage.getItem('role'), "Is Admin:", isAdminUser);
+                return isAdminUser;
+            }
+
+            // Authentication check
+            if (!isAdmin()) {
+                alert('Accès refusé. Vous devez être connecté en tant qu\'administrateur.');
+                window.location.href = 'login.html'; // Redirect to login if not admin
+                return; // Stop script execution
+            }
+
+            // Display admin name
+            const currentUser = getCurrentUser(); // Re-get currentUser after isAdmin check
+            if (currentUser) {
+                document.getElementById('adminName').textContent = currentUser.prenom || currentUser.nom || 'Admin';
+                console.log("admin.html: Admin name displayed:", document.getElementById('adminName').textContent);
+            } else {
+                 document.getElementById('adminName').textContent = 'Admin';
+                 console.warn("admin.html: Current user data not fully available after admin check. Displaying generic 'Admin'.");
+            }
+
+            // Logout button functionality
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('role');
+                alert("Déconnexion réussie.");
+                window.location.href = 'index.html'; // Or 'login.html'
+                console.log("admin.html: Admin logged out.");
+            });
+        });
+    </script>
+
+</body>
+</html>

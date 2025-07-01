@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion - TechHaven</title>
+  <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      background-color: #0f1a2b;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #1c2b45;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      background: #ff5e5e;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .login-box h2,
+    .login-box h5 {
+      text-align: center;
+      margin: 8px 0;
+    }
+    .toggle-password {
+      margin-top: -8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #ccc;
+      cursor: pointer;
+      text-align: right;
+    }
+    a {
+      color: #ff5e5e;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="products-page-page-container">
+        <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
+    </div>
+    <h2>Connectez-vous à votre compte</h2>
+    <h5>Vous n'avez pas de compte ?</h5>
+    <h5><a href="signup.html">Créer un compte</a></h5>
+
+    <input type="email" id="email" placeholder="Adresse email" required />
+    <input type="password" id="password" placeholder="Mot de passe" required />
+    <div class="toggle-password" onclick="togglePassword()">👁 Afficher le mot de passe</div>
+<div style="text-align: right; margin-bottom: 15px;">
+  <a href="forgot-password.html" style="color: #ff5e5e; text-decoration: none; font-size: 0.9em;">
+    Mot de passe oublié ?
+  </a>
+</div>
+
+    <button onclick="login()">Se connecter</button>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordField = document.getElementById("password");
+      const toggleText = document.querySelector(".toggle-password");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleText.textContent = "🙈 Masquer le mot de passe";
+      } else {
+        passwordField.type = "password";
+        toggleText.textContent = "👁 Afficher le mot de passe";
+      }
+    }
+
+  async function login() {
+    const email = document.getElementById("email").value.toLowerCase();
+    const password = document.getElementById("password").value;
+
+    // Cas spécial pour l'admin local (test uniquement)
+    if (email === "admin" && password === "1234") {
+      localStorage.setItem("role", "admin");
+      localStorage.setItem("currentUser", JSON.stringify({
+        _id: "admin_techhaven_id",
+        prenom: "Admin"
+      }));
+      alert("✅ Connexion admin réussie !");
+      window.location.href = "admin.html";
+      return;
+    }
+
+    // Connexion utilisateur via API
+    try {
+      const response = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("currentUser", JSON.stringify(data.user));
+        localStorage.setItem("role", "user");
+        alert("✅ Connexion réussie !");
+        window.location.href = "index.html";
+      } else {
+        alert("❌ " + data.message);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error);
+      alert("❌ Erreur de connexion au serveur.");
+    }
+  }
+</script>
+
+  
+</body>
+</html>

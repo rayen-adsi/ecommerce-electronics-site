@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TecHaven - Résultats de Recherche</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+
+    <style>
+        /* Styles specific to search_results.html (can be moved to styles.css) */
+        .search-results-page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #1a1a2e; /* Dark background */
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            color: #e0e0e0; /* Light text color */
+        }
+
+        .search-results-page-container h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .search-results-page-container .query-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #bbb;
+            margin-bottom: 30px;
+        }
+
+        /* Product Grid and Card styles (similar to pc.html, ensure consistency) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .product-card {
+            background-color: #2a2a3e; /* Slightly lighter dark background for cards */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative; /* For promo badge */
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #444;
+        }
+
+        .product-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content within card */
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #e0e0e0; /* Light text color for product name */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        /* Price styles are inherited from styles.css or redefined here */
+        /* You should reuse the .current-price, .old-price, .promo-price, .original-price-crossed from styles.css */
+
+        .no-results-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #bbb;
+            padding: 30px;
+            background-color: #2a2a3e;
+            border-radius: 8px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            .search-results-page-container h1 {
+                font-size: 2em;
+            }
+            .search-results-page-container .query-display {
+                font-size: 1.1em;
+            }
+        }
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .search-results-page-container {
+                padding: 15px;
+            }
+            .search-results-page-container h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Rechercher...">
+            <span class="search-icon">🔍</span>
+            <div id="searchResultsDropdown" class="search-results-dropdown"></div>
+        </div>
+
+        <div id="user-controls">
+            <!-- User login/logout status will be loaded here by JS -->
+        </div>
+
+        <a href="cart.html" class="icon-button cart-button">
+            <span class="icon">🛒</span>
+            <span class="badge">0</span>
+            <span class="text">Mon Panier</span>
+        </a>
+
+        <div class="icon-button language-button">
+            <span class="icon">🌐</span>
+            <select class="language-select">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">🇹🇳 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="search-results-page-container">
+        <h1 data-i18n="search_results.title">Résultats de Recherche</h1>
+        <p class="query-display" id="query-display"></p>
+        <div id="products-grid" class="product-grid">
+            <p class="loading-message">Chargement des résultats...</p>
+        </div>
+        <p id="no-results-message" class="no-results-message" style="display:none;"></p>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>À Propos de TecHaven</h3>
+                <p>Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="pc.html">PCs</a></li>
+                    <li><a href="smartphones.html">Smartphones</a></li>
+                    <li><a href="smartthings.html">Smart Things</a></li>
+                    <li><a href="login.html"></a></li>
+                    <li><a href="cart.html">Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contactez-nous</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
+                <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/KB18031989"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                    <a href="https://wa.me/41767576430"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> TecHaven. Tous droits réservés.
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script>
+        // --- Configuration ---
+        const API_BASE_URL = 'http://localhost:5000/api';
+
+        // --- Language / Translation ---
+        const languageSelect = document.querySelector('.language-select');
+        let currentLang = localStorage.getItem('lang') || 'fr';
+
+        const translations = {
+            fr: {
+                "login.text": "Connexion",
+                "logout.text": "Déconnexion",
+                "cart.text": "Mon Panier",
+                "greeting.text": "Bonjour",
+                "no_results_message": "Aucun résultat trouvé.",
+                "search_results.title": "Résultats de Recherche",
+                "search_results.no_products": "Aucun produit trouvé pour votre recherche.",
+                "product_card.add_to_cart": "Ajouter au panier",
+                "product_card.out_of_stock": "Rupture de Stock"
+            },
+            en: {
+                "login.text": "Login",
+                "logout.text": "Logout",
+                "cart.text": "My Cart",
+                "greeting.text": "Hello",
+                "no_results_message": "No results found.",
+                "search_results.title": "Search Results",
+                "search_results.no_products": "No products found for your search.",
+                "product_card.add_to_cart": "Add to Cart",
+                "product_card.out_of_stock": "Out of Stock"
+            },
+            ar: {
+                "login.text": "تسجيل الدخول",
+                "logout.text": "تسجيل الخروج",
+                "cart.text": "سلتي",
+                "greeting.text": "مرحبا",
+                "no_results_message": "لم يتم العثور على نتائج.",
+                "search_results.title": "نتائج البحث",
+                "search_results.no_products": "لم يتم العثور على منتجات لبحثك.",
+                "product_card.add_to_cart": "أضف إلى السلة",
+                "product_card.out_of_stock": "نفدت الكمية"
+            }
+        };
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                } else if (translations['fr'] && translations['fr'][key]) {
+                    element.textContent = translations['fr'][key];
+                }
+            });
+        }
+
+        // --- User Authentication ---
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
+
+        function updateLoginUI() {
+            if (currentUser) {
+                userControls.innerHTML = `
+                    <div class="icon-button">
+                        <span class="icon">👋</span>
+                        <span class="text" data-i18n="greeting.text">${translations[currentLang]['greeting.text']}</span>, ${currentUser.prenom}
+                    </div>
+                    <button onclick="logout()" style="
+                        margin-left: 10px;
+                        background-color: #ff5e5e;
+                        color: white;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                    " data-i18n="logout.text">${translations[currentLang]['logout.text']}</button>
+                `;
+            } else {
+                userControls.innerHTML = `
+                    <a href="login.html" class="icon-button">
+                        <span class="icon">👤</span>
+                        <span class="text" data-i18n="login.text">${translations[currentLang]['login.text']}</span>
+                    </a>
+                `;
+            }
+            applyTranslations();
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
+        }
+
+        languageSelect.value = currentLang;
+        languageSelect.addEventListener('change', (event) => {
+            currentLang = event.target.value;
+            localStorage.setItem('lang', currentLang);
+            applyTranslations();
+            updateLoginUI();
+        });
+
+        // --- Search Results Display Logic ---
+        const productsGrid = document.getElementById('products-grid');
+        const queryDisplay = document.getElementById('query-display');
+        const noResultsMessageElement = document.getElementById('no-results-message');
+
+        async function fetchAndDisplaySearchResults() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('query'); // Get query from URL
+
+            queryDisplay.textContent = `Pour: "${query || ''}"`;
+            productsGrid.innerHTML = '<p class="loading-message">Chargement des résultats...</p>';
+            noResultsMessageElement.style.display = 'none';
+
+            if (!query) {
+                productsGrid.innerHTML = '';
+                noResultsMessageElement.textContent = translations[currentLang]['search_results.no_products'];
+                noResultsMessageElement.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Fetch from the new search API endpoint
+                const response = await fetch(`${API_BASE_URL}/products/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const searchResults = await response.json(); // These are the filtered products
+
+                productsGrid.innerHTML = ''; // Clear loading message
+
+                if (searchResults.length === 0) {
+                    noResultsMessageElement.textContent = translations[currentLang]['search_results.no_products'];
+                    noResultsMessageElement.style.display = 'block';
+                } else {
+                    searchResults.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.classList.add('product-card');
+
+                        // Price display logic (copied from pc.html)
+                        let priceHtml = '';
+                        const hasPromotion = product.promotion_price !== undefined && product.promotion_price !== null &&
+                                             typeof product.promotion_price === 'number' && product.promotion_price < product.price;
+
+                        if (hasPromotion) {
+                            productCard.classList.add('has-promotion');
+                            if (product.oldPrice !== undefined && product.oldPrice !== null &&
+                                typeof product.oldPrice === 'number' && product.oldPrice > product.price) {
+                                priceHtml = `
+                                    <p class="original-price-crossed">${product.oldPrice.toFixed(2)}TND</p>
+                                    <p class="old-price">${product.price.toFixed(2)}TND</p>
+                                    <p class="promo-price">${product.promotion_price.toFixed(2)}TND</p>
+                                `;
+                            } else {
+                                priceHtml = `
+                                    <p class="old-price">${product.price.toFixed(2)}TND</p>
+                                    <p class="promo-price">${product.promotion_price.toFixed(2)}TND</p>
+                                `;
+                            }
+                        }
+                        else if (product.oldPrice !== undefined && product.oldPrice !== null &&
+                                 typeof product.oldPrice === 'number' && product.oldPrice > product.price) {
+                            productCard.classList.remove('has-promotion');
+                            priceHtml = `
+                                <p class="old-price">${product.oldPrice.toFixed(2)}TND</p>
+                                <p class="current-price">${product.price.toFixed(2)}TND</p>
+                            `;
+                        }
+                        else {
+                            productCard.classList.remove('has-promotion');
+                            priceHtml = `<p class="current-price">${product.price.toFixed(2)}TND</p>`;
+                        }
+                        // End Price display logic
+
+                        const isOutOfStock = product.quantity <= 0;
+                        if (isOutOfStock) {
+                            productCard.classList.add('out-of-stock');
+                        }
+
+                        productCard.onclick = () => {
+                            window.location.href = `product-detail.html?id=${product._id}`;
+                        };
+
+                        const imageUrl = product.images && product.images.length > 0
+                            ? `http://localhost:5000${product.images[0]}`
+                            : 'https://via.placeholder.com/200x200?text=Image+Produit';
+
+                        const outOfStockOverlay = isOutOfStock ? `<div class="out-of-stock-overlay">${translations[currentLang]['product_card.out_of_stock']}</div>` : '';
+
+                        productCard.innerHTML = `
+                            ${outOfStockOverlay}
+                            <img src="${imageUrl}" alt="${product.name}">
+                            <div class="product-card-content">
+                                <h3>${product.name}</h3>
+                                ${priceHtml}
+                            </div>
+                            <button class="add-to-cart-btn" ${isOutOfStock ? 'disabled' : ''}>${translations[currentLang]['product_card.add_to_cart']}</button>
+                        `;
+                        productsGrid.appendChild(productCard);
+                    });
+                     // Attach event listeners for add-to-cart buttons
+                    document.querySelectorAll('.add-to-cart-btn:not([disabled])').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const productId = event.target.closest('.product-card').onclick.toString().match(/id=(.*?)"/)[1]; // Extract ID from onclick
+                            console.log('Adding to cart from search results:', productId);
+                            addToCart(productId); // Assuming addToCart is available from cart.js
+                        });
+                    });
+                }
+
+            } catch (error) {
+                console.error('Erreur lors de la récupération des résultats de recherche :', error);
+                productsGrid.innerHTML = '';
+                noResultsMessageElement.textContent = `Erreur lors du chargement des résultats de recherche: ${error.message}.`;
+                noResultsMessageElement.style.display = 'block';
+                noResultsMessageElement.style.color = 'red';
+            }
+        }
+
+        // --- Global Search Bar Logic (Copied from other pages) ---
+        const searchInput = document.getElementById('searchInput');
+        const searchIcon = document.querySelector('.search-wrapper .search-icon');
+        let searchResultsDropdown = document.getElementById('searchResultsDropdown');
+
+        if (!searchResultsDropdown) {
+            searchResultsDropdown = document.createElement('div');
+            searchResultsDropdown.id = 'searchResultsDropdown';
+            searchResultsDropdown.classList.add('search-results-dropdown');
+            searchInput.parentNode.insertBefore(searchResultsDropdown, searchInput.nextSibling);
+        }
+
+        let allProductsForSearch = []; // This will store all products for global search suggestions
+        let searchTimeout;
+
+        async function fetchAllProductsForSearch() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allProductsForSearch = await response.json();
+            } catch (error) {
+                console.error("Could not fetch all products for global search bar suggestions:", error);
+            }
+        }
+
+        function displaySuggestions(query) {
+            searchResultsDropdown.innerHTML = '';
+            searchResultsDropdown.style.display = 'none';
+
+            if (query.length < 2) {
+                return;
+            }
+
+            const lowerCaseQuery = query.toLowerCase();
+            const filteredSuggestions = allProductsForSearch.filter(product =>
+                product.name.toLowerCase().includes(lowerCaseQuery) ||
+                (product.description && product.description.toLowerCase().includes(lowerCaseQuery)) ||
+                (product.category && product.category.toLowerCase().includes(lowerCaseQuery)) ||
+                (product.characteristics && product.characteristics.some(char => char.toLowerCase().includes(lowerCaseQuery)))
+            );
+
+
+            if (filteredSuggestions.length > 0) {
+                filteredSuggestions.slice(0, 5).forEach(product => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('search-result-item');
+                    suggestionItem.dataset.productId = product._id;
+                    const imageUrl = product.images && product.images.length > 0
+                        ? `http://localhost:5000${product.images[0]}`
+                        : 'https://via.placeholder.com/50x50?text=No+Image';
+
+                    suggestionItem.innerHTML = `
+                        <img src="${imageUrl}" alt="${product.name}">
+                        <div class="search-result-item-info">
+                            <h4>${product.name}</h4>
+                            <p>${product.description ? product.description.substring(0, 50) + (product.description.length > 50 ? '...' : '') : ''}</p>
+                        </div>
+                        <span class="price-display">${
+                            product.promotion_price && product.promotion_price < product.price
+                                ? product.promotion_price.toFixed(2) + 'TND'
+                                : product.price.toFixed(2) + 'TND'
+                        }</span>
+                    `;
+                    searchResultsDropdown.appendChild(suggestionItem);
+                });
+                searchResultsDropdown.style.display = 'block';
+            } else {
+                const noResultsDiv = document.createElement('div');
+                noResultsDiv.classList.add('no-search-results');
+                noResultsDiv.textContent = translations[currentLang]['no_results_message'];
+                searchResultsDropdown.appendChild(noResultsDiv);
+                searchResultsDropdown.style.display = 'block';
+            }
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = searchInput.value.trim();
+                    displaySuggestions(query);
+                }, 300);
+            });
+
+            if (searchIcon) {
+                searchIcon.addEventListener('click', function() {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        window.location.href = `search_results.html?query=${encodeURIComponent(query)}`;
+                    } else {
+                        searchResultsDropdown.style.display = 'none';
+                    }
+                });
+            }
+
+            searchResultsDropdown.addEventListener('click', function(event) {
+                const clickedItem = event.target.closest('.search-result-item');
+                if (clickedItem && clickedItem.dataset.productId) {
+                    const productId = clickedItem.dataset.productId;
+                    window.location.href = `product-detail.html?id=${productId}`;
+                    searchResultsDropdown.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!searchInput.contains(event.target) && !searchResultsDropdown.contains(event.target) && (!searchIcon || !searchIcon.contains(event.target))) {
+                    searchResultsDropdown.style.display = 'none';
+                }
+            });
+
+            searchInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        window.location.href = `search_results.html?query=${encodeURIComponent(query)}`;
+                    }
+                    event.preventDefault();
+                }
+            });
+        }
+
+        // --- Initial Load Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLoginUI();
+            applyTranslations();
+            fetchAndDisplaySearchResults(); // This fetches and displays results for THIS page
+            fetchAllProductsForSearch(); // This fetches all products for the header search bar suggestions
+            const currentYearPlaceholder = document.getElementById('current-year');
+            if (currentYearPlaceholder) {
+                currentYearPlaceholder.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</body>
+</html>

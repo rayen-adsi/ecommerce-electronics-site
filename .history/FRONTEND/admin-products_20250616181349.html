@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gestion des Produits - TechHaven</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="stylesheet" href="css/styles.css"> <style>
+        /* General Body Styling (consistent with other admin pages) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f1a2b; /* Darker background */
+            margin: 0;
+            padding: 0;
+            color: #e0e0e0; /* Light grey text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Admin Header Styling (Copied from admin-orders.html structure) */
+        .admin-header {
+            background-color: #1c2b45;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .admin-header .logo a {
+            color: #ff5e5e;
+            text-decoration: none;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .admin-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+        .admin-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .admin-nav ul li a:hover {
+            color: #ff5e5e;
+        }
+        .logout-btn {
+            background-color: #ff5e5e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logout-btn:hover { background-color: #e04b4b; transform: translateY(-2px); }
+
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .container {
+            background-color: #1c2b45; /* Darker container background */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 800px; /* Adjust max-width as needed */
+            margin: 0 auto; /* Center the form */
+            color: #e0e0e0; /* Light text for form */
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #ff5e5e; /* Accent color for titles */
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #b0b0b0; /* Lighter label text */
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group input[type="file"],
+        .form-group select {
+            width: calc(100% - 22px); /* Account for padding */
+            padding: 10px;
+            border: 1px solid #4a5d7e; /* Darker border */
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            background-color: #0f1a2b; /* Even darker input background */
+            color: #e0e0e0; /* Light text input */
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #0a74da; /* Accent color on focus */
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(10, 116, 218, 0.3);
+        }
+
+        .form-group button {
+            background-color: #0a74da; /* Blue button */
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #085da8;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745; /* Green for submit */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .media-previews {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+            border: 1px dashed #4a5d7e; /* Darker dashed border */
+            padding: 10px;
+            border-radius: 6px;
+            min-height: 50px;
+            align-items: center;
+            justify-content: center;
+            color: #8a9cb7; /* Lighter grey for hint text */
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .media-previews img,
+        .media-previews video {
+            max-width: 120px;
+            max-height: 120px;
+            border: 1px solid #2a3d58; /* Darker border for media */
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .media-previews:empty::before {
+            content: "Aucun fichier sélectionné";
+        }
+
+        .characteristic-item {
+            display: flex;
+            align-items: center; /* Align input and button */
+            margin-bottom: 8px;
+        }
+
+        .characteristic-item input {
+            flex-grow: 1;
+            margin-right: 10px; /* Space between input and button */
+            width: auto; /* Override calc(100%-22px) for flex */
+        }
+
+        .characteristic-item button {
+            margin-top: 0;
+            background-color: #dc3545; /* Red for delete characteristic */
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .characteristic-item button:hover {
+            background-color: #c82333;
+        }
+
+        /* Product List Styling */
+        #productList {
+            background-color: #1c2b45;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-item {
+            border: 1px solid #2a3d58; /* Darker border */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background-color: #0f1a2b; /* Even darker background for items */
+            position: relative;
+            color: #e0e0e0;
+        }
+
+        .product-item h3 {
+            margin-top: 0;
+            color: #0a74da; /* Blue for product titles */
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .product-item p {
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+
+        .product-item ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+
+        .product-item .price-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745; /* Green for price */
+            margin-top: 10px;
+            display: block;
+        }
+
+        .product-item .old-price-display {
+            text-decoration: line-through;
+            color: #b0b0b0;
+            font-size: 0.9em;
+            margin-left: 5px;
+        }
+
+        .product-item .media-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #2a3d58;
+        }
+
+        .product-item .media-gallery img,
+        .product-item .media-gallery video {
+            max-width: 100px;
+            max-height: 100px;
+            border: 1px solid #4a5d7e;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .product-actions button {
+            padding: 8px 15px;
+            font-size: 0.85em;
+            margin-top: 0;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-actions .edit-btn {
+            background-color: #ffc107; /* Yellow */
+            color: #333;
+        }
+        .product-actions .edit-btn:hover {
+            background-color: #e0a800;
+        }
+
+        .product-actions .delete-btn {
+            background-color: #dc3545; /* Red */
+        }
+        .product-actions .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Notification Styling (re-included for completeness) */
+        .notification-message {
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            z-index: 1000;
+            min-width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-message.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification-message.success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .notification-message.error {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                padding: 15px 20px;
+                text-align: center;
+                gap: 10px;
+            }
+            .admin-nav ul {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            .admin-nav ul li {
+                width: 100%;
+            }
+            .admin-nav ul li a {
+                display: block;
+                padding: 8px;
+                background-color: #2a3d58;
+                border-radius: 5px;
+            }
+            .logout-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+            main {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1, h2 {
+                font-size: 1.8rem;
+            }
+            .product-actions {
+                position: static; /* Stack buttons on smaller screens */
+                margin-top: 10px;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+        <header class="admin-header">
+        <div class="logo">
+            <a href="admin.html">Admin Panel</a>
+        </div>
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="admin.html">Dashboard</a></li>
+                <li><a href="admin-products.html">Gestion des Produits</a></li>
+                <li><a href="admin-orders.html">Gestion des Commandes</a></li>
+                <li><a href="login.html" onclick="logoutAdmin()">Déconnexion</a></li> </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Ajouter / Modifier un Produit (Admin)</h1>
+        <form id="productForm">
+            <div class="form-group">
+                <label for="productName">Nom du Produit:</label>
+                <input type="text" id="productName" name="productName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Description:</label>
+                <textarea id="productDescription" name="productDescription" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Caractéristiques:</label>
+                <div id="characteristicInputs">
+                    </div>
+                <button type="button" onclick="addCharacteristicInput()">Ajouter une Caractéristique</button>
+            </div>
+
+            <div class="form-group">
+                <label for="productPrice">Prix Actuel (TND):</label>
+                <input type="number" id="productPrice" name="productPrice" step="0.01" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productOldPrice">Prix Neuf (Ancien Prix, TND):</label>
+                <input type="number" id="productOldPrice" name="productOldPrice" step="0.01" min="0">
+            </div>
+            <div class="form-group">
+                <label for="productQuantity">Quantité Disponible:</label>
+                <input type="number" id="productQuantity" name="productQuantity" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="productCategory">Catégorie:</label>
+                <select id="productCategory" name="productCategory" required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="PC">PC</option>
+                    <option value="Smartphone">Smartphone</option>
+                    <option value="SmartThings">SmartThings</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Photos du Produit (3 ou plus recommandées):</label>
+                <div id="imageInputs">
+                    <input type="file" name="productImages[]" accept="image/*" multiple onchange="previewImages(event, 'imagePreviews')">
+                </div>
+                <button type="button" onclick="addImageInput()">Ajouter plus d'images</button>
+                <div id="imagePreviews" class="media-previews"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Vidéos du Produit (0 ou plus):</label>
+                <div id="videoInputs">
+                    <input type="file" name="productVideos[]" accept="video/*" multiple onchange="previewVideos(event, 'videoPreviews')">
+                </div>
+                <button type="button" onclick="addVideoInput()">Ajouter plus de vidéos</button>
+                <div id="videoPreviews" class="media-previews"></div>
+            </div>
+
+            <button type="submit">Ajouter le Produit</button>
+        </form>
+
+        <div id="productList">
+            <h2>Produits Actuels (Base de Données)</h2>
+            </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/products'; // L'URL de votre backend
+
+        // --- Fonctions pour gérer les inputs d'images et de vidéos ---
+        function addImageInput() {
+            const imageInputsDiv = document.getElementById('imageInputs');
+            const newInput = document.createElement('input');
+            newInput.type = 'file';
+            newInput.name = 'productImages[]';
+            newInput.accept = 'image/*';
+            newInput.multiple = true;
+            newInput.onchange = (event) => previewImages(event, 'imagePreviews');
+            imageInputsDiv.appendChild(newInput);
+        }
+
+        function addVideoInput() {
+            const videoInputsDiv = document.getElementById('videoInputs');
+            const newInput = document.createElement('input');
+            newInput.type = 'file';
+            newInput.name = 'productVideos[]';
+            newInput.accept = 'video/*';
+            newInput.multiple = true;
+            newInput.onchange = (event) => previewVideos(event, 'videoPreviews');
+            videoInputsDiv.appendChild(newInput);
+        }
+
+        function previewImages(event, previewId) {
+            const previewContainer = document.getElementById(previewId);
+            // Pour permettre des prévisualisations multiples, on n'efface pas l'existant.
+            // Le but est de prévisualiser les fichiers venant d'être sélectionnés.
+            // On gère les images existantes côté backend via 'existingImages'
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function previewVideos(event, previewId) {
+            const previewContainer = document.getElementById(previewId);
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('video/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.controls = true;
+                        video.muted = true;
+                        video.autoplay = false;
+                        video.style.maxWidth = '120px';
+                        video.style.maxHeight = '120px';
+                        previewContainer.appendChild(video);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        // --- Fonctions pour les caractéristiques ---
+        function addCharacteristicInput(value = '') {
+            const characteristicInputsDiv = document.getElementById('characteristicInputs');
+            const characteristicItem = document.createElement('div');
+            characteristicItem.classList.add('characteristic-item');
+
+            characteristicItem.innerHTML = `
+                <input type="text" name="productCharacteristics[]" placeholder="Ex: Couleur, Taille, Matériau..." value="${value}">
+                <button type="button" onclick="removeCharacteristicInput(this)">Supprimer</button>
+            `;
+            characteristicInputsDiv.appendChild(characteristicItem);
+        }
+
+        function removeCharacteristicInput(buttonElement) {
+            buttonElement.closest('.characteristic-item').remove();
+        }
+
+        // --- Fonctions d'interaction avec le Backend ---
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const products = await response.json();
+                renderProductList(products);
+            } catch (error) {
+                console.error('Erreur lors de la récupération des produits :', error);
+                document.getElementById('productList').innerHTML = `<h2>Produits non chargés</h2><p style="text-align: center; color: red;">Erreur de connexion au serveur. Assurez-vous que le backend est démarré sur ${API_URL.split('/api')[0]}.</p>`;
+            }
+        }
+
+        async function createProduct(formData) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData // FormData est envoyé directement, fetch gère le Content-Type
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+                const newProduct = await response.json();
+                alert('Produit ajouté avec succès !');
+                console.log('Nouveau produit :', newProduct);
+                fetchProducts(); // Recharger la liste des produits après ajout
+                resetForm();
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout du produit :', error);
+                alert(`Erreur lors de l'ajout du produit: ${error.message}`);
+            }
+        }
+
+        async function updateProduct(productId, formData) {
+            try {
+                const response = await fetch(`${API_URL}/${productId}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
+                const updatedProduct = await response.json();
+                alert('Produit modifié avec succès !');
+                console.log('Produit mis à jour :', updatedProduct);
+                fetchProducts(); // Recharger la liste après modification
+                resetForm();
+            } catch (error) {
+                console.error('Erreur lors de la modification du produit :', error);
+                alert(`Erreur lors de la modification du produit: ${error.message}`);
+            }
+        }
+
+        async function deleteProduct(productId) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer ce produit (ID: ${productId}) ?`)) {
+                try {
+                    const response = await fetch(`${API_URL}/${productId}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                    }
+                    alert('Produit supprimé avec succès !');
+                    console.log(`Produit ID: ${productId} supprimé.`);
+                    fetchProducts(); // Recharger la liste après suppression
+                } catch (error) {
+                    console.error('Erreur lors de la suppression du produit :', error);
+                    alert(`Erreur lors de la suppression du produit: ${error.message}`);
+                }
+            }
+        }
+
+        // Fonction pour rendre la liste des produits depuis le backend
+        function renderProductList(products) {
+            const productListDiv = document.getElementById('productList');
+            productListDiv.innerHTML = '<h2>Produits Actuels (Base de Données)</h2>'; // Réinitialiser le titre
+            if (products.length === 0) {
+                productListDiv.innerHTML += '<p style="text-align: center; color: #888;">Aucun produit trouvé dans la base de données.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.classList.add('product-item');
+                productItem.dataset.productId = product._id; // MongoDB utilise _id
+
+                let characteristicsHtml = '';
+                if (product.characteristics && product.characteristics.length > 0) {
+                    characteristicsHtml = '<h4>Caractéristiques:</h4><ul>';
+                    product.characteristics.forEach(char => {
+                        characteristicsHtml += `<li>${char}</li>`;
+                    });
+                    characteristicsHtml += '</ul>';
+                }
+
+                let priceDisplayHtml = `<span class="price-display">Prix: ${product.price.toFixed(2)}TND</span>`;
+                if (product.oldPrice) { // Si un prix neuf existe, on l'affiche SANS le barrer
+                    priceDisplayHtml += `<p>Prix Neuf: ${product.oldPrice.toFixed(2)}TND</p>`;
+                
+                }
+                
+                productItem.innerHTML = `
+                    <div class="product-actions">
+                        <button class="edit-btn" onclick="loadProductForEdit('${product._id}')">Modifier</button>
+                        <button class="delete-btn" onclick="deleteProduct('${product._id}')">Supprimer</button>
+                    </div>
+                    <h3>${product.name} (${product.category || 'N/A'})</h3> <p><strong>Description:</strong> ${product.description}</p>
+                    ${characteristicsHtml}
+                    <p>${priceDisplayHtml}</p>
+                    <p>Quantité disponible: ${product.quantity}</p>
+                    <div class="media-gallery"></div>
+                `;
+                const mediaGallery = productItem.querySelector('.media-gallery');
+
+                // Affichage des images (utilisant l'URL du backend)
+                product.images.forEach(imagePath => {
+                    const img = document.createElement('img');
+                    img.src = `http://localhost:5000${imagePath}`; // Utilisez l'URL complète du backend
+                    img.alt = product.name;
+                    mediaGallery.appendChild(img);
+                });
+
+                // Affichage des vidéos (utilisant l'URL du backend)
+                product.videos.forEach(videoPath => {
+                    const video = document.createElement('video');
+                    video.src = `http://localhost:5000${videoPath}`; // Utilisez l'URL complète du backend
+                    video.controls = true;
+                    video.muted = true;
+                    video.autoplay = false;
+                    video.style.maxWidth = '100px';
+                    video.style.maxHeight = '100px';
+                    mediaGallery.appendChild(video);
+                });
+
+                productListDiv.appendChild(productItem);
+            });
+        }
+
+        // Fonction pour charger un produit dans le formulaire pour modification
+        async function loadProductForEdit(productId) {
+            try {
+                const response = await fetch(`${API_URL}/${productId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const product = await response.json();
+
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productDescription').value = product.description;
+
+                const characteristicInputsDiv = document.getElementById('characteristicInputs');
+                characteristicInputsDiv.innerHTML = ''; // Nettoyer les inputs existants
+                if (product.characteristics && product.characteristics.length > 0) {
+                    product.characteristics.forEach(char => {
+                        addCharacteristicInput(char); // Ajouter avec la valeur existante
+                    });
+                } else {
+                    addCharacteristicInput(); // Ajouter un champ vide si aucune caractéristique
+                }
+
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productOldPrice').value = product.oldPrice || '';
+                document.getElementById('productQuantity').value = product.quantity;
+                document.getElementById('productCategory').value = product.category || ''; // Charger la catégorie
+
+                // Afficher les aperçus des images et vidéos existantes (venues du backend)
+                // Important : Pour les fichiers existants, on ne peut pas les "remettre" dans un input type="file"
+                // On va les afficher comme aperçus et gérer leur persistance/suppression côté backend
+                const imagePreviews = document.getElementById('imagePreviews');
+                imagePreviews.innerHTML = ''; // Vider les aperçus précédents
+                product.images.forEach(imagePath => {
+                    const img = document.createElement('img');
+                    img.src = `http://localhost:5000${imagePath}`; // Utilisez l'URL complète du backend
+                    img.alt = 'Existing Image';
+                    imagePreviews.appendChild(img);
+                });
+
+                const videoPreviews = document.getElementById('videoPreviews');
+                videoPreviews.innerHTML = ''; // Vider les aperçus précédents
+                product.videos.forEach(videoPath => {
+                    const video = document.createElement('video');
+                    video.src = `http://localhost:5000${videoPath}`;
+                    video.controls = true;
+                    video.muted = true;
+                    video.autoplay = false;
+                    video.style.maxWidth = '120px';
+                    video.style.maxHeight = '120px';
+                    videoPreviews.appendChild(video);
+                });
+                
+                // Stocker les chemins des fichiers existants pour les renvoyer lors de la mise à jour
+                // Ceci permet au backend de savoir quels fichiers existants ne doivent PAS être supprimés
+                document.getElementById('productForm').dataset.existingImages = JSON.stringify(product.images);
+                document.getElementById('productForm').dataset.existingVideos = JSON.stringify(product.videos);
+
+                // Changer le texte du bouton et stocker l'ID du produit à éditer
+                const submitButton = document.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Mettre à jour le Produit';
+                submitButton.dataset.editingId = product._id;
+
+                // Scroll to top of the form
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Erreur lors du chargement du produit pour édition :', error);
+                alert(`Erreur lors du chargement du produit pour édition: ${error.message}`);
+            }
+        }
+
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('productForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const submitButton = document.querySelector('button[type="submit"]');
+            const editingId = submitButton.dataset.editingId;
+
+            const formData = new FormData(); // Création de FormData, unique
+
+            formData.append('name', document.getElementById('productName').value);
+            formData.append('description', document.getElementById('productDescription').value);
+            formData.append('price', document.getElementById('productPrice').value);
+            formData.append('oldPrice', document.getElementById('productOldPrice').value);
+            formData.append('quantity', document.getElementById('productQuantity').value);
+            formData.append('category', document.getElementById('productCategory').value); // IMPORTANT : Ajout de la catégorie
+
+            // Collecter les caractéristiques
+            const characteristicInputs = document.querySelectorAll('#characteristicInputs input[type="text"]');
+            let characteristics = [];
+            characteristicInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    characteristics.push(input.value.trim());
+                }
+            });
+            formData.append('characteristics', JSON.stringify(characteristics));
+
+            // Ajouter les nouvelles images (depuis les inputs de type file)
+            const allImageInputs = document.querySelectorAll('#imageInputs input[type="file"]');
+            let newImageCount = 0;
+            allImageInputs.forEach(input => {
+                for (let i = 0; i < input.files.length; i++) {
+                    formData.append('productImages', input.files[i]);
+                    newImageCount++;
+                }
+            });
+
+            // Ajouter les nouvelles vidéos (depuis les inputs de type file)
+            const allVideoInputs = document.querySelectorAll('#videoInputs input[type="file"]');
+            let newVideoCount = 0;
+            allVideoInputs.forEach(input => {
+                for (let i = 0; i < input.files.length; i++) {
+                    formData.append('productVideos', input.files[i]);
+                    newVideoCount++;
+                }
+            });
+
+            // Pour l'édition, inclure les chemins des images/vidéos existantes qui ne sont pas remplacées
+            if (editingId) {
+                const existingImages = JSON.parse(document.getElementById('productForm').dataset.existingImages || '[]');
+                const existingVideos = JSON.parse(document.getElementById('productForm').dataset.existingVideos || '[]');
+
+                // On renvoie les chemins existants pour que le backend les conserve
+                existingImages.forEach(path => formData.append('existingImages', path));
+                existingVideos.forEach(path => formData.append('existingVideos', path));
+            }
+
+
+            // Vérification du nombre d'images (pour l'ajout et la modification)
+            // On compte les nouvelles images plus les images existantes (si mode édition)
+            let totalImagesForValidation = newImageCount;
+            if (editingId) {
+                 const existingImagesCount = JSON.parse(document.getElementById('productForm').dataset.existingImages || '[]').length;
+                 totalImagesForValidation += existingImagesCount;
+            }
+
+            if (totalImagesForValidation < 3) {
+                alert('Veuillez ajouter au moins 3 photos pour le produit (y compris les existantes).');
+                return;
+            }
+
+
+            if (editingId) {
+                await updateProduct(editingId, formData);
+            } else {
+                await createProduct(formData);
+            }
+        });
+
+        // Fonction pour réinitialiser le formulaire
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            
+            // Réinitialiser les aperçus d'images/vidéos et leurs inputs
+            document.getElementById('imagePreviews').innerHTML = '';
+            document.getElementById('videoPreviews').innerHTML = '';
+            document.getElementById('imageInputs').innerHTML = '<input type="file" name="productImages[]" accept="image/*" multiple onchange="previewImages(event, \'imagePreviews\')">';
+            document.getElementById('videoInputs').innerHTML = '<input type="file" name="productVideos[]" accept="video/*" multiple onchange="previewVideos(event, \'videoPreviews\')">';
+            
+            // Réinitialiser les caractéristiques
+            const characteristicInputsDiv = document.getElementById('characteristicInputs');
+            characteristicInputsDiv.innerHTML = '';
+            addCharacteristicInput(); // Ajouter un champ vide par défaut
+
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Ajouter le Produit';
+            delete submitButton.dataset.editingId; // Supprimer l'ID d'édition
+            delete document.getElementById('productForm').dataset.existingImages;
+            delete document.getElementById('productForm').dataset.existingVideos;
+        }
+
+        // Appeler fetchProducts au chargement de la page pour afficher les produits existants
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            addCharacteristicInput(); // Ajouter un premier champ caractéristique au chargement
+        });
+    </script>
+</body>
+</html>

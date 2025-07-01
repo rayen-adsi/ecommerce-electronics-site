@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title data-i18n="review_page.title">TechHaven - Soumettre un Avis</title>
+
+  <!-- Favicon (make sure the file is in your project directory) -->
+  <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png" type="image/png">
+
+  <!-- Responsive viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Flag Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+
+  <!-- Inline Styles -->
+  <style>
+    .review-form-container {
+      max-width: 800px;
+      margin: 80px auto 40px auto;
+      padding: 30px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .review-form-container h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+    }
+
+    .review-form-group {
+      margin-bottom: 20px;
+    }
+
+    .review-form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .review-form-group input[type="text"],
+    .review-form-group textarea {
+      width: calc(100% - 20px);
+      padding: 12px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    .review-form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      margin-top: 15px;
+      margin-bottom: 25px;
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label {
+      font-size: 2.5em;
+      color: #ccc;
+      cursor: pointer;
+      padding: 0 5px;
+      transition: color 0.2s;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label,
+    .rating input:checked ~ label {
+      color: #ffc107;
+    }
+
+    .file-upload-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      border: 1px solid #eee;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #fff;
+      min-height: 50px;
+    }
+
+    .file-upload-preview img {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 5px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+    }
+
+    .submit-review-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .submit-review-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .success-message {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 8px;
+      font-size: 1.1em;
+      display: none;
+    }
+  </style>
+<body>
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+
+        <div id="user-controls">
+            <a href="login.html" class="icon-button">
+                <span class="icon">👤</span>
+                <span class="text" data-i18n="header.login">Connexion</span>
+            </a>
+        </div>
+
+        <a href="cart.html" class="icon-button cart-button">
+            <span class="icon">🛒</span>
+            <span class="badge">0</span>
+            <span class="text" data-i18n="header.cart">Mon Panier</span>
+        </a>
+
+        <div class="icon-button language-button">
+            <span class="icon">🌐</span>
+            <select class="language-select">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">🇹🇳 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="review-form-container">
+        <h1 data-i18n="review_page.heading">Soumettez votre avis</h1>
+        <p data-i18n="review_page.intro">Nous serions ravis d'entendre parler de votre expérience avec TechHaven. Vos commentaires nous aident à nous améliorer !</p>
+
+        <form id="reviewForm">
+            <div class="review-form-group">
+                <label for="reviewerName" data-i18n="review_form.name_label">Votre Nom (optionnel):</label>
+                <input type="text" id="reviewerName" name="reviewerName" data-i18n-placeholder="review_form.name_placeholder">
+            </div>
+
+            <div class="review-form-group">
+                <label for="reviewText" data-i18n="review_form.review_label">Votre Avis (obligatoire):</label>
+                <textarea id="reviewText" name="reviewText" required data-i18n-placeholder="review_form.review_placeholder"></textarea>
+            </div>
+
+            <div class="review-form-group">
+                <label data-i18n="review_form.rating_label">Votre Note:</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 étoiles">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 étoiles">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 étoiles">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 étoiles">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 étoile">★</label>
+                </div>
+            </div>
+
+            <div class="review-form-group">
+                <label for="reviewPhotos" data-i18n="review_form.photos_label">Ajouter des Photos (optionnel):</label>
+                <input type="file" id="reviewPhotos" name="reviewPhotos" accept="image/*" multiple>
+                <div class="file-upload-preview" id="fileUploadPreview">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-review-btn" data-i18n="review_form.submit_button">Soumettre l'avis</button>
+        </form>
+
+        <div id="successMessage" class="success-message" data-i18n="review_form.success_message">
+            Merci pour votre avis ! Votre contribution est très appréciée. (Ceci est une démo. L'avis n'est pas réellement sauvegardé.)
+        </div>
+
+        <section class="submitted-reviews-section">
+            <h2 data-i18n="review_page.recent_reviews_heading">Avis Récents</h2>
+            <div class="reviews-list-container" id="reviewsListContainer">
+                <p data-i18n="review_page.loading_reviews">Chargement des avis...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3 data-i18n="footer.about_title">À Propos de TecHaven</h3>
+                <p data-i18n="footer.about_text">Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+            </div>
+            <div class="footer-section links">
+                <h3 data-i18n="footer.links_title">Liens Utiles</h3>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+                    <li><a href="pc.html" data-i18n="nav.pc">PCs</a></li>
+                    <li><a href="smartphones.html" data-i18n="nav.smartphones">Smartphones</a></li>
+                    <li><a href="smartthings.html" data-i18n="nav.smartthings">Smart Things</a></li>
+                    
+                    <li><a href="cart.html" data-i18n="header.cart">Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
+                <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/KB18031989"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                    <a href="https://wa.me/41767576430"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+           </span> TecHaven. Tous droits réservés.</span>
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+    <script>
+    // --- Internationalization (i18n) Translations ---
+    // This object is CRUCIAL for your data-i18n attributes to work.
+    // Ensure this is defined. If you have it in a separate file, load that file BEFORE this script.
+    const translations = {
+        fr: {
+            "header.greeting": "Bonjour",
+            "header.logout_button": "Déconnexion",
+            "header.login": "Connexion",
+            "header.search_placeholder": "Rechercher...",
+            "header.cart": "Mon Panier",
+            "review_page.title": "TechHaven - Soumettre un Avis",
+            "review_page.heading": "Soumettez votre avis",
+            "review_page.intro": "Nous serions ravis d'entendre parler de votre expérience avec TechHaven. Vos commentaires nous aident à nous améliorer !",
+            "review_form.name_label": "Votre Nom (optionnel):",
+            "review_form.name_placeholder": "Entrez votre nom",
+            "review_form.review_label": "Votre Avis (obligatoire):",
+            "review_form.review_placeholder": "Partagez votre expérience...",
+            "review_form.rating_label": "Votre Note:",
+            "review_form.photos_label": "Ajouter des Photos (optionnel):",
+            "review_form.submit_button": "Soumettre l'avis",
+            "review_form.success_message": "Merci pour votre avis ! Votre contribution est très appréciée. (Ceci est une démo. L'avis n'est pas réellement sauvegardé.)",
+            "review_page.recent_reviews_heading": "Avis Récents",
+            "review_page.loading_reviews": "Chargement des avis...",
+            "review_page.no_reviews": "Aucun avis pour le moment.",
+            "footer.about_title": "À Propos de TecHaven",
+            "footer.about_text": "Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
+            "footer.links_title": "Liens Utiles",
+            "nav.home": "Accueil",
+            "nav.pc": "PCs",
+            "nav.smartphones": "Smartphones",
+            "nav.smartthings": "Smart Things",
+            "footer.my_account": "",
+            "footer.contact_title": "Contactez-nous",
+            "footer.copyright": "&copy; <span id='current-year'></span> TecHaven. Tous droits réservés."
+        },
+        en: { // Add English translations or other languages as needed
+            "header.greeting": "Hello",
+            "header.logout_button": "Logout",
+            "header.login": "Login",
+            "header.search_placeholder": "Search...",
+            "header.cart": "My Cart",
+            "review_page.title": "TechHaven - Submit a Review",
+            "review_page.heading": "Submit Your Review",
+            "review_page.intro": "We'd love to hear about your experience with TechHaven. Your feedback helps us improve!",
+            "review_form.name_label": "Your Name (optional):",
+            "review_form.name_placeholder": "Enter your name",
+            "review_form.review_label": "Your Review (required):",
+            "review_form.review_placeholder": "Share your experience...",
+            "review_form.rating_label": "Your Rating:",
+            "review_form.photos_label": "Add Photos (optional):",
+            "review_form.submit_button": "Submit Review",
+            "review_form.success_message": "Thank you for your review! Your contribution is greatly appreciated. (This is a demo. The review is not actually saved.)",
+            "review_page.recent_reviews_heading": "Recent Reviews",
+            "review_page.loading_reviews": "Loading reviews...",
+            "review_page.no_reviews": "No reviews yet.",
+            "footer.about_title": "About TecHaven",
+            "footer.about_text": "Your one-stop destination for high-quality PCs, components, and computer accessories. We are committed to offering the best technology and exceptional customer service.",
+            "footer.links_title": "Useful Links",
+            "nav.home": "Home",
+            "nav.pc": "PCs",
+            "nav.smartphones": "Smartphones",
+            "nav.smartthings": "Smart Things",
+            "footer.my_account": "My Account",
+            "footer.contact_title": "Contact Us",
+            "footer.copyright": "&copy; <span id='current-year'></span> TecHaven. All rights reserved."
+        },
+         ar: {
+            "header.search_placeholder": "بحث...",
+            "header.login": "تسجيل الدخول",
+            "header.cart": "سلتي",
+            "header.greeting": "مرحباً",
+            "header.logout_button": "تسجيل الخروج",
+            "nav.home": "الرئيسية",
+            "nav.pc": "أجهزة الكمبيوتر",
+            "nav.smartphones": "الهواتف الذكية",
+            "nav.smartthings": "الأشياء الذكية",
+            "nav.contact": "اتصل بنا",
+            "review_page.title": "تيك هافن - إرسال مراجعة",
+            "review_page.heading": "أرسل مراجعتك",
+            "review_page.intro": "نحن نحب أن نسمع عن تجربتك مع تيك هافن. ملاحظاتك تساعدنا على التحسين!",
+            "review_form.name_label": "اسمك (اختياري):",
+            "review_form.name_placeholder": "أدخل اسمك",
+            "review_form.review_label": "مراجعتك (مطلوب):",
+            "review_form.review_placeholder": "شارك تجربتك هنا...",
+            "review_form.rating_label": "تقييمك:",
+            "review_form.photos_label": "إضافة صور (اختياري):",
+            "review_form.submit_button": "إرسال المراجعة",
+            "review_form.success_message": "شكراً لمراجعتك! مساهمتك محل تقدير كبير. ستكون مراجعتك مرئية بعد الموافقة.", // Updated message
+            "review_form.review_required_alert": "يرجى كتابة مراجعتك قبل الإرسال.", // NEW
+            "review_form.submit_error_alert": "فشل إرسال المراجعة. يرجى المحاولة مرة أخرى.", // NEW
+            "review_form.network_error_alert": "حدث خطأ في الشبكة. يرجى التحقق من اتصالك بالإنترنت.", // NEW
+            "review_page.recent_reviews_heading": "مراجعات حديثة", // NEW
+            "review_page.loading_reviews": "جاري تحميل المراجعات...", // NEW
+            "review_page.no_approved_reviews": "لا توجد مراجعات معتمدة حتى الآن.", // NEW
+            "review_page.fetch_reviews_error": "حدث خطأ أثناء تحميل المراجعات. يرجى المحاولة مرة أخرى لاحقاً.", // NEW
+            "footer.about_title": "حول تيك هافن",
+            "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
+            "footer.links_title": "روابط مفيدة",
+            "footer.my_account": "حسابي",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> تيك هافن. جميع الحقوق محفوظة."
+        },
+         es: {
+            "header.search_placeholder": "Buscar...",
+            "header.login": "Iniciar Sesión",
+            "header.cart": "Mi Carrito",
+            "header.greeting": "Hola",
+            "header.logout_button": "Cerrar Sesión",
+            "nav.home": "Inicio",
+            "nav.pc": "PC",
+            "nav.smartphones": "Smartphones",
+            "nav.smartthings": "Smart Things",
+            "nav.contact": "Contacto",
+            "review_page.title": "TechHaven - Enviar Reseña",
+            "review_page.heading": "Envía tu Reseña",
+            "review_page.intro": "Nos encantaría conocer tu experiencia con TechHaven. ¡Tus comentarios nos ayudan a mejorar!",
+            "review_form.name_label": "Tu Nombre (opcional):",
+            "review_form.name_placeholder": "Introduce tu nombre",
+            "review_form.review_label": "Tu Reseña (obligatorio):",
+            "review_form.review_placeholder": "Comparte tu experiencia aquí...",
+            "review_form.rating_label": "Tu Calificación:",
+            "review_form.photos_label": "Añadir Fotos (opcional):",
+            "review_form.submit_button": "Enviar Reseña",
+            "review_form.success_message": "¡Gracias por tu reseña! Tu contribución es muy apreciada. Tu reseña será visible después de la aprobación.", // Updated message
+            "review_form.review_required_alert": "Por favor, escribe tu reseña antes de enviarla.", // NEW
+            "review_form.submit_error_alert": "Error al enviar la reseña. Por favor, inténtalo de nuevo.", // NEW
+            "review_form.network_error_alert": "Ha ocurrido un error de red. Por favor, revisa tu conexión a internet.", // NEW
+            "review_page.recent_reviews_heading": "Reseñas Recientes", // NEW
+            "review_page.loading_reviews": "Cargando reseñas...", // NEW
+            "review_page.no_approved_reviews": "No hay reseñas aprobadas todavía.", // NEW
+            "review_page.fetch_reviews_error": "Error al cargar las reseñas. Por favor, inténtalo de nuevo más tarde.", // NEW
+            "footer.about_title": "Acerca de TechHaven",
+            "footer.about_text": "Tu destino único para PCs, componentes y accesorios informáticos de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
+            "footer.links_title": "Enlaces Útiles",
+            "footer.my_account": "Mi Cuenta",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Todos los derechos reservados."
+        },
+        de: {
+            "header.search_placeholder": "Suchen...",
+            "header.login": "Anmelden",
+            "header.cart": "Mein Warenkorb",
+            "header.greeting": "Hallo",
+            "header.logout_button": "Abmelden",
+            "nav.home": "Startseite",
+            "nav.pc": "PCs",
+            "nav.smartphones": "Smartphones",
+            "nav.smartthings": "Smart Things",
+            "nav.contact": "Kontakt",
+            "review_page.title": "TechHaven - Bewertung abgeben",
+            "review_page.heading": "Geben Sie Ihre Bewertung ab",
+            "review_page.intro": "Wir würden gerne von Ihrer Erfahrung mit TechHaven hören. Ihr Feedback hilft uns, uns zu verbessern!",
+            "review_form.name_label": "Ihr Name (optional):",
+            "review_form.name_placeholder": "Geben Sie Ihren Namen ein",
+            "review_form.review_label": "Ihre Bewertung (erforderlich):",
+            "review_form.review_placeholder": "Teilen Sie hier Ihre Erfahrung...",
+            "review_form.rating_label": "Ihre Bewertung:",
+            "review_form.photos_label": "Fotos hinzufügen (optional):",
+            "review_form.submit_button": "Bewertung absenden",
+            "review_form.success_message": "Vielen Dank für Ihre Bewertung! Ihr Beitrag wird sehr geschätzt. Ihre Bewertung wird nach Genehmigung sichtbar sein.", // Updated message
+            "review_form.review_required_alert": "Bitte schreiben Sie Ihre Bewertung, bevor Sie sie absenden.", // NEW
+            "review_form.submit_error_alert": "Fehler beim Absenden der Bewertung. Bitte versuchen Sie es erneut.", // NEW
+            "review_form.network_error_alert": "Es ist ein Netzwerkfehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung.", // NEW
+            "review_page.recent_reviews_heading": "Neueste Bewertungen", // NEW
+            "review_page.loading_reviews": "Bewertungen werden geladen...", // NEW
+            "review_page.no_approved_reviews": "Noch keine genehmigten Bewertungen.", // NEW
+            "review_page.fetch_reviews_error": "Fehler beim Laden der Bewertungen. Bitte versuchen Sie es später erneut.", // NEW
+            "footer.about_title": "Über TechHaven",
+            "footer.about_text": "Ihr One-Stop-Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
+            "footer.links_title": "Nützliche Links",
+            "footer.my_account": "Mein Konto",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Alle Rechte vorbehalten."
+        },
+         it: { // ITALIAN
+            "header.search_placeholder": "Cerca...",
+            "header.login": "Accedi",
+            "header.cart": "Il mio carrello",
+            "header.greeting": "Ciao",
+            "header.logout_button": "Esci",
+            "nav.home": "Home",
+            "nav.pc": "PC",
+            "nav.smartphones": "Smartphone",
+            "nav.smartthings": "Smart Things",
+            "nav.contact": "Contatti",
+            "review_page.title": "TechHaven - Invia una Recensione",
+            "review_page.heading": "Invia la tua recensione",
+            "review_page.intro": "Ci piacerebbe sentire la tua esperienza con TechHaven. Il tuo feedback ci aiuta a migliorare!",
+            "review_form.name_label": "Il tuo nome (opzionale):",
+            "review_form.name_placeholder": "Inserisci il tuo nome",
+            "review_form.review_label": "La tua recensione (obbligatorio):",
+            "review_form.review_placeholder": "Condividi qui la tua esperienza...",
+            "review_form.rating_label": "Il tuo voto:",
+            "review_form.photos_label": "Aggiungi foto (opzionale):",
+            "review_form.submit_button": "Invia recensione",
+            "review_form.success_message": "Grazie per la tua recensione! Il tuo contributo è molto apprezzato. La tua recensione sarà visibile dopo l'approvazione.", // Updated message
+            "review_form.review_required_alert": "Si prega di scrivere la recensione prima di inviare.", // NEW
+            "review_form.submit_error_alert": "Impossibile inviare la recensione. Riprova.", // NEW
+            "review_form.network_error_alert": "Si è verificato un errore di rete. Controlla la tua connessione internet.", // NEW
+            "review_page.recent_reviews_heading": "Recensioni Recenti", // NEW
+            "review_page.loading_reviews": "Caricamento recensioni...", // NEW
+            "review_page.no_approved_reviews": "Nessuna recensione approvata per il momento.", // NEW
+            "review_page.fetch_reviews_error": "Errore durante il caricamento delle recensioni. Riprova più tardi.", // NEW
+            "footer.about_title": "Informazioni su TechHaven",
+            "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire la migliore tecnologia e un servizio clienti eccezionale.",
+            "footer.links_title": "Link utili",
+            "footer.my_account": "Il mio account",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. Tutti i diritti riservati."
+        },
+        zh: { // CHINESE (Simplified)
+            "header.search_placeholder": "搜索...",
+            "header.login": "登录",
+            "header.cart": "我的购物车",
+            "header.greeting": "你好",
+            "header.logout_button": "退出",
+            "nav.home": "首页",
+            "nav.pc": "电脑",
+            "nav.smartphones": "智能手机",
+            "nav.smartthings": "智能设备",
+            "nav.contact": "联系我们",
+            "review_page.title": "TechHaven - 提交评论",
+            "review_page.heading": "提交您的评论",
+            "review_page.intro": "我们很乐意听取您在 TechHaven 的体验。您的反馈有助于我们改进！",
+            "review_form.name_label": "您的姓名（可选）：",
+            "review_form.name_placeholder": "输入您的姓名",
+            "review_form.review_label": "您的评论（必填）：",
+            "review_form.review_placeholder": "在此分享您的体验...",
+            "review_form.rating_label": "您的评分：",
+            "review_form.photos_label": "添加照片（可选）：",
+            "review_form.submit_button": "提交评论",
+            "review_form.success_message": "感谢您的评论！您的贡献受到高度赞赏。您的评论将在批准后可见。", // Updated message
+            "review_form.review_required_alert": "请在提交前编写评论。", // NEW
+            "review_form.submit_error_alert": "提交评论失败。请重试。", // NEW
+            "review_form.network_error_alert": "发生网络错误。请检查您的互联网连接。", // NEW
+            "review_page.recent_reviews_heading": "最新评论", // NEW
+            "review_page.loading_reviews": "正在加载评论...", // NEW
+            "review_page.no_approved_reviews": "暂无已批准评论。", // NEW
+            "review_page.fetch_reviews_error": "加载评论时出错。请稍后再试。", // NEW
+            "footer.about_title": "关于 TechHaven",
+            "footer.about_about": "您购买高品质电脑、组件和电脑配件的一站式目的地。我们致力于提供最好的技术和卓越的客户服务。", // Note: "about_about" should likely be "about_text"
+            "footer.links_title": "有用链接",
+            "footer.my_account": "我的账户",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. 保留所有权利。"
+        },
+        ja: {
+            "header.search_placeholder": "検索...",
+            "header.login": "ログイン",
+            "header.cart": "マイカート",
+            "header.greeting": "こんにちは",
+            "header.logout_button": "ログアウト",
+            "nav.home": "ホーム",
+            "nav.pc": "PC",
+            "nav.smartphones": "スマートフォン",
+            "nav.smartthings": "スマートデバイス",
+            "nav.contact": "お問い合わせ",
+            "review_page.title": "TechHaven - レビューを送信",
+            "review_page.heading": "レビューを送信",
+            "review_page.intro": "TechHavenでの体験をお聞かせください。皆様からのフィードバックは改善に役立ちます！",
+            "review_form.name_label": "お名前（任意）：",
+            "review_form.name_placeholder": "お名前を入力",
+            "review_form.review_label": "レビュー（必須）：",
+            "review_form.review_placeholder": "ここに体験を共有してください...",
+            "review_form.rating_label": "評価：",
+            "review_form.photos_label": "写真を追加（任意）：",
+            "review_form.submit_button": "レビューを送信",
+            "review_form.success_message": "レビューありがとうございます！貴重なご意見に感謝いたします。レビューは承認後に表示されます。", // Updated message
+            "review_form.review_required_alert": "送信する前にレビューを記入してください。", // NEW
+            "review_form.submit_error_alert": "レビューの送信に失敗しました。もう一度お試しください。", // NEW
+            "review_form.network_error_alert": "ネットワークエラーが発生しました。インターネット接続を確認してください。", // NEW
+            "review_page.recent_reviews_heading": "最近のレビュー", // NEW
+            "review_page.loading_reviews": "レビューを読み込み中...", // NEW
+            "review_page.no_approved_reviews": "まだ承認されたレビューはありません。", // NEW
+            "review_page.fetch_reviews_error": "レビューの読み込み中にエラーが発生しました。後でもう一度お試しください。", // NEW
+            "footer.about_title": "TechHavenについて",
+            "footer.about_text": "高品質なPC、コンポーネント、PCアクセサリーのワンストップショップです。最高の技術と優れた顧客サービスを提供することをお約束します。",
+            "footer.links_title": "役立つリンク",
+            "footer.my_account": "マイアカウント",
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> TechHaven. 無断転載を禁じます。"
+        }
+
+        // Add more languages as needed
+    };
+
+    let currentLang = localStorage.getItem('language') || 'fr'; // Get current language from localStorage or default to 'fr'
+
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[currentLang] && translations[currentLang][key]) {
+                element.textContent = translations[currentLang][key];
+            } else if (translations['fr'] && translations['fr'][key]) { // Fallback to French if current language key is missing
+                element.textContent = translations['fr'][key];
+            }
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            if (translations[currentLang] && translations[currentLang][key]) {
+                element.placeholder = translations[currentLang][key];
+            } else if (translations['fr'] && translations['fr'][key]) { // Fallback to French
+                element.placeholder = translations['fr'][key];
+            }
+        });
+        updateLoginUI(currentLang); // Update dynamic login UI with current language
+    }
+
+    // Language selector logic
+    const languageSelect = document.querySelector('.language-select');
+    if (languageSelect) {
+        languageSelect.value = currentLang; // Set initial selection
+        languageSelect.addEventListener('change', (event) => {
+            currentLang = event.target.value;
+            localStorage.setItem('language', currentLang);
+            applyTranslations(); // Re-apply translations for entire page
+        });
+    }
+
+    // --- USER LOGIN/LOGOUT UI ---
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const userControls = document.getElementById("user-controls");
+
+    function updateLoginUI(lang) {
+        if (currentUser) {
+            userControls.innerHTML = `
+                <div class="icon-button">
+                    <span class="icon">👋</span>
+                    <span class="text">${translations[lang]['header.greeting'] || translations['fr']['header.greeting']}, ${currentUser.prenom}</span>
+                </div>
+                <button onclick="logout()" style="
+                    margin-left: 10px;
+                    background-color: #ff5e5e;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                ">${translations[lang]['header.logout_button'] || translations['fr']['header.logout_button']}</button>
+            `;
+        } else {
+            userControls.innerHTML = `
+                <a href="login.html" class="icon-button">
+                    <span class="icon">👤</span>
+                    <span class="text">${translations[lang]['header.login'] || translations['fr']['header.login']}</span>
+                </a>
+            `;
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("role");
+        window.location.reload();
+    }
+
+    // --- Review Form Logic ---
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewerNameInput = document.getElementById('reviewerName');
+    const reviewTextInput = document.getElementById('reviewText');
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    const reviewPhotosInput = document.getElementById('reviewPhotos');
+    const fileUploadPreview = document.getElementById('fileUploadPreview');
+    const successMessage = document.getElementById('successMessage');
+    const reviewsListContainer = document.getElementById('reviewsListContainer');
+
+    // Function to handle file uploads preview
+    if (reviewPhotosInput && fileUploadPreview) {
+        reviewPhotosInput.addEventListener('change', function() {
+            fileUploadPreview.innerHTML = ''; // Clear previous previews
+            if (this.files.length === 0) {
+                fileUploadPreview.classList.add('empty');
+            } else {
+                fileUploadPreview.classList.remove('empty');
+                Array.from(this.files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = URL.createObjectURL(file);
+                        img.classList.add('review-media-thumbnail');
+                        fileUploadPreview.appendChild(img);
+                    }
+                });
+            }
+        });
+
+        // Initialize empty state if no files are selected initially
+        if (reviewPhotosInput.files.length === 0) {
+            fileUploadPreview.classList.add('empty');
+        }
+    }
+
+    // Function to convert a File to a Data URL (Base64)
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Function to fetch and display reviews from localStorage
+   async function fetchAndDisplayReviewsFromBackend() {
+    reviewsListContainer.innerHTML = `<p>${translations[currentLang]['review_page.loading_reviews'] || 'Chargement des avis...'}</p>`;
+
+    try {
+        const res = await fetch('http://localhost:5000/api/reviews/approved');
+        const reviews = await res.json();
+
+        reviewsListContainer.innerHTML = '';
+
+        if (reviews.length === 0) {
+            reviewsListContainer.innerHTML = `<p>${translations[currentLang]['review_page.no_reviews'] || 'Aucun avis disponible.'}</p>`;
+            return;
+        }
+
+        reviews.forEach(review => {
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('review-display-card');
+
+            let starsHtml = '';
+            for (let i = 0; i < 5; i++) {
+                starsHtml += `<span class="star ${i < review.rating ? 'filled' : ''}">★</span>`;
+            }
+
+            let mediaGalleryHtml = '';
+if (review.media && review.media.length > 0) {
+    mediaGalleryHtml = `<div class="review-media-gallery">
+        ${review.media.map(mediaItem => `
+            <img 
+              src="http://localhost:5000${mediaItem.filePath}" 
+              alt="media" 
+              class="review-media-thumbnail"
+            >`).join('')}
+    </div>`;
+}
+
+
+            reviewCard.innerHTML = `
+                <div class="reviewer-info">
+                    <span class="reviewer-name">${review.reviewerName}</span>
+                    <div class="review-rating">${starsHtml}</div>
+                </div>
+                <p class="review-text">${review.reviewText}</p>
+                ${mediaGalleryHtml}
+                <span class="review-date">${new Date(review.createdAt).toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US')}</span>
+            `;
+            reviewsListContainer.appendChild(reviewCard);
+        });
+
+    } catch (err) {
+        console.error("Erreur récupération des avis:", err);
+        reviewsListContainer.innerHTML = `<p>Erreur serveur.</p>`;
+    }
+}
+
+
+    // Handle form submission
+    reviewForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const reviewerName = reviewerNameInput.value.trim();
+    const reviewText = reviewTextInput.value.trim();
+    const selectedRating = document.querySelector('input[name="rating"]:checked');
+    const rating = selectedRating ? parseInt(selectedRating.value) : 0;
+
+    if (!reviewText) {
+        alert('Veuillez écrire votre avis avant de soumettre.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('reviewerName', reviewerName || 'Anonymous');
+    formData.append('reviewText', reviewText);
+    formData.append('rating', rating);
+
+    const files = Array.from(reviewPhotosInput.files);
+    for (const file of files) {
+        formData.append('reviewMedia', file); // 👈 Must match backend's field name
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/api/reviews', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            successMessage.style.display = 'block';
+            setTimeout(() => successMessage.style.display = 'none', 5000);
+
+            reviewForm.reset();
+            fileUploadPreview.innerHTML = '';
+            fileUploadPreview.classList.add('empty');
+
+            // 👉 Load from MongoDB
+            fetchAndDisplayReviewsFromBackend();
+        } else {
+            alert(result.message || 'Erreur lors de la soumission.');
+        }
+
+    } catch (error) {
+        console.error("Erreur lors de l'envoi de l'avis :", error);
+        alert("Erreur réseau ou serveur.");
+    }
+});
+
+
+    // --- Initial Load Logic ---
+    document.addEventListener('DOMContentLoaded', () => {
+        applyTranslations(); // Apply translations first
+        updateLoginUI(currentLang); // Then update login UI
+        fetchAndDisplayReviewsFromBackend();// Load and display existing reviews
+    });
+
+    // Example for current year in footer
+    const currentYearPlaceholder = document.getElementById('current-year');
+    if (currentYearPlaceholder) {
+        currentYearPlaceholder.textContent = new Date().getFullYear();
+    }
+    </script>
+</body>
+</html>

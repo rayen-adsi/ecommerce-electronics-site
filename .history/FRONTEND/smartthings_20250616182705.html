@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TecHaven - Produits SmartThings</title>
+    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+
+    <style>
+        /* Styles spécifiques à cette page, peuvent être fusionnés dans styles.css si désiré */
+        /* Ces styles sont pour le conteneur du contenu principal de la page pc.html */
+        .products-page-container {
+            max-width: 1200px;
+            margin: 20px auto; /* Centre le conteneur et ajoute de l'espace par rapport au header */
+            background-color: #1a1a2e; /* Fond blanc pour le contenu sur le thème sombre */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333; /* Couleur de texte par défaut pour le contenu blanc */
+        }
+
+        .products-page-container h1 {
+            text-align: center;
+            color: #ffffff; /* Couleur du titre des catégories */
+            margin-bottom: 40px;
+            font-size: 2.8em;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .loading-message, .error-message, .no-products-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* --- Grille des Produits --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 30px; /* Espace entre les cartes */
+            padding: 20px;
+        }
+
+        /* --- Carte Produit Individuelle --- */
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer; /* Indique que la carte est cliquable */
+            position: relative; /* Pour positionner le badge 'Out of Stock' */
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007bff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-card .price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+
+        /* Style pour "Out of Stock" */
+        .out-of-stock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+            border-radius: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none; /* Permet aux clics de passer à la carte sous-jacente */
+        }
+
+        /* Si le produit est en rupture de stock, l'image peut être légèrement estompée */
+        .product-card.out-of-stock img {
+            filter: grayscale(80%) opacity(70%);
+        }
+        .product-card.out-of-stock .product-card-content {
+            opacity: 0.7;
+        }
+
+        /* Media Queries pour la responsivité */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            .products-page-container h1 {
+                font-size: 2em;
+            }
+            .product-card h3 {
+                font-size: 1.3em;
+            }
+            .product-card .price {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .products-page-container {
+                padding: 15px;
+            }
+            .products-page-container h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="TechHaven Logo">
+        </a>
+
+        <div class="search-wrapper">
+            <input type="text" placeholder="Recherch">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div id="user-controls">
+            <a href="login.html" class="icon-button">
+                <span class="icon">👤</span>
+                <span class="text">Connexion</span>
+            </a>
+        </div>
+
+        <a href="cart.html" class="icon-button cart-button">
+            <span class="icon">🛒</span>
+            <span class="badge">0</span>
+            <span class="text">Mon Panier</span>
+        </a>
+
+        <div class="icon-button language-button">
+            <span class="icon">🌐</span>
+            <select class="language-select">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">TN العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+    </header>
+    <div class="products-page-page-container">
+        <a href="index.html" class="back-link">&larr; Retour à l'Accueil</a>
+    </div>
+    <div class="products-page-container">
+        <h1 id="category-title" style="margin-top: 0;">Notre Sélection de SmartThings</h1>
+        <div id="products-container" class="product-grid">
+            <p class="loading-message" id="loading-message">Chargement des produits...</p>
+        </div>
+    </div>
+    </script>
+<section id="customer-testimonials" class="customer-testimonials-section">
+        <h2 data-i18n="testimonials.title">Ce que nos clients satisfaits disent !</h2>
+        <p class="section-intro" data-i18n="testimonials.intro">Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <img src="./images/w0.jpeg" alt="Capture d'écran - Client satisfait 1" data-full-src="./images/w0.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w2.jpeg" alt="Capture d'écran - Client satisfait 2" data-full-src="./images/w2.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w1.jpeg" alt="Capture d'écran - Client satisfait 3" data-full-src="./images/w1.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w3.jpeg" alt="Capture d'écran - Client satisfait 4" data-full-src="./images/w3.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w4.jpeg" alt="Capture d'écran - Client satisfait 5" data-full-src="./images/w4.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w5.jpeg" alt="Capture d'écran - Client satisfait 6" data-full-src="./images/w5.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w6.jpeg" alt="Capture d'écran - Client satisfait 7" data-full-src="./images/w6.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w7.jpeg" alt="Capture d'écran - Client satisfait 8" data-full-src="./images/w7.jpeg">
+            </div>
+            <div class="testimonial-item">
+                <img src="./images/w8.jpeg" alt="Capture d'écran - Client satisfait 9" data-full-src="./images/w8.jpeg">
+            </div>
+        </div>
+        <p class="testimonials-note" data-i18n="testimonials.note">
+            *Pour des raisons de confidentialité, les noms et numéros ont été masqués sur les captures d'écran.
+        </p>
+        <a href="review.html" class="submit-review-button" data-i18n="testimonials.button">Partagez votre expérience !</a>
+    </section>
+    </section>
+    <script>
+        const API_URL = 'http://localhost:5000/api/products'; // Ensure this matches your backend API URL
+
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
+
+        if (currentUser) {
+            userControls.innerHTML = `
+                <div class="icon-button">
+                    <span class="icon">👋</span>
+                    <span class="text">Bonjour, ${currentUser.prenom}</span>
+                </div>
+                <button onclick="logout()" style="
+                    margin-left: 10px;
+                    background-color: #ff5e5e;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                ">Déconnexion</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
+        }
+    </script>
+
+    <script>
+        async function fetchAndDisplayProducts() {
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = '<p class="loading-message">Chargement des produits...</p>';
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const allProducts = await response.json();
+
+                // Filtration des produits pour n'afficher que ceux de la catégorie 'SmartThings'
+                const filteredProducts = allProducts.filter(product =>
+                    product.category && product.category.toLowerCase() === 'smartthings'
+                );
+
+                productsContainer.innerHTML = ''; // Efface le message de chargement
+
+                if (filteredProducts.length === 0) {
+                    productsContainer.innerHTML = '<p class="no-products-message">Aucun produit SmartThings trouvé pour le moment.</p>';
+                    return;
+                }
+
+                filteredProducts.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card');
+
+                    const isOutOfStock = product.quantity <= 0;
+                    if (isOutOfStock) {
+                        productCard.classList.add('out-of-stock');
+                    }
+
+                    productCard.onclick = () => {
+                        window.location.href = `product-detail.html?id=${product._id}`;
+                    };
+
+                    const imageUrl = product.images && product.images.length > 0
+                        ? `http://localhost:5000${product.images[0]}`
+                        : 'https://via.placeholder.com/200x200?text=Image+Produit';
+
+                    const outOfStockOverlay = isOutOfStock ? `<div class="out-of-stock-overlay">Rupture de Stock</div>` : '';
+
+                    productCard.innerHTML = `
+                        ${outOfStockOverlay}
+                        <img src="${imageUrl}" alt="${product.name}">
+                        <div class="product-card-content">
+                            <h3>${product.name}</h3>
+                            <p class="price">${product.price.toFixed(2)}TND</p>
+                        </div>
+                    `;
+                    productsContainer.appendChild(productCard);
+                });
+
+            } catch (error) {
+                console.error('Erreur lors de la récupération et de l\'affichage des produits :', error);
+                productsContainer.innerHTML = `<p class="error-message">Erreur lors du chargement des produits. Veuillez réessayer plus tard ou contacter le support.</p>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayProducts);
+    </script>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>À Propos de TecHaven</h3>
+                <p>Votre destination unique pour des PCs, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="pc.html">PCs</a></li>
+                    <li><a href="smartphones.html">Smartphones</a></li>
+                    <li><a href="smartthings.html">Smart Things</a></li>
+                    <li><a href="login.html"></a></li>
+                    <li><a href="#">Panier</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contactez-nous</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
+                <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><img src="images/f.jpg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                <a href="#"><img src="images/w.png" alt="WhatsApp" style="width: 24px; height: 24px;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> TecHaven. Tous droits réservés.
+        </div>
+    </footer>
+    <script src="js/cart.js"></script>
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <script>
+        // ... (your existing slider JavaScript) ...
+
+        // --- NEW: Lightbox Functionality ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const closeBtn = document.getElementsByClassName('lightbox-close')[0];
+
+        // Get all testimonial images
+        const testimonialImages = document.querySelectorAll('.testimonial-item img');
+
+        testimonialImages.forEach(img => {
+            img.addEventListener('click', function() {
+                lightbox.style.display = 'block';
+                // Use data-full-src for the lightbox image, fall back to src if not defined
+                lightboxImg.src = this.dataset.fullSrc || this.src;
+                lightboxCaption.innerHTML = this.alt; // Use alt text as caption
+            });
+        });
+
+        // Close the lightbox when the close button is clicked
+        closeBtn.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+        });
+
+        // Close the lightbox when clicking outside the image (but not on the image itself)
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) { // Only close if the click is on the background
+                lightbox.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
