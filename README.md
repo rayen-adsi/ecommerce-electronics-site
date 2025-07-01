@@ -1,31 +1,58 @@
-# 🛍️ Order & Review Management App
+# ⚡ ElectroMart – E-Commerce Website for Electronic Products
 
-## 🚀 Project Description
-A full-stack web app that allows users to place orders and write reviews with media uploads, and gives admins control to manage orders and moderate reviews.
+ElectroMart is a fully functional e-commerce platform built during my internship to showcase the purchase and management of electronic products including PCs, smartphones, and smart devices.
 
-## 🌐 Technologies Used
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express
-- Database: MongoDB
-- File Uploads: Multer
+This project covers everything from product display to order processing, admin management, and review systems.
 
-## ✨ Features
-- User login + password reset
-- Order submission & status update
-- Review form with image upload & approval system
-- Admin dashboard
-- LocalStorage + MongoDB integration
+## 📦 Features
 
-## 📦 How to Run Locally
+### 👨‍💻 Frontend
+- Responsive UI with HTML, CSS, JavaScript
+- Product listing and detail pages
+- Shopping cart with quantity management
+- Review submission with media preview
+- Order placement with payment summary
+- Password reset & user authentication
 
+### 🔧 Backend (Node.js + Express)
+- RESTful API structure
+- MongoDB for database management
+- User registration and login (with password hashing)
+- Order management (status updates)
+- Admin panel to manage products, users, orders
+- Review system with media uploads
+- Email-based password reset functionality
+
+## 🛠 Technologies Used
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB (Mongoose)
+- **Security**: bcrypt, JWT
+- **Media Uploads**: Multer
+- **Templating & Layouts**: HTML templates
+- **Other**: GitHub, REST API
+
+## 📂 Folder Structure
+.
+├── backend/
+│ ├── models/ # Mongoose schemas (Users, Products, Orders, Reviews)
+│ ├── routes/ # API routes
+│ ├── uploads/ # Uploaded images/reviews
+│ └── server.js # Main Express app
+├── frontend/
+│ ├── index.html # Homepage
+│ ├── pc.html
+│ ├── smarthones.html
+│ ├── smarthings.html
+| ├──product-detail.html
+│ ├── cart.html # Cart page
+│ └── js/ # JavaScript files
+├── README.md
+└── .gitignore
+## 🚀 Getting Started
+
+### 1. Clone the repo
 ```bash
-# 1. Clone the repo
-git clone https://github.com/yourusername/your-repo-name
-
-# 2. Backend
-cd backend
-npm install
-node server.js
-
-# 3. Frontend
-Open frontend/index.html in your browser
+git clone https://github.com/rayen-adsi/ecommerce-electronics-site
+cd electromart
