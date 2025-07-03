@@ -195,6 +195,40 @@ app.post('/api/orders', async (req, res) => {
     }
 });
 
+// Route pour ajouter un nouveau produit
+app.post('/api/products', uploadProductMedia.fields([
+    { name: 'productImages', maxCount: 10 }, // Accepte jusqu'à 10 images
+    { name: 'productVideos', maxCount: 5 }   // Accepte jusqu'à 5 vidéos
+]), async (req, res) => {
+    try {
+        // Récupération des données du formulaire
+        const { name, description, characteristics, price, oldPrice, quantity, category } = req.body;
+
+        // Récupérer les chemins des fichiers téléchargés par Multer
+        const imagePaths = req.files['productImages'] ? req.files['productImages'].map(file => `/uploads/${file.filename}`) : [];
+        const videoPaths = req.files['productVideos'] ? req.files['productVideos'].map(file => `/uploads/${file.filename}`) : [];
+
+        const newProduct = new Product({
+            name,
+            description,
+            characteristics: characteristics ? JSON.parse(characteristics) : [],
+            price: parseFloat(price),
+            oldPrice: oldPrice ? parseFloat(oldPrice) : null,
+            quantity: parseInt(quantity),
+            images: imagePaths,
+            videos: videoPaths,
+            category: category || 'Autre'
+        });
+
+        await newProduct.save();
+        res.status(201).json(newProduct);
+
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout du produit :', error);
+        res.status(500).json({ message: 'Erreur serveur lors de l\'ajout du produit', error: error.message });
+    }
+});
+
 
 // Route pour récupérer tous les produits
 app.get('/api/products', async (req, res) => {

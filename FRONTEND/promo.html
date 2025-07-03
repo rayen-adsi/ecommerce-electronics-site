@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>TecHaven - Produits Smartphone</title>
+    <title>TecHaven - Offres de la Semaine</title>
     <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png"> <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
@@ -259,7 +259,7 @@
     </div>
 
     <div class="products-page-container">
-        <h1 id="category-title" style="margin-top: 0;" data-i18n="category.SmartThings_title">Notre Sélection de SmartThings</h1>
+        <h1 id="category-title" style="margin-top: 0;" data-i18n="category.pc_title">Nos Offre De La Semaine</h1>
         <div id="products-container" class="product-grid">
             <p class="loading-message" id="loading-message" data-i18n="loading_products">Chargement des produits...</p>
         </div>
@@ -297,7 +297,7 @@
                 <img src="./images/w8.jpeg" alt="Capture d'écran - Client satisfait 9" data-full-src="./images/w8.jpeg">
             </div>
         </div>
-       
+    
         <a href="review.html" class="submit-review-button" data-i18n="testimonials.button">Partagez votre expérience !</a>
     </section>
 
@@ -351,309 +351,280 @@
         let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
 
         // COMPLETE TRANSLATIONS OBJECT
-   // js/translations.js
-
-const translations = {
-    fr: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "search.placeholder": "Rechercher...",
-        "login.text": "Connexion",
-        "logout.text": "Déconnexion",
-        "cart.text": "Mon Panier",
-        "greeting.text": "Bonjour",
-        "no_results_message": "Aucun résultat trouvé.",
-        "product_card.add_to_cart": "Ajouter au Panier",
-        "product_card.out_of_stock": "Hors Stock", // General "Out of Stock" (shorter)
-        "back_to_home": "← Retour à l'Accueil",
-        "loading_products": "Chargement des produits...",
-        "error_loading_products": "Erreur lors du chargement des produits. Veuillez réessayer plus tard ou contacter le support.",
-        "testimonials.title": "Ce que nos clients satisfaits disent !",
-        "testimonials.intro": "Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.",
-        "testimonials.note": "*Pour des raisons de confidentialité, les noms et numéros ont été masqués sur les captures d'écran.",
-        "testimonials.button": "Partagez votre expérience !",
-        "footer.about_title": "À Propos de TecHaven",
-        "footer.about_text": "Votre destination unique pour des PCs, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
-        "footer.links_title": "Liens Utiles",
-        "nav.home": "Accueil",
-        "nav.pcs": "PCs",
-        "nav.smartphones": "Smartphones",
-        "nav.smart_things": "Smart Things", // Nav link for Smart Things
-        "nav.promo": "page de promo",
-        "nav.my_account": "",
-        "nav.cart": "Panier",
-        "footer.contact_title": "Contactez-nous",
-        "footer.address": "123 Rue de la Tech, Tunis, Tunisie",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "TecHaven. Tous droits réservés.",
-
-        // --- SmartThings Page Specific Translations ---
-        "page.SmartThings_title": "TecHaven - SmartThings", // Matches the page title
-        "category.SmartThings_title": "Notre Sélection de SmartThings", // Matches the category title
-        "no_products_found": "Aucun produit SmartThings trouvé pour le moment.", // Specific message for SmartThings page when no products are found
-        "product_card.out_of_stock_long": "Rupture de Stock" // For the overlay on product cards
-    },
-    en: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - SmartThings",
-        "search.placeholder": "Search...",
-        "login.text": "Login",
-        "logout.text": "Logout",
-        "cart.text": "My Cart",
-        "greeting.text": "Hello",
-        "no_results_message": "No results found.",
-        "product_card.add_to_cart": "Add to Cart",
-        "product_card.out_of_stock": "Out of Stock", // General "Out of Stock" (shorter)
-        "back_to_home": "← Back to Home",
-        "category.SmartThings_title": "Our SmartThings Selection",
-        "loading_products": "Loading products...",
-        "no_products_found": "No SmartThings found at the moment.", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "Error loading products. Please try again later or contact support.",
-        "testimonials.title": "What our satisfied customers say!",
-        "testimonials.intro": "Authentic conversations that speak for themselves. Discover why our customers love TechHaven.",
-        "testimonials.note": "*For privacy reasons, names and numbers have been masked in screenshots.",
-        "testimonials.button": "Share Your Experience!",
-        "footer.about_title": "About TecHaven",
-        "footer.about_text": "Your one-stop destination for high-quality PCs, components, and computer accessories. We are committed to delivering the best technology and exceptional customer service.",
-        "footer.links_title": "Useful Links",
-        "nav.home": "Home",
-        "nav.pcs": "PCs",
-        "nav.smartphones": "Smartphones",
-        "nav.smart_things": "Smart Things", // Nav link for Smart 
-        "nav.promo": "Promo page",
-        "nav.my_account": "My Account",
-        "nav.cart": "Cart",
-        "footer.contact_title": "Contact Us",
-        "footer.address": "123 Tech Street, Tunis, Tunisia",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "All rights reserved.",
-        "product_card.out_of_stock_long": "Out of Stock" // For the overlay on product cards
-    },
-    ar: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "تيك هافن - الأجهزة الذكية",
-        "search.placeholder": "بحث...",
-        "login.text": "تسجيل الدخول",
-        "logout.text": "تسجيل الخروج",
-        "cart.text": "سلتي",
-        "greeting.text": "مرحباً",
-        "no_results_message": "لم يتم العثور على نتائج.",
-        "product_card.add_to_cart": "أضف إلى السلة",
-        "product_card.out_of_stock": "نفدت الكمية", // General "Out of Stock" (shorter)
-        "back_to_home": "← العودة إلى الرئيسية",
-        "category.SmartThings_title": "مجموعتنا من الأجهزة الذكية",
-        "loading_products": "جاري تحميل المنتجات...",
-        "no_products_found": "لم يتم العثور على أي أجهزة ذكية في الوقت الحالي.", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "حدث خطأ أثناء تحميل المنتجات. يرجى المحاولة مرة أخرى لاحقًا أو الاتصال بالدعم.",
-        "testimonials.title": "ماذا يقول عملاؤنا الراضون!",
-        "testimonials.intro": "محادثات حقيقية تتحدث عن نفسها. اكتشف لماذا يحب عملاؤنا TechHaven.",
-        "testimonials.note": "*لأسباب تتعلق بالخصوصية، تم إخفاء الأسماء والأرقام في لقطات الشاشة.",
-        "testimonials.button": "شارك تجربتك!",
-        "footer.about_title": "عن TecHaven",
-        "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
-        "footer.links_title": "روابط مفيدة",
-        "nav.home": "الرئيسية",
-        "nav.pcs": "أجهزة الكمبيوتر",
-        "nav.smartphones": "الهواتف الذكية",
-        "nav.smart_things": "الأجهزة الذكية", // Nav link for Smart Things
-        "nav.promo": "صفحة العروض",
-        "nav.my_account": "حسابي",
-        "nav.cart": "السلة",
-        "footer.contact_title": "اتصل بنا",
-        "footer.address": "123 شارع التكنولوجيا، تونس، تونس",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "جميع الحقوق محفوظة.",
-        "product_card.out_of_stock_long": "نفدت الكمية" // For the overlay on product cards
-    },
-    es: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - SmartThings",
-        "search.placeholder": "Buscar...",
-        "login.text": "Iniciar Sesión",
-        "logout.text": "Cerrar Sesión",
-        "cart.text": "Mi Carrito",
-        "greeting.text": "Hola",
-        "no_results_message": "No se encontraron resultados.",
-        "product_card.add_to_cart": "Añadir al Carrito",
-        "product_card.out_of_stock": "Agotado", // General "Out of Stock" (shorter)
-        "back_to_home": "← Volver al Inicio",
-        "category.SmartThings_title": "Nuestra Selección de SmartThings",
-        "loading_products": "Cargando productos...",
-        "no_products_found": "No se encontraron SmartThings por el momento.", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "Error al cargar los productos. Por favor, inténtelo de nuevo más tarde o contacte con soporte.",
-        "testimonials.title": "¡Lo que dicen nuestros clientes satisfechos!",
-        "testimonials.intro": "Conversaciones auténticas que hablan por sí solas. Descubra por qué nuestros clientes adoran TechHaven.",
-        "testimonials.note": "*Por razones de privacidad, los nombres y números han sido enmascarados en las capturas de pantalla.",
-        "testimonials.button": "¡Comparta su experiencia!",
-        "footer.about_title": "Acerca de TecHaven",
-        "footer.about_text": "Su destino único para PCs, componentes y accesorios de informática de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
-        "footer.links_title": "Enlaces Útiles",
-        "nav.home": "Inicio",
-        "nav.pcs": "PCs",
-        "nav.smartphones": "Smartphones",
-        "nav.smart_things": "Smart Things", // Nav link for Smart Things
-        "nav.promo":"Página de promociones",
-        "nav.my_account": "Mi Cuenta",
-        "nav.cart": "Carrito",
-        "footer.contact_title": "Contáctenos",
-        "footer.address": "123 Calle de la Tecnología, Túnez, Túnez",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "Todos los derechos reservados.",
-        "product_card.out_of_stock_long": "Agotado" // For the overlay on product cards
-    },
-    de: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - SmartThings",
-        "search.placeholder": "Suchen...",
-        "login.text": "Anmelden",
-        "logout.text": "Abmelden",
-        "cart.text": "Mein Warenkorb",
-        "greeting.text": "Hallo",
-        "no_results_message": "Keine Ergebnisse gefunden.",
-        "product_card.add_to_cart": "In den Warenkorb",
-        "product_card.out_of_stock": "Nicht auf Lager", // General "Out of Stock" (shorter)
-        "back_to_home": "← Zurück zur Startseite",
-        "category.SmartThings_title": "Unsere SmartThings-Auswahl",
-        "loading_products": "Produkte werden geladen...",
-        "no_products_found": "Derzeit wurden keine SmartThings gefunden.", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "Fehler beim Laden der Produkte. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support.",
-        "testimonials.title": "Was unsere zufriedenen Kunden sagen!",
-        "testimonials.intro": "Authentische Gespräche, die für sich sprechen. Entdecken Sie, warum unsere Kunden TechHaven lieben.",
-        "testimonials.note": "*Aus Datenschutzgründen wurden Namen und Nummern in den Screenshots maskiert.",
-        "testimonials.button": "Teilen Sie Ihre Erfahrung!",
-        "footer.about_title": "Über TecHaven",
-        "footer.about_text": "Ihr einziges Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
-        "footer.links_title": "Nützliche Links",
-        "nav.home": "Startseite",
-        "nav.pcs": "PCs",
-        "nav.smartphones": "Smartphones",
-        "nav.smart_things": "Smart Things", // Nav link for Smart Things
-        "nav.promo":"Angebotsseite",
-        "nav.my_account": "Mein Konto",
-        "nav.cart": "Warenkorb",
-        "footer.contact_title": "Kontaktieren Sie uns",
-        "footer.address": "123 Tech-Straße, Tunis, Tunesien",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "Alle Rechte vorbehalten.",
-        "product_card.out_of_stock_long": "Nicht auf Lager" // For the overlay on product cards
-    },
-    it: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - SmartThings",
-        "search.placeholder": "Cerca...",
-        "login.text": "Accedi",
-        "logout.text": "Esci",
-        "cart.text": "Il Mio Carrello",
-        "greeting.text": "Ciao",
-        "no_results_message": "Nessun risultato trovato.",
-        "product_card.add_to_cart": "Aggiungi al Carrello",
-        "product_card.out_of_stock": "Esaurito", // General "Out of Stock" (shorter)
-        "back_to_home": "← Torna alla Home",
-        "category.SmartThings_title": "La Nostra Selezione di SmartThings",
-        "loading_products": "Caricamento prodotti...",
-        "no_products_found": "Nessun prodotto SmartThings trovato al momento.", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "Errore durante il caricamento dei prodotti. Riprova più tardi o contatta l'assistenza.",
-        "testimonials.title": "Cosa dicono i nostri clienti soddisfatti!",
-        "testimonials.intro": "Conversazioni autentiche che parlano da sole. Scopri perché i nostri clienti amano TechHaven.",
-        "testimonials.note": "*Per motivi di privacy, nomi e numeri sono stati mascherati negli screenshot.",
-        "testimonials.button": "Condividi la Tua Esperienza!",
-        "footer.about_title": "Riguardo TecHaven",
-        "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire le migliori tecnologie e un servizio clienti eccezionale.",
-        "footer.links_title": "Link Utili",
-        "nav.home": "Home",
-        "nav.pcs": "PC",
-        "nav.smartphones": "Smartphones",
-        "nav.smart_things": "Smart Things", // Nav link for Smart Things
-        "nav.promo":"Pagina promozioni",
-        "nav.my_account": "Il Mio Account",
-        "nav.cart": "Carrello",
-        "footer.contact_title": "Contattaci",
-        "footer.address": "123 Via della Tech, Tunisi, Tunisia",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "Tutti i diritti riservati.",
-        "product_card.out_of_stock_long": "Esaurito" // For the overlay on product cards
-    },
-    zh: { // Simplified Chinese
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - 智能设备",
-        "search.placeholder": "搜索...",
-        "login.text": "登录",
-        "logout.text": "退出",
-        "cart.text": "我的购物车",
-        "greeting.text": "您好",
-        "no_results_message": "未找到结果。",
-        "product_card.add_to_cart": "添加到购物车",
-        "product_card.out_of_stock": "缺货", // General "Out of Stock" (shorter)
-        "back_to_home": "← 返回首页",
-        "category.SmartThings_title": "我们的智能设备精选",
-        "loading_products": "正在加载产品...",
-        "no_products_found": "目前未找到任何智能设备产品。", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "加载产品时出错。请稍后重试或联系支持。",
-        "testimonials.title": "我们满意客户的评价！",
-        "testimonials.intro": "真实的对话不言而喻。了解为什么我们的客户喜爱 TechHaven。",
-        "testimonials.note": "*出于隐私原因，截图中已隐藏姓名和号码。",
-        "testimonials.button": "分享您的体验！",
-        "footer.about_title": "关于 TecHaven",
-        "footer.about_text": "您购买高质量电脑、组件和电脑配件的一站式目的地。我们致力于提供最优质的技术和卓越的客户服务。",
-        "footer.links_title": "有用链接",
-        "nav.home": "首页",
-        "nav.pcs": "电脑",
-        "nav.smartphones": "智能手机",
-        "nav.smart_things": "智能设备", // Nav link for Smart Things
-        "nav.promo":"促销页面",
-        "nav.my_account": "我的账户",
-        "nav.cart": "购物车",
-        "footer.contact_title": "联系我们",
-        "footer.address": "突尼斯，突尼斯，科技路123号",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "保留所有权利。",
-        "product_card.out_of_stock_long": "缺货" // For the overlay on product cards
-    },
-    ja: {
-        // --- General/Header/Footer Translations (consistent across pages) ---
-        "page.SmartThings_title": "TecHaven - スマートデバイス",
-        "search.placeholder": "検索...",
-        "login.text": "ログイン",
-        "logout.text": "ログアウト",
-        "cart.text": "マイカート",
-        "greeting.text": "こんにちは",
-        "no_results_message": "結果が見つかりませんでした。",
-        "product_card.add_to_cart": "カートに追加",
-        "product_card.out_of_stock": "在庫切れ", // General "Out of Stock" (shorter)
-        "back_to_home": "← ホームに戻る",
-        "category.SmartThings_title": "スマートデバイスのセレクション",
-        "loading_products": "商品を読み込み中...",
-        "no_products_found": "現在、スマートデバイス製品は見つかりませんでした。", // Specific message for SmartThings page when no products are found
-        "error_loading_products": "商品の読み込み中にエラーが発生しました。後でもう一度お試しいただくか、サポートにお問い合わせください。",
-        "testimonials.title": "お客様の声！",
-        "testimonials.intro": "お客様の率直なご意見です。なぜお客様がTechHavenを愛用しているのかをご覧ください。",
-        "testimonials.note": "※プライバシー保護のため、スクリーンショットの氏名と番号はマスクされています。",
-        "testimonials.button": "あなたの体験を共有してください！",
-        "footer.about_title": "TecHavenについて",
-        "footer.about_text": "高品質なPC、コンポーネント、コンピュータアクセサリーのワンストップショップです。最高の技術と優れた顧客サービスを提供することをお約束します。",
-        "footer.links_title": "便利なリンク",
-        "nav.home": "ホーム",
-        "nav.pcs": "PC",
-        "nav.smartphones": "スマートフォン",
-        "nav.smart_things": "スマートデバイス", // Nav link for Smart Things
-        "nav.promo":"プロモーションページ",
-        "nav.my_account": "マイアカウント",
-        "nav.cart": "カート",
-        "footer.contact_title": "お問い合わせ",
-        "footer.address": "チュニス、テック通り123番地、チュニジア",
-        "footer.phone": "+41 76 757 64 30",
-        "footer.email": "techaven03@gmail.com",
-        "footer.copyright": "全著作権所有。",
-        "product_card.out_of_stock_long": "在庫切れ" // For the overlay on product cards
-    }
-};
-
+        const translations = {
+            fr: {
+                "search.placeholder": "Rechercher...",
+                "login.text": "Connexion",
+                "logout.text": "Déconnexion",
+                "cart.text": "Mon Panier",
+                "greeting.text": "Bonjour",
+                "no_results_message": "Aucun résultat trouvé.", // For search bar suggestions
+                "product_card.add_to_cart": "Ajouter au panier",
+                "product_card.out_of_stock": "Rupture de Stock",
+                "back_to_home": "← Retour à l'Accueil",
+                "category.promo_title": "Nos Offre De La Semaine",
+                "loading_products": "Chargement des produits...",
+                "no_products_found": "Aucun produit PC trouvé pour le moment.",
+                "error_loading_products": "Erreur lors du chargement des produits. Veuillez réessayer plus tard ou contacter le support.",
+                "testimonials.title": "Ce que nos clients satisfaits disent !",
+                "testimonials.intro": "Des conversations authentiques qui parlent d'elles-mêmes. Découvrez pourquoi nos clients adorent TechHaven.",
+                "testimonials.note": "*Pour des raisons de confidentialité, les noms et numéros ont été masqués sur les captures d'écran.",
+                "testimonials.button": "Partagez votre expérience !",
+                "footer.about_title": "À Propos de TecHaven",
+                "footer.about_text": "Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
+                "footer.links_title": "Liens Utiles",
+                "nav.home": "Accueil",
+                "nav.pcs": "PCs",
+                "nav.smartphones": "Smartphones",
+                "nav.smart_things": "Smart Things",
+                "nav.promo": "page de promo",
+                "nav.my_account": "",
+                "nav.cart": "Panier",
+                "footer.contact_title": "Contactez-nous",
+                "footer.address": "123 Rue de la Tech, Tunis, Tunisie",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "Tous droits réservés." // Will be handled dynamically for year
+            },
+            en: {
+                "search.placeholder": "Search...",
+                "login.text": "Login",
+                "logout.text": "Logout",
+                "cart.text": "My Cart",
+                "greeting.text": "Hello",
+                "no_results_message": "No results found.",
+                "product_card.add_to_cart": "Add to Cart",
+                "product_card.out_of_stock": "Out of Stock",
+                "back_to_home": "← Back to Home",
+                "category.promo_title": "This Week's Offers",
+                "loading_products": "Loading products...",
+                "no_products_found": "No PC products found at the moment.",
+                "error_loading_products": "Error loading products. Please try again later or contact support.",
+                "testimonials.title": "What Our Satisfied Customers Say!",
+                "testimonials.intro": "Authentic conversations that speak for themselves. Discover why our customers love TechHaven.",
+                "testimonials.note": "*For privacy reasons, names and numbers have been masked in the screenshots.",
+                "testimonials.button": "Share Your Experience!",
+                "footer.about_title": "About TecHaven",
+                "footer.about_text": "Your unique destination for high-quality PCs, components, and computer accessories. We are committed to offering the best technology and exceptional customer service.",
+                "footer.links_title": "Useful Links",
+                "nav.home": "Home",
+                "nav.pcs": "PCs",
+                "nav.smartphones": "Smartphones",
+                "nav.smart_things": "Smart Things",
+                "nav.promo": "Promo page",
+                "nav.my_account": "My Account",
+                "nav.cart": "Cart",
+                "footer.contact_title": "Contact Us",
+                "footer.address": "123 Tech Street, Tunis, Tunisia",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "All rights reserved."
+            },
+            ar: {
+                "search.placeholder": "بحث...",
+                "login.text": "تسجيل الدخول",
+                "logout.text": "تسجيل الخروج",
+                "cart.text": "سلتي",
+                "greeting.text": "مرحباً",
+                "no_results_message": "لم يتم العثور على نتائج.",
+                "product_card.add_to_cart": "أضف إلى السلة",
+                "product_card.out_of_stock": "نفدت الكمية",
+                "back_to_home": "← العودة إلى الرئيسية",
+                "category.promo_title":"عروضنا لهذا الأسبوع",
+                "loading_products": "جارٍ تحميل المنتجات...",
+                "no_products_found": "لم يتم العثور على منتجات لأجهزة الكمبيوتر في الوقت الحالي.",
+                "error_loading_products": "حدث خطأ أثناء تحميل المنتجات. الرجاء المحاولة مرة أخرى لاحقًا أو الاتصال بالدعم.",
+                "testimonials.title": "ماذا يقول عملاؤنا الراضون!",
+                "testimonials.intro": "محادثات حقيقية تتحدث عن نفسها. اكتشف لماذا يحب عملاؤنا TecHaven.",
+                "testimonials.note": "*لأسباب تتعلق بالخصوصية، تم إخفاء الأسماء والأرقام في لقطات الشاشة.",
+                "testimonials.button": "شارك تجربتك!",
+                "footer.about_title": "حول TecHaven",
+                "footer.about_text": "وجهتك الفريدة لأجهزة الكمبيوتر عالية الجودة والمكونات وملحقات الكمبيوتر. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
+                "footer.links_title": "روابط مفيدة",
+                "nav.home": "الرئيسية",
+                "nav.pcs": "أجهزة الكمبيوتر",
+                "nav.smartphones": "الهواتف الذكية",
+                "nav.smart_things": "الأشياء الذكية",
+                "nav.promo": "صفحة العروض",
+                "nav.my_account": "حسابي",
+                "nav.cart": "السلة",
+                "footer.contact_title": "اتصل بنا",
+                "footer.address": "123 شارع التكنولوجيا، تونس، تونس",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "جميع الحقوق محفوظة."
+            },
+          es: {
+                "search.placeholder": "Buscar...",
+                "login.text": "Iniciar Sesión",
+                "logout.text": "Cerrar Sesión",
+                "cart.text": "Mi Carrito",
+                "greeting.text": "Hola",
+                "no_results_message": "No se encontraron resultados.",
+                "product_card.add_to_cart": "Añadir al Carrito",
+                "product_card.out_of_stock": "Agotado",
+                "back_to_home": "← Volver al Inicio",
+                "category.promo_title": "Nuestras ofertas de la semana",
+                "loading_products": "Cargando productos...",
+                "no_products_found": "No se encontraron productos de PC por el momento.",
+                "error_loading_products": "Error al cargar los productos. Por favor, inténtelo de nuevo más tarde o contacte con soporte.",
+                "testimonials.title": "¡Lo que dicen nuestros clientes satisfechos!",
+                "testimonials.intro": "Conversaciones auténticas que hablan por sí solas. Descubra por qué nuestros clientes adoran TechHaven.",
+                "testimonials.note": "*Por razones de privacidad, los nombres y números han sido enmascarados en las capturas de pantalla.",
+                "testimonials.button": "¡Comparta su experiencia!",
+                "footer.about_title": "Acerca de TecHaven",
+                "footer.about_text": "Su destino único para PCs, componentes y accesorios de informática de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
+                "footer.links_title": "Enlaces Útiles",
+                "nav.home": "Inicio",
+                "nav.pcs": "PCs",
+                "nav.smartphones": "Smartphones",
+                "nav.smart_things": "Smart Things",
+                "nav.promo":"Página de promociones",
+                "nav.my_account": "Mi Cuenta",
+                "nav.cart": "Carrito",
+                "footer.contact_title": "Contáctenos",
+                "footer.address": "123 Calle de la Tecnología, Túnez, Túnez",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "Todos los derechos reservados."
+            },
+            de: {
+                "search.placeholder": "Suchen...",
+                "login.text": "Anmelden",
+                "logout.text": "Abmelden",
+                "cart.text": "Mein Warenkorb",
+                "greeting.text": "Hallo",
+                "no_results_message": "Keine Ergebnisse gefunden.",
+                "product_card.add_to_cart": "In den Warenkorb",
+                "product_card.out_of_stock": "Nicht auf Lager",
+                "back_to_home": "← Zurück zur Startseite",
+                "category.promo_title": "Unsere Angebote der Woche",
+                "loading_products": "Produkte werden geladen...",
+                "no_products_found": "Derzeit wurden keine PC-Produkte gefunden.",
+                "error_loading_products": "Fehler beim Laden der Produkte. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support.",
+                "testimonials.title": "Was unsere zufriedenen Kunden sagen!",
+                "testimonials.intro": "Authentische Gespräche, die für sich sprechen. Entdecken Sie, warum unsere Kunden TechHaven lieben.",
+                "testimonials.note": "*Aus Datenschutzgründen wurden Namen und Nummern in den Screenshots maskiert.",
+                "testimonials.button": "Teilen Sie Ihre Erfahrung!",
+                "footer.about_title": "Über TecHaven",
+                "footer.about_text": "Ihr einzigartiges Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
+                "footer.links_title": "Nützliche Links",
+                "nav.home": "Startseite",
+                "nav.pcs": "PCs",
+                "nav.smartphones": "Smartphones",
+                "nav.smart_things": "Smart Things",
+                "nav.promo":"Angebotsseite",
+                "nav.my_account": "Mein Konto",
+                "nav.cart": "Warenkorb",
+                "footer.contact_title": "Kontaktieren Sie uns",
+                "footer.address": "123 Tech-Straße, Tunis, Tunesien",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "Alle Rechte vorbehalten."
+            },
+            it: {
+                "search.placeholder": "Cerca...",
+                "login.text": "Accedi",
+                "logout.text": "Esci",
+                "cart.text": "Il Mio Carrello",
+                "greeting.text": "Ciao",
+                "no_results_message": "Nessun risultato trovato.",
+                "product_card.add_to_cart": "Aggiungi al Carrello",
+                "product_card.out_of_stock": "Esaurito",
+                "back_to_home": "← Torna alla Home",
+                "category.promo_title": "Le nostre offerte della settimana",
+                "loading_products": "Caricamento prodotti...",
+                "no_products_found": "Nessun prodotto PC trovato al momento.",
+                "error_loading_products": "Errore durante il caricamento dei prodotti. Riprova più tardi o contatta l'assistenza.",
+                "testimonials.title": "Cosa dicono i nostri clienti soddisfatti!",
+                "testimonials.intro": "Conversazioni autentiche che parlano da sole. Scopri perché i nostri clienti amano TechHaven.",
+                "testimonials.note": "*Per motivi di privacy, nomi e numeri sono stati mascherati negli screenshot.",
+                "testimonials.button": "Condividi la Tua Esperienza!",
+                "footer.about_title": "Riguardo TecHaven",
+                "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire le migliori tecnologie e un servizio clienti eccezionale.",
+                "footer.links_title": "Link Utili",
+                "nav.home": "Home",
+                "nav.pcs": "PC",
+                "nav.smartphones": "Smartphone",
+                "nav.smart_things": "Smart Things",
+                "nav.promo":"Pagina promozioni",
+                "nav.my_account": "Il Mio Account",
+                "nav.cart": "Carrello",
+                "footer.contact_title": "Contattaci",
+                "footer.address": "123 Via della Tech, Tunisi, Tunisia",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "Tutti i diritti riservati."
+            },
+            zh: { // Simplified Chinese
+                "search.placeholder": "搜索...",
+                "login.text": "登录",
+                "logout.text": "退出",
+                "cart.text": "我的购物车",
+                "greeting.text": "您好",
+                "no_results_message": "未找到结果。",
+                "product_card.add_to_cart": "加入购物车",
+                "product_card.out_of_stock": "缺货",
+                "back_to_home": "← 返回首页",
+                "category.promo_title": "	本周优惠",
+                "loading_products": "正在加载产品...",
+                "no_products_found": "目前未找到任何电脑产品。",
+                "error_loading_products": "加载产品时出错。请稍后重试或联系支持。",
+                "testimonials.title": "我们满意客户的评价！",
+                "testimonials.intro": "真实的对话不言而喻。了解为什么我们的客户喜爱 TechHaven。",
+                "testimonials.note": "*出于隐私原因，截图中已隐藏姓名和号码。",
+                "testimonials.button": "分享您的体验！",
+                "footer.about_title": "关于 TecHaven",
+                "footer.about_text": "您购买高质量电脑、组件和电脑配件的一站式目的地。我们致力于提供最优质的技术和卓越的客户服务。",
+                "footer.links_title": "有用链接",
+                "nav.home": "首页",
+                "nav.pcs": "电脑",
+                "nav.smartphones": "智能手机",
+                "nav.smart_things": "智能设备",
+                "nav.promo":"促销页面",
+                "nav.my_account": "我的账户",
+                "nav.cart": "购物车",
+                "footer.contact_title": "联系我们",
+                "footer.address": "突尼斯，突尼斯，科技路123号",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "保留所有权利。"
+            },
+            ja: {
+                "search.placeholder": "検索...",
+                "login.text": "ログイン",
+                "logout.text": "ログアウト",
+                "cart.text": "マイカート",
+                "greeting.text": "こんにちは",
+                "no_results_message": "結果が見つかりませんでした。",
+                "product_card.add_to_cart": "カートに追加",
+                "product_card.out_of_stock": "在庫切れ",
+                "back_to_home": "← ホームに戻る",
+                "category.promo_title": "今週のオファー",
+                "loading_products": "商品を読み込み中...",
+                "no_products_found": "現在、PC製品は見つかりませんでした。",
+                "error_loading_products": "商品の読み込み中にエラーが発生しました。後でもう一度お試しいただくか、サポートにお問い合わせください。",
+                "testimonials.title": "お客様の声！",
+                "testimonials.intro": "お客様の率直なご意見です。なぜお客様がTechHavenを愛用しているのかをご覧ください。",
+                "testimonials.note": "※プライバシー保護のため、スクリーンショットの氏名と番号はマスクされています。",
+                "testimonials.button": "あなたの体験を共有してください！",
+                "footer.about_title": "TecHavenについて",
+                "footer.about_text": "高品質なPC、コンポーネント、コンピュータアクセサリーのワンストップショップです。最高の技術と優れた顧客サービスを提供することをお約束します。",
+                "footer.links_title": "便利なリンク",
+                "nav.home": "ホーム",
+                "nav.pcs": "PC",
+                "nav.smartphones": "スマートフォン",
+                "nav.smart_things": "スマートデバイス",
+                "nav.promo":"プロモーションページ",
+                "nav.my_account": "マイアカウント",
+                "nav.cart": "カート",
+                "footer.contact_title": "お問い合わせ",
+                "footer.address": "チュニス、テック通り123番地、チュニジア",
+                "footer.phone": "+41 76 757 64 30",
+                "footer.email": "techaven03@gmail.com",
+                "footer.copyright": "全著作権所有。"
+            }
+        };
 
         function applyTranslations() {
             // Translate elements with data-i18n attribute
@@ -836,7 +807,7 @@ const translations = {
             });
         }
 
-        // --- Page-Specific Product Display Function for PC Category ---
+        // --- Page-Specific Product Display Function for promo Category ---
         async function fetchAndDisplayProducts() {
             const productsContainer = document.getElementById('products-container');
             productsContainer.innerHTML = `<p class="loading-message" data-i18n="loading_products">${translations[currentLang]['loading_products']}</p>`;
@@ -848,9 +819,8 @@ const translations = {
                 }
                 const allProducts = await response.json();
 
-                const filteredProducts = allProducts.filter(product =>
-                    product.category && product.category.toLowerCase() === 'smartthings'
-                );
+                const filteredProducts = allProducts.filter(p => p.promotion_price && p.promotion_price < p.price);
+                
 
                 productsContainer.innerHTML = ''; // Clear loading message
 
@@ -954,7 +924,7 @@ const translations = {
         }
 
 
-        // --- Initial Load Logic for pc.html ---
+        // --- Initial Load Logic for promo.html ---
         document.addEventListener('DOMContentLoaded', () => {
             // Set initial language and apply translations
             currentLang = localStorage.getItem('lang') || 'fr';
@@ -1002,4 +972,12 @@ const translations = {
                 }
             });
         });
+        async function loadProducts() {
+  const res = await fetch(`/api/products?_=${Date.now()}`); // cache-busting
+  const products = await res.json();
+  renderProducts(products);
+}
+
     </script>
+</body>
+</html>

@@ -229,7 +229,7 @@ body {
     }
 
     .search-wrapper {
-        padding: 6px 12px; /* Smaller padding for search bar */
+        padding: 6px 6px; /* Smaller padding for search bar */
     }
 
     .search-wrapper input {
@@ -244,7 +244,7 @@ body {
     .cart-button,
     .language-button {
         padding: 8px 12px; /* Smaller padding for buttons */
-        font-size: 13px;
+        font-size: 4px;
         gap: 5px;
     }
 
