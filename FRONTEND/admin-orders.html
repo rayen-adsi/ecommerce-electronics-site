@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Commandes - Admin TechHaven</title>
-    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
     <link rel="stylesheet" href="css/style.css"> 
     <style>
         body {
@@ -193,6 +193,22 @@
             margin-top: auto;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
         }
+         .logout-btn {
+            background-color: #ff5e5e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #e04b4b;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -206,7 +222,7 @@
                 <li><a href="admin.html">Dashboard</a></li>
                 <li><a href="admin-products.html">Gestion des Produits</a></li>
                 <li><a href="admin-orders.html">Gestion des Commandes</a></li>
-                <li><a href="login.html" onclick="logoutAdmin()">Déconnexion</a></li>
+                <button id="logoutBtn" class="logout-btn">Déconnexion</button>
             </ul>
         </nav>
     </header>
@@ -231,5 +247,15 @@
 
     <script src="js/cart.js"></script>
     <script src="js/admin_orders.js"></script>
+    <script>
+    // Logout button functionality
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('role');
+                alert("Déconnexion réussie.");
+                window.location.href = 'index.html'; // Or 'login.html'
+                console.log("admin.html: Admin logged out.");
+            });
+            </script>
 </body>
 </html>

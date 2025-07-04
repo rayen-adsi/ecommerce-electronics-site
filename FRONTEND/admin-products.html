@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gestion des Produits - TechHaven</title>
-    <link rel="icon" href="c:\Users\zbook\Downloads\logo2-removebg-preview (2).png">
+    <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
     <link rel="stylesheet" href="css/styles.css"> <style>
         /* General Body Styling (consistent with other admin pages) */
         body {
@@ -49,7 +49,7 @@
         .admin-nav ul li a:hover {
             color: #ff5e5e;
         }
-        .logout-btn {
+         .logout-btn {
             background-color: #ff5e5e;
             border: none;
             padding: 10px 20px;
@@ -59,13 +59,12 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             font-size: 1rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
-        .logout-btn:hover { background-color: #e04b4b; transform: translateY(-2px); }
- 
+
+        .logout-btn:hover {
+            background-color: #e04b4b;
+            transform: translateY(-2px);
+        }
  
         /* Main Content Area */
         main {
@@ -478,7 +477,7 @@
                 <li><a href="admin.html">Dashboard</a></li>
                 <li><a href="admin-products.html">Gestion des Produits</a></li>
                 <li><a href="admin-orders.html">Gestion des Commandes</a></li>
-                <li><a href="login.html" onclick="logoutAdmin()">Déconnexion</a></li> </ul>
+                <button id="logoutBtn" class="logout-btn">Déconnexion</button> </ul>
         </nav>
     </header>
  
@@ -973,5 +972,15 @@
             addCharacteristicInput(); // Ajouter un premier champ caractéristique au chargement
         });
     </script>
+        <script>
+    // Logout button functionality
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('role');
+                alert("Déconnexion réussie.");
+                window.location.href = 'index.html'; // Or 'login.html'
+                console.log("admin.html: Admin logged out.");
+            });
+            </script>
 </body>
 </html>
