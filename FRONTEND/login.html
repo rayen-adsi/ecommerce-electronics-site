@@ -57,10 +57,32 @@
       color: #ff5e5e;
       text-decoration: none;
     }
+    .popup-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 24px;
+  border-radius: 8px;
+  background-color: #4caf50; /* Success green */
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+.popup-alert.error {
+  background-color: #f44336; /* Error red */
+}
+.popup-alert.show {
+  opacity: 1;
+}
+
   </style>
 </head>
 <body>
-
+  <div id="customAlert" class="popup-alert"></div>
   <div class="login-box">
     <div class="products-page-page-container">
         <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
@@ -82,6 +104,22 @@
   </div>
 
   <script>
+    function showCustomAlert(message, type = 'success', duration = 3000) {
+  const alertBox = document.getElementById('customAlert');
+  alertBox.textContent = message;
+  alertBox.className = 'popup-alert show' + (type === 'error' ? ' error' : '');
+
+  // Reset display
+  alertBox.style.display = 'block';
+
+  setTimeout(() => {
+    alertBox.classList.remove('show');
+    setTimeout(() => {
+      alertBox.style.display = 'none';
+    }, 400);
+  }, duration);
+}
+
     function togglePassword() {
       const passwordField = document.getElementById("password");
       const toggleText = document.querySelector(".toggle-password");
@@ -105,8 +143,10 @@
         _id: "admin_techhaven_id",
         prenom: "Admin"
       }));
-      alert("✅ Connexion admin réussie !");
+      showCustomAlert("✅ Connexion admin réussie !");
+      setTimeout(() => {
       window.location.href = "admin.html";
+    }, 1000);
       return;
     }
 
@@ -125,14 +165,16 @@
       if (response.ok) {
         localStorage.setItem("currentUser", JSON.stringify(data.user));
         localStorage.setItem("role", "user");
-        alert("✅ Connexion réussie !");
-        window.location.href = "index.html";
+        showCustomAlert("✅ Connexion réussie !");
+        setTimeout(() => {
+      window.location.href = 'index.html'; // Or 'login.html'
+    }, 1000);
       } else {
-        alert("❌ " + data.message);
+        showCustomAlert("❌ " + data.message, 'error');
       }
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);
-      alert("❌ Erreur de connexion au serveur.");
+      showCustomAlert("❌ Erreur de connexion au serveur.", 'error');
     }
   }
 </script>

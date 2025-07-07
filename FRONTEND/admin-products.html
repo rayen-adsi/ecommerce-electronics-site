@@ -463,11 +463,175 @@
                 justify-content: flex-start;
             }
         }
+          #custom-alert-container {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.custom-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: auto;
+}
+
+.custom-alert.success {
+  background: linear-gradient(135deg, #28a745, #45bf55);
+}
+
+.custom-alert.error {
+  background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+.custom-alert i {
+  font-size: 1.2em;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  15%,
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+.notification-button {
+    margin-left: 15px;
+    padding: 5px 12px;
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.notification-button:hover {
+    background-color: #f1f1f1;
+}
+.custom-alert.static {
+  animation: none !important;
+  opacity: 1;
+  transform: translateY(0);
+}
+#custom-confirm-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.custom-confirm {
+  background-color: #1e293b; /* Dark blue-gray */
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  color: #f8fafc;
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 90%;
+  width: 320px;
+}
+
+.custom-confirm p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.confirm-buttons {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.confirm-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#confirm-yes-btn {
+  background-color: #ef4444; /* red */
+  color: white;
+}
+
+#confirm-yes-btn:hover {
+  background-color: #dc2626;
+}
+
+#confirm-no-btn {
+  background-color: #94a3b8; /* soft gray */
+  color: white;
+}
+
+#confirm-no-btn:hover {
+  background-color: #64748b;
+}
+.hidden {
+  display: none !important;
+}
+
+
     </style>
 </head>
  
  
 <body>
+    <div id="custom-confirm-container" class="hidden">
+  <div class="custom-confirm">
+    <p><strong> Confirmation</strong></p>
+    <p id="custom-confirm-message" style="margin-top: 10px;"></p>
+    <div class="confirm-buttons">
+      <button id="confirm-yes-btn">Oui</button>
+      <button id="confirm-no-btn">Non</button>
+    </div>
+  </div>
+</div>
+
+        <!-- Popup Notification -->
+<div id="custom-alert-container" class="hidden">
+  <div id="custom-alert" class="custom-alert success">
+    <i class="icon">✔️</i>
+    <span id="custom-alert-message">Commande enregistrée avec succès !</span>
+    <button id="custom-alert-ok-btn" class="notification-button">OK</button>
+  </div>
+</div>
+
         <header class="admin-header">
         <div class="logo">
             <a href="admin.html">Admin Panel</a>
@@ -557,7 +721,60 @@
  
     <script>
         const API_URL = 'http://localhost:5000/api/products'; // L'URL de votre backend
- 
+        function showConfirmModal(message, onConfirm) {
+    const container = document.getElementById('custom-confirm-container');
+    const messageElement = document.getElementById('custom-confirm-message');
+    const yesBtn = document.getElementById('confirm-yes-btn');
+    const noBtn = document.getElementById('confirm-no-btn');
+
+    // Update the message
+    messageElement.textContent = message;
+
+    // Show the modal
+    container.classList.remove('hidden');
+
+    // Button logic
+    yesBtn.onclick = () => {
+        container.classList.add('hidden');
+        if (typeof onConfirm === 'function') onConfirm();
+    };
+
+    noBtn.onclick = () => {
+        container.classList.add('hidden');
+    };
+}
+
+     function showCustomAlert(message, type = 'success') {
+    const container = document.getElementById('custom-alert-container');
+    const alertBox = document.getElementById('custom-alert');
+    const alertMessage = document.getElementById('custom-alert-message');
+    const okButton = document.getElementById('custom-alert-ok-btn');
+
+    // Reset classes
+    alertBox.className = 'custom-alert';
+    if (type === 'success') {
+        alertBox.classList.add('success');
+        alertBox.querySelector('.icon').textContent = '✅';
+    } else {
+        alertBox.classList.add('error');
+        alertBox.querySelector('.icon').textContent = '❌';
+    }
+
+    alertMessage.textContent = message;
+    container.classList.remove('hidden');
+    okButton.style.display = 'none'; // Hide button for auto-hide
+
+    alertBox.classList.add('static'); // Make it persistent
+
+    // ⏱ Auto hide after delay (e.g., 3 seconds)
+    setTimeout(() => {
+        container.classList.add('hidden');
+        alertBox.classList.remove('static');
+    }, 2000);
+}
+
+
+
         // --- Fonctions pour gérer les inputs d'images et de vidéos ---
         function addImageInput() {
             const imageInputsDiv = document.getElementById('imageInputs');
@@ -661,67 +878,83 @@
             }
         }
  
-        async function createProduct(formData) {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    body: formData // FormData est envoyé directement, fetch gère le Content-Type
-                });
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-                }
-                const newProduct = await response.json();
-                alert('Produit ajouté avec succès !');
-                console.log('Nouveau produit :', newProduct);
-                fetchProducts(); // Recharger la liste des produits après ajout
-                resetForm();
-            } catch (error) {
-                console.error('Erreur lors de l\'ajout du produit :', error);
-                alert(`Erreur lors de l'ajout du produit: ${error.message}`);
-            }
+async function createProduct(formData) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
+
+        const newProduct = await response.json();
+
+        showCustomAlert('✅ Produit ajouté avec succès !', 'success');
+
+        // 💡 Attendre un peu avant de reset pour éviter les conflits de focus/rechargement
+        setTimeout(() => {
+            console.log('✅ Nouveau produit :', newProduct);
+            fetchProducts();   // Recharger la liste
+            resetForm();       // Réinitialiser
+        }, 100); // 100 ms suffisent souvent pour éviter les "ghost submits"
+
+    } catch (error) {
+        console.error('❌ Erreur lors de l\'ajout du produit :', error);
+        showCustomAlert(`❌ Erreur lors de l'ajout du produit: ${error.message}`, 'error');
+    }
+}
+
+
+
  
-        async function updateProduct(productId, formData) {
-            try {
-                const response = await fetch(`${API_URL}/${productId}`, {
-                    method: 'PUT',
-                    body: formData
-                });
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-                }
-                const updatedProduct = await response.json();
-                alert('Produit modifié avec succès !');
-                console.log('Produit mis à jour :', updatedProduct);
-                fetchProducts(); // Recharger la liste après modification
-                resetForm();
-            } catch (error) {
-                console.error('Erreur lors de la modification du produit :', error);
-                alert(`Erreur lors de la modification du produit: ${error.message}`);
-            }
+       async function updateProduct(productId, formData) {
+    try {
+        const response = await fetch(`${API_URL}/${productId}`, {
+            method: 'PUT',
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
- 
-        async function deleteProduct(productId) {
-            if (confirm(`Êtes-vous sûr de vouloir supprimer ce produit (ID: ${productId}) ?`)) {
-                try {
-                    const response = await fetch(`${API_URL}/${productId}`, {
-                        method: 'DELETE'
-                    });
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-                    }
-                    alert('Produit supprimé avec succès !');
-                    console.log(`Produit ID: ${productId} supprimé.`);
-                    fetchProducts(); // Recharger la liste après suppression
-                } catch (error) {
-                    console.error('Erreur lors de la suppression du produit :', error);
-                    alert(`Erreur lors de la suppression du produit: ${error.message}`);
-                }
-            }
-        }
+
+        const updatedProduct = await response.json();
+
+        showCustomAlert('✅ Produit modifié avec succès !', 'success');
+
+        console.log('Produit mis à jour :', updatedProduct);
+        fetchProducts();
+        resetForm();
+
+    } catch (error) {
+        console.error('Erreur lors de la modification du produit :', error);
+        showCustomAlert(`❌ Erreur: ${error.message}`, 'error');
+    }
+}
+
+
+        function deleteProduct(productId) {
+  showConfirmModal(`Êtes-vous sûr de vouloir supprimer ce produit (ID: ${productId}) ?`, async () => {
+    try {
+      const response = await fetch(`${API_URL}/${productId}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      }
+      showCustomAlert('✅ Produit supprimé avec succès !', 'success');
+      fetchProducts();
+    } catch (error) {
+      showCustomAlert(`❌ Erreur lors de la suppression: ${error.message}`, 'error');
+    }
+  });
+}
+
  
         // Fonction pour rendre la liste des produits depuis le backend
         function renderProductList(products) {
@@ -869,6 +1102,7 @@
         // Gestion de la soumission du formulaire
         document.getElementById('productForm').addEventListener('submit', async function(event) {
             event.preventDefault();
+            console.log('🛑 Form submitted - default prevented');
  
             const submitButton = document.querySelector('button[type="submit"]');
             const editingId = submitButton.dataset.editingId;
@@ -977,8 +1211,10 @@
             document.getElementById('logoutBtn').addEventListener('click', () => {
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('role');
-                alert("Déconnexion réussie.");
-                window.location.href = 'index.html'; // Or 'login.html'
+               showCustomAlert("Déconnexion réussie.");
+                 setTimeout(() => {
+      window.location.href = 'index.html'; // Or 'login.html'
+    }, 1000);
                 console.log("admin.html: Admin logged out.");
             });
             </script>

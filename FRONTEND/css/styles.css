@@ -127,137 +127,7 @@ body {
     font-size: 14px;
 }
 
-/* --- Responsive Header Styles --- */
 
-/* Tablet and smaller desktops (e.g., up to 1024px) */
-@media (max-width: 1024px) {
-    .main-header {
-        padding: 0 15px; /* Slightly less horizontal padding */
-        height: auto; /* Allow height to adjust */
-        flex-wrap: wrap; /* Allow items to wrap to the next line */
-        justify-content: center; /* Center items when they wrap */
-        gap: 10px; /* Add a small gap between wrapped items */
-    }
-
-    .logo {
-        flex-basis: 100%; /* Logo takes full width on its own line */
-        justify-content: center; /* Center the logo */
-        margin-bottom: 5px; /* Add some space below the logo */
-    }
-
-    .logo img {
-        height: 200px; /* Adjusted logo size for tablets */
-    }
-
-    .search-wrapper {
-        flex: 1 1 60%; /* Allow search bar to grow, but has a basis of 60% */
-        margin: 0 10px; /* Reduce side margins */
-        max-width: 500px; /* Reduce max-width for search on tablets */
-    }
-
-    /* Stack user controls, cart, and language on a new line or wrap them better */
-    #user-controls,
-    .cart-button,
-    .language-button {
-        flex-shrink: 0; /* Prevent them from shrinking too much */
-        flex-grow: 0;
-        margin: 0 5px; /* Adjust margin between these buttons */
-        padding: 6px 12px; /* Smaller padding for icon buttons */
-    }
-
-    .icon-button .text {
-        font-size: 13px; /* Slightly smaller text for buttons */
-    }
-
-    .badge {
-        right: 18px; /* Adjust badge position for smaller buttons */
-        font-size: 10px;
-        padding: 1px 5px;
-    }
-
-    .icon {
-        font-size: 16px; /* Slightly smaller icons */
-    }
-}
-
-
-/* Smaller Tablets and larger Phones (e.g., up to 768px) */
-@media (max-width: 768px) {
-    .main-header {
-        flex-direction: column; /* Stack all items vertically */
-        padding: 10px; /* More vertical padding */
-        gap: 1px; /* More space between stacked items */
-        height: auto;
-    }
-
-    .logo {
-        margin-bottom: 10px;
-    }
-
-    .logo img {
-        height: 100px; /* Smaller logo for phones */
-    }
-
-    .search-wrapper {
-        flex: none; /* Remove flex-grow/shrink */
-        width: 90%; /* Take up more width */
-        margin: 0; /* Remove horizontal margin */
-        max-width: none; /* Remove max-width constraint */
-    }
-
-    #user-controls,
-    .cart-button,
-    .language-button {
-        width: 100%; /* Make buttons take full width when stacked */
-        max-width: 250px; /* Limit button width for better appearance */
-        justify-content: center; /* Center content within buttons */
-        margin: 0 auto; /* Center the buttons themselves */
-        padding: 10px 15px; /* Restore some padding for stacked buttons */
-    }
-}
-
-
-/* Smallest Phones (e.g., up to 480px) */
-@media (max-width: 480px) {
-    .main-header {
-        padding: 8px 5px; /* Even less padding */
-        gap: 1px;
-    }
-
-    .logo img {
-        height: 100px; /* Smallest logo size */
-    }
-
-    .search-wrapper {
-        padding: 6px 6px; /* Smaller padding for search bar */
-    }
-
-    .search-wrapper input {
-        font-size: 14px; /* Smaller font in search bar */
-    }
-
-    .search-icon {
-        font-size: 16px; /* Smaller search icon */
-    }
-
-    #user-controls,
-    .cart-button,
-    .language-button {
-        padding: 8px 12px; /* Smaller padding for buttons */
-        font-size: 4px;
-        gap: 5px;
-    }
-
-    .icon-button .text {
-        font-size: 12px; /* Smallest text for buttons */
-    }
-
-    .badge {
-        right: 15px; /* Further adjust badge position */
-        font-size: 9px;
-        padding: 1px 4px;
-    }
-}
 /* --- Hero Section (Static Background) --- */
 /* (Note: This section seems to be an alternative to the slider,
    you might only use one or the other in your HTML) */
@@ -1484,3 +1354,143 @@ html {
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
 }
+.mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #121212;
+  color: white;
+  padding: 10px 16px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.icons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 20px;
+}
+
+.cart-container {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ffc107;
+  color: black;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+/* By default, show desktop, hide mobile */
+.main-header {
+  display: flex;
+}
+.mobile-header {
+  display: none;
+}
+
+/* On mobile: hide desktop, show icons */
+@media screen and (max-width: 768px) {
+  .main-header {
+    display: none;
+  }
+  .mobile-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .main-header {
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+}
+.language-container {
+  flex-shrink: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.language-select {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  max-width: 70px;
+}
+
+@media (max-width: 600px) {
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 8px;
+    overflow-x: auto; /* Prevent clipping */
+  }
+
+  .mobile-header .language-container {
+    flex: 0 0 auto;
+  }
+}
+.mobile-search {
+  display: none;
+  padding: 10px;
+  background: #1a1a2e;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.mobile-search.show {
+  display: block;
+}
+
+.mobile-search-wrapper {
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.mobile-search-wrapper input {
+  width: 80%;
+  padding: 12px 40px 12px 40px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  font-size: 15px;
+  color: #000;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.search-icon-inside {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #777;
+}
+
+.clear-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+}
+

@@ -253,6 +253,53 @@
             </select>
         </div>
     </header>
+     <header class="mobile-header">
+  <a href="index.html" class="logo">
+    <img src="images/logo.png" alt="TechHaven Logo">
+  </a>
+
+  <div class="icons">
+    <!-- SEARCH ICON -->
+    <span class="mobile-icon" onclick="toggleMobileSearch()">
+      <i class="fas fa-search"></i>
+    </span>
+
+    <!-- USER / LOGIN / LOGOUT -->
+    <span id="mobile-user-control" class="mobile-icon">
+      <i class="fas fa-user"></i>
+    </span>
+
+    <!-- CART ICON -->
+    <a href="cart.html" class="mobile-icon cart-container">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge" id="mobile-cart-count">0</span>
+    </a>
+
+  <div class="language-container">
+  <select class="language-select">
+    <option value="fr">🇫🇷</option>
+    <option value="en">🇬🇧</option>
+    <option value="ar">🇸🇦</option>
+    <option value="es">🇪🇸</option>
+    <option value="de">🇩🇪</option>
+    <option value="it">🇮🇹</option>
+    <option value="zh">🇨🇳</option>
+    <option value="ja">🇯🇵</option>
+  </select>
+  </div>
+</div>
+
+<div id="mobile-search-container" class="mobile-search hidden">
+  <div class="mobile-search-wrapper">
+    <i class="fas fa-search search-icon-inside"></i>
+    <input type="text" id="mobileSearchInput" placeholder="Rechercher un produit..." />
+    <i class="fas fa-times clear-icon" onclick="clearMobileSearch()"></i>
+  </div>
+  <div id="mobileSearchResultsDropdown" class="search-results-dropdown"></div>
+</div>
+
+</header>
+
 
     <div class="products-page-page-container">
         <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
@@ -727,18 +774,20 @@ const translations = {
             window.location.reload();
         }
 
-        // Event listener for language change
-        if (languageSelect) {
-            languageSelect.value = currentLang; // Set dropdown to current language
-            languageSelect.addEventListener('change', (event) => {
-                currentLang = event.target.value;
-                localStorage.setItem('lang', currentLang); // Save language preference
-                applyTranslations(); // Apply new language
-                updateLoginUI(); // Update UI if greeting/logout button needs translation
-                // Re-fetch products to update any dynamically generated text (like out of stock)
-                fetchAndDisplayProducts();
-            });
+         const languageSelects = document.querySelectorAll('.language-select');
+
+languageSelects.forEach(select => {
+    select.value = currentLang;
+    select.addEventListener('change', (event) => {
+        currentLang = event.target.value;
+        localStorage.setItem('lang', currentLang);
+        applyTranslations();         // Translate all elements including mobile
+        updateLoginUI();             // Re-render greeting/logout
+        if (typeof fetchAndDisplayProducts === 'function') {
+            fetchAndDisplayProducts(); // Update any product-related text
         }
+    });
+});
 
 
         // --- Global Search Bar Logic (Common to multiple pages) ---
@@ -835,6 +884,78 @@ const translations = {
                 }
             });
         }
+         function toggleMobileSearch() {
+  const container = document.getElementById("mobile-search-container");
+  if (container) {
+    container.classList.toggle("show");
+  }
+}
+ document.addEventListener('DOMContentLoaded', () => {
+  const mobileInput = document.getElementById("mobileSearchInput");
+  const mobileDropdown = document.getElementById("mobileSearchResultsDropdown");
+
+  if (mobileInput) {
+    mobileInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const query = mobileInput.value.trim();
+        displayMobileSuggestions(query);
+      }, 300);
+    });
+
+    mobileDropdown.addEventListener("click", (event) => {
+      const clickedItem = event.target.closest(".search-result-item");
+      if (clickedItem && clickedItem.dataset.productId) {
+        window.location.href = `product-detail.html?id=${clickedItem.dataset.productId}`;
+        mobileDropdown.style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!mobileInput.contains(event.target) && !mobileDropdown.contains(event.target)) {
+        mobileDropdown.style.display = 'none';
+      }
+    });
+  }
+});
+function displayMobileSuggestions(query) {
+  const dropdown = document.getElementById('mobileSearchResultsDropdown');
+  dropdown.innerHTML = '';
+  dropdown.style.display = 'none';
+
+  if (query.length < 2) return;
+
+  const results = allProductsForSearch.filter(product =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  if (results.length > 0) {
+    results.slice(0, 5).forEach(product => {
+      const div = document.createElement('div');
+      div.classList.add('search-result-item');
+      div.dataset.productId = product._id;
+      div.innerHTML = `
+        <img src="${product.images?.[0] ? `${API_BASE_URL.replace('/api', '')}${product.images[0]}` : 'https://via.placeholder.com/50x50?text=No+Image'}" alt="${product.name}">
+        <div class="search-result-item-info">
+          <h4>${product.name}</h4>
+          <p>${product.description?.substring(0, 50) || ''}</p>
+        </div>
+        <span class="price-display">${product.promotion_price ?? product.price} TND</span>
+      `;
+      dropdown.appendChild(div);
+    });
+    dropdown.style.display = 'block';
+  } else {
+    const noResult = document.createElement('div');
+    noResult.className = 'no-search-results';
+    noResult.textContent = translations[currentLang]['no_results_message'];
+    dropdown.appendChild(noResult);
+    dropdown.style.display = 'block';
+  }
+}
+
+
+
 
         // --- Page-Specific Product Display Function for PC Category ---
         async function fetchAndDisplayProducts() {
@@ -969,6 +1090,33 @@ const translations = {
 
             // Call the page-specific function to display PC products
             fetchAndDisplayProducts();
+             const mobileUserControl = document.getElementById("mobile-user-control");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (mobileUserControl) {
+  if (currentUser) {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user-check"></i>
+      <span style="font-size: 10px; display: block;">${currentUser.prenom}</span>
+    `;
+  } else {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user"></i>
+      <span style="font-size: 10px; display: block;">Connecter</span>
+    `;
+  }
+
+  mobileUserControl.addEventListener("click", () => {
+    if (currentUser) {
+      const confirmLogout = confirm(`Se déconnecter de ${currentUser.prenom} ?`);
+      if (confirmLogout) logout();
+    } else {
+      window.location.href = "login.html";
+    }
+    
+  });
+}
+
 
             // Update current year in footer
             // This is now handled by applyTranslations, but keeping for direct access if needed

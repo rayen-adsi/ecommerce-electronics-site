@@ -90,9 +90,35 @@
     font-weight: bold;
     transition: color 0.2s ease, transform 0.2s ease;
 }
+.popup-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  padding: 14px 24px;
+  border-radius: 10px;
+  background-color: #4caf50; /* Success green */
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  display: none;
+}
+.popup-alert.error {
+  background-color: #f44336; /* Error red */
+}
+.popup-alert.show {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
   </style>
 </head>
 <body>
+  <div id="customAlert" class="popup-alert"></div>
   <p id="signupMessage" class="message" style="display: none;"></p>
   <div class="signup-box">
     <div class="products-page-page-container">
@@ -165,6 +191,18 @@
   </div>
 
   <script>
+  function showCustomAlert(message, type = 'success', duration = 3000) {
+    const alertBox = document.getElementById('customAlert');
+    alertBox.textContent = message;
+    alertBox.className = `popup-alert ${type} show`;
+
+    setTimeout(() => {
+      alertBox.classList.remove('show');
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 400);
+    }, duration);
+  }
     function togglePassword(id) {
       const input = document.getElementById(id);
       input.type = input.type === "password" ? "text" : "password";
@@ -172,6 +210,10 @@
 
 async function validateForm(event) {
   event.preventDefault();
+  const submitButton = document.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  submitButton.textContent = "Traitement...";
+
   const nom = document.getElementById('nom').value;
   const prenom = document.getElementById('prenom').value;
   const email = document.getElementById('email').value.toLowerCase();
@@ -182,12 +224,14 @@ async function validateForm(event) {
   const adresse = document.getElementById('adresse').value;
 
   if (password.length < 8) {
-    alert("⚠️ Le mot de passe doit contenir au moins 8 caractères.");
+    showCustomAlert("⚠️ Le mot de passe doit contenir au moins 8 caractères.", 'error');
+    setTimeout(() => window.location.reload(), 3000);
     return false;
   }
 
   if (password !== confirm) {
-    alert("❌ Les mots de passe ne correspondent pas.");
+    showCustomAlert("❌ Les mots de passe ne correspondent pas.", 'error');
+    setTimeout(() => window.location.reload(), 3000);
     return false;
   }
 
@@ -200,8 +244,7 @@ async function validateForm(event) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
-    })
-
+    });
 
     const contentType = response.headers.get("content-type");
     let result = {};
@@ -211,18 +254,22 @@ async function validateForm(event) {
     }
 
     if (response.ok) {
-      alert("✅ Inscription réussie !");
-      window.location.href = "index.html";
+      showCustomAlert("✅ Inscription réussie !");
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
     } else {
-      alert("❌ " + (result.message || "Erreur lors de l'inscription."));
+      showCustomAlert("❌ " + (result.message || "Erreur lors de l'inscription."), 'error');
+      setTimeout(() => window.location.reload(), 3000);
     }
 
   } catch (error) {
     console.error("Erreur lors de la requête :", error);
-    alert("❌ Erreur de connexion au serveur.");
-  }
-
+    showCustomAlert("❌ Erreur de connexion au serveur.", 'error');
+    setTimeout(() => window.location.reload(), 3000);
+ }
 }
+
 
 
   </script>

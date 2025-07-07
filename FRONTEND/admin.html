@@ -147,10 +147,90 @@
                 gap: 20px;
             }
         }
+         #custom-alert-container {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.custom-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeSlideIn 3.5s ease forwards;
+  pointer-events: auto;
+}
+
+.custom-alert.success {
+  background: linear-gradient(135deg, #28a745, #45bf55);
+}
+
+.custom-alert.error {
+  background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+.custom-alert i {
+  font-size: 1.2em;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  15%,
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+.notification-button {
+    margin-left: 15px;
+    padding: 5px 12px;
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.notification-button:hover {
+    background-color: #f1f1f1;
+}
+
     </style>
 </head>
 <body>
-
+        <!-- Popup Notification -->
+<div id="custom-alert-container" class="hidden">
+  <div id="custom-alert" class="custom-alert success">
+    <i class="icon">✔️</i>
+    <span id="custom-alert-message">Commande enregistrée avec succès !</span>
+    <button id="custom-alert-ok-btn" class="notification-button">OK</button>
+  </div>
+</div>
     <header>
         <h1>Admin Dashboard</h1>
         <button id="logoutBtn" class="logout-btn">Déconnexion</button>
@@ -181,6 +261,34 @@
 
     <script src="js/cart.js"></script>
     <script>
+        function showCustomAlert(message, type = 'success') {
+    const container = document.getElementById('custom-alert-container');
+    const alertBox = document.getElementById('custom-alert');
+    const alertMessage = document.getElementById('custom-alert-message');
+    const okButton = document.getElementById('custom-alert-ok-btn');
+
+    // Reset classes
+    alertBox.className = 'custom-alert';
+    if (type === 'success') {
+        alertBox.classList.add('success');
+        alertBox.querySelector('.icon').textContent = '✅';
+    } else {
+        alertBox.classList.add('error');
+        alertBox.querySelector('.icon').textContent = '❌';
+    }
+
+    alertMessage.textContent = message;
+    container.classList.remove('hidden');
+    okButton.style.display = 'none'; // Hide button for auto-hide
+
+    alertBox.classList.add('static'); // Make it persistent
+
+    // ⏱ Auto hide after delay (e.g., 3 seconds)
+    setTimeout(() => {
+        container.classList.add('hidden');
+        alertBox.classList.remove('static');
+    }, 5000);
+}
         document.addEventListener('DOMContentLoaded', () => {
             console.log("admin.html: DOMContentLoaded - Initializing admin dashboard.");
 
@@ -214,8 +322,10 @@
             document.getElementById('logoutBtn').addEventListener('click', () => {
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('role');
-                alert("Déconnexion réussie.");
-                window.location.href = 'index.html'; // Or 'login.html'
+                showCustomAlert("Déconnexion réussie.");
+                 setTimeout(() => {
+      window.location.href = 'index.html'; // Or 'login.html'
+    }, 1000);
                 console.log("admin.html: Admin logged out.");
             });
         });

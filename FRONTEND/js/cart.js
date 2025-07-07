@@ -194,13 +194,23 @@ function getCartTotalItems() {
 
 // Update the cart badge in the header
 function updateCartBadge() {
-    const cartBadge = document.querySelector('.main-header .badge');
-    if (cartBadge) {
-        const totalItems = getCartTotalItems();
-        cartBadge.textContent = totalItems;
-        console.log("updateCartBadge: Badge mis à jour à:", totalItems); // LOG DE DÉBOGAGE
+    const totalItems = getCartTotalItems();
+
+    // Update desktop badge
+    const desktopBadge = document.querySelector('.main-header .badge');
+    if (desktopBadge) {
+        desktopBadge.textContent = totalItems;
+        console.log("updateCartBadge: Desktop badge updated to:", totalItems);
+    }
+
+    // Update mobile badge
+    const mobileBadge = document.getElementById('mobile-cart-count');
+    if (mobileBadge) {
+        mobileBadge.textContent = totalItems;
+        console.log("updateCartBadge: Mobile badge updated to:", totalItems);
     }
 }
+
 
 // Show notification messages (success, error, info)
 function showNotification(message, type = 'info') {

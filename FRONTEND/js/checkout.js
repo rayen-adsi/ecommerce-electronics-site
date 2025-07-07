@@ -1,4 +1,38 @@
 // js/checkout.js
+function showCustomAlert(message, type = 'success', onOkClick = null) {
+    const container = document.getElementById('custom-alert-container');
+    const alertBox = document.getElementById('custom-alert');
+    const alertMessage = document.getElementById('custom-alert-message');
+    const okButton = document.getElementById('custom-alert-ok-btn');
+
+    // Set message and type
+    alertBox.className = 'custom-alert';
+    if (type === 'success') {
+        alertBox.classList.add('success');
+        alertBox.querySelector('.icon').textContent = '✅';
+    } else {
+        alertBox.classList.add('error');
+        alertBox.querySelector('.icon').textContent = '❌';
+    }
+
+    alertMessage.textContent = message;
+    container.classList.remove('hidden');
+    okButton.style.display = 'inline-block';
+
+    // Stop animation (optional if you want it static)
+    alertBox.style.animation = 'none';
+    alertBox.style.opacity = '1';
+    alertBox.style.transform = 'translateY(0)';
+
+    // OK button behavior
+    okButton.onclick = () => {
+        container.classList.add('hidden');
+        if (typeof onOkClick === 'function') {
+            onOkClick(); // Call what should happen after OK
+        }
+    };
+}
+
 
 // Make sure cart.js is loaded before this script in checkout.html,
 // as we will be using getCart(), getCurrentUser(), showNotification(), clearCart(), and getProduct (if you have one in cart.js) from it.
@@ -189,21 +223,6 @@ try {
     return;
 }
 
-        // --- END ORDER SAVE ---
-
-        // Simulate order success (in a real app, this would be an API call success)
-        showNotification("Commande passée avec succès ! Redirection vers la page d'accueil...", 'success');
-        console.log("placeOrderBtn: Success notification shown. Preparing for cart clear and redirect.");
-
-        // Clear the cart after successful order and stock update
-        clearCart(); // Call the function to clear the specific user's cart (from cart.js)
-        console.log("placeOrderBtn: clearCart() function called.");
-
-        // Redirect to a confirmation page or homepage after a short delay
-        setTimeout(() => {
-            console.log("placeOrderBtn: Attempting redirection to index.html...");
-            window.location.href = 'index.html';
-        }, 3000); // 3 seconds delay
     });
     
 
@@ -234,21 +253,26 @@ try {
             body: JSON.stringify(orderData)
         });
 
-        const result = await response.json();
-        if (response.ok) {
-            alert("✅ Commande enregistrée avec succès !");
-            localStorage.removeItem("cart");
-            window.location.href = "index.html";
-        } else {
-            alert("❌ Erreur: " + result.message);
+const result = await response.json();
+if (response.ok) {
+    showCustomAlert(
+        "✅ Commande enregistrée avec succès ! Cliquez sur OK pour revenir à l'accueil.",
+        'success',
+        () => {
+            clearCart(); // Only clears after OK
+            window.location.href = "index.html"; // Redirects after OK
         }
-    } catch (error) {
-        console.error("Erreur de soumission:", error);
-        alert("Erreur serveur");
-    }
+    );
+} else {
+    showCustomAlert("❌ Erreur: " + result.message, 'error');
 }
 
 
+} catch (error) {
+    console.error("Erreur de soumission:", error);
+    showCustomAlert("❌ Erreur serveur", 'error');
+}
+    }
 
     // Initial load: Render cart items and pre-fill customer info
     renderCheckoutCartItems();

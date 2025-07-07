@@ -175,6 +175,25 @@
                 font-size: 1.2em;
             }
         }
+        .icons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 20px;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ffc107;
+  color: black;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
     </style>
 </head>
 <body>
@@ -202,6 +221,30 @@
         
         </div>
     </header>
+    <header class="mobile-header">
+  <a href="index.html" class="logo">
+    <img src="images/logo.png" alt="TechHaven Logo">
+  </a>
+
+  <div class="icons">
+
+    <!-- USER / LOGIN / LOGOUT -->
+    <span id="mobile-user-control" class="mobile-icon">
+      <i class="fas fa-user"></i>
+    </span>
+
+    <!-- CART ICON -->
+    <a href="cart.html">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge" id="mobile-cart-count">0</span>
+    </a>
+
+
+</div>
+
+
+
+</header>
 
     <div id="notification-container"></div> 
     
@@ -439,6 +482,34 @@
 
         // Afficher le panier au chargement de la page
         document.addEventListener('DOMContentLoaded', () => {
+              const mobileUserControl = document.getElementById("mobile-user-control");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (mobileUserControl) {
+  if (currentUser) {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user-check"></i>
+      <span style="font-size: 10px; display: block;">${currentUser.prenom}</span>
+    `;
+  } else {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user"></i>
+      <span style="font-size: 10px; display: block;">Connecter</span>
+    `;
+  }
+
+  mobileUserControl.addEventListener("click", () => {
+    if (currentUser) {
+      const confirmLogout = confirm(`Se déconnecter de ${currentUser.prenom} ?`);
+      if (confirmLogout) logout();
+    } else {
+      window.location.href = "login.html";
+    }
+    
+  });
+}
+
+
             renderCartItems();
             updateCheckoutButtonState();
         });

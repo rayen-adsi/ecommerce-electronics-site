@@ -151,9 +151,40 @@
   margin: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+.popup-alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  display: none;
+}
+
+.popup-alert.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.popup-alert.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.popup-alert.show {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
   </style>
 <body>
+    <div id="customAlert" class="popup-alert"></div>
     <header class="main-header">
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="TechHaven Logo">
@@ -186,6 +217,40 @@
             </select>
         </div>
     </header>
+        <header class="mobile-header">
+  <a href="index.html" class="logo">
+    <img src="images/logo.png" alt="TechHaven Logo">
+  </a>
+
+  <div class="icons">
+
+    <!-- USER / LOGIN / LOGOUT -->
+    <span id="mobile-user-control" class="mobile-icon">
+      <i class="fas fa-user"></i>
+    </span>
+
+    <!-- CART ICON -->
+    <a href="cart.html" class="mobile-icon cart-container">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge" id="mobile-cart-count">0</span>
+    </a>
+
+  <div class="language-container">
+  <select class="language-select">
+    <option value="fr">🇫🇷</option>
+    <option value="en">🇬🇧</option>
+    <option value="ar">🇸🇦</option>
+    <option value="es">🇪🇸</option>
+    <option value="de">🇩🇪</option>
+    <option value="it">🇮🇹</option>
+    <option value="zh">🇨🇳</option>
+    <option value="ja">🇯🇵</option>
+  </select>
+  </div>
+</div>
+
+</header>
+
 
     <main class="review-form-container">
         <h1 data-i18n="review_page.heading">Soumettez votre avis</h1>
@@ -271,6 +336,20 @@
 
     <script src="js/cart.js"></script>
     <script>
+        function showCustomAlert(message, type = 'success', duration = 3000) {
+  const alertBox = document.getElementById('customAlert');
+  alertBox.textContent = message;
+  alertBox.className = `popup-alert ${type} show`;
+
+  // Auto-hide
+  setTimeout(() => {
+    alertBox.classList.remove('show');
+    setTimeout(() => {
+      alertBox.style.display = 'none';
+    }, 400);
+  }, duration);
+}
+
     // --- Internationalization (i18n) Translations ---
     // This object is CRUCIAL for your data-i18n attributes to work.
     // Ensure this is defined. If you have it in a separate file, load that file BEFORE this script.
@@ -628,6 +707,20 @@
         localStorage.removeItem("role");
         window.location.reload();
     }
+           const languageSelects = document.querySelectorAll('.language-select');
+
+languageSelects.forEach(select => {
+    select.value = currentLang;
+    select.addEventListener('change', (event) => {
+        currentLang = event.target.value;
+        localStorage.setItem('lang', currentLang);
+        applyTranslations();         // Translate all elements including mobile
+        updateLoginUI();             // Re-render greeting/logout
+        if (typeof fetchAndDisplayProducts === 'function') {
+            fetchAndDisplayProducts(); // Update any product-related text
+        }
+    });
+});
 
     // --- Review Form Logic ---
     const reviewForm = document.getElementById('reviewForm');
@@ -740,7 +833,7 @@ if (review.media && review.media.length > 0) {
     const rating = selectedRating ? parseInt(selectedRating.value) : 0;
 
     if (!reviewText) {
-        alert('Veuillez écrire votre avis avant de soumettre.');
+        showCustomAlert('❌ Veuillez écrire votre avis avant de soumettre.', 'error');
         return;
     }
 
@@ -772,19 +865,48 @@ if (review.media && review.media.length > 0) {
 
             // 👉 Load from MongoDB
             fetchAndDisplayReviewsFromBackend();
-        } else {
-            alert(result.message || 'Erreur lors de la soumission.');
+       } else {
+    showCustomAlert(result.message || '❌ Erreur lors de la soumission.', 'error');
         }
 
     } catch (error) {
-        console.error("Erreur lors de l'envoi de l'avis :", error);
-        alert("Erreur réseau ou serveur.");
+    console.error("Erreur lors de l'envoi de l'avis :", error);
+    showCustomAlert("❌ Erreur réseau ou serveur.", 'error');
     }
 });
 
 
+
     // --- Initial Load Logic ---
     document.addEventListener('DOMContentLoaded', () => {
+  const mobileUserControl = document.getElementById("mobile-user-control");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (mobileUserControl) {
+  if (currentUser) {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user-check"></i>
+      <span style="font-size: 10px; display: block;">${currentUser.prenom}</span>
+    `;
+  } else {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user"></i>
+      <span style="font-size: 10px; display: block;">Connecter</span>
+    `;
+  }
+
+  mobileUserControl.addEventListener("click", () => {
+    if (currentUser) {
+      const confirmLogout = confirm(`Se déconnecter de ${currentUser.prenom} ?`);
+      if (confirmLogout) logout();
+    } else {
+      window.location.href = "login.html";
+    }
+    
+  });
+}
+
+
         applyTranslations(); // Apply translations first
         updateLoginUI(currentLang); // Then update login UI
         fetchAndDisplayReviewsFromBackend();// Load and display existing reviews

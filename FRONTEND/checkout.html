@@ -6,6 +6,7 @@
     <title>Paiement - TechHaven</title>
     <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
     <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Basic styling for the checkout page elements */
         body {
@@ -233,6 +234,79 @@
             margin-top: auto; /* Pushes footer to the bottom */
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
         }
+        #custom-alert-container {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.custom-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 90%;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeSlideIn 3.5s ease forwards;
+  pointer-events: auto;
+}
+
+.custom-alert.success {
+  background: linear-gradient(135deg, #28a745, #45bf55);
+}
+
+.custom-alert.error {
+  background: linear-gradient(135deg, #dc3545, #ff6b6b);
+}
+
+.custom-alert i {
+  font-size: 1.2em;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  15%,
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+.notification-button {
+    margin-left: 15px;
+    padding: 5px 12px;
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.notification-button:hover {
+    background-color: #f1f1f1;
+}
+
     </style>
 </head>
 <body>
@@ -298,6 +372,17 @@
     <footer>
         <p>&copy; 2025 TechHaven. Tous droits réservés.</p>
     </footer>
+    <!-- Popup Notification -->
+<div id="custom-alert-container" class="hidden">
+  <div id="custom-alert" class="custom-alert success">
+    <i class="icon">✔️</i>
+    <span id="custom-alert-message">Commande enregistrée avec succès !</span>
+    <button id="custom-alert-ok-btn" class="notification-button">OK</button>
+  </div>
+</div>
+
+
+
 
     <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
