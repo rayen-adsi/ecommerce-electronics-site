@@ -621,7 +621,6 @@ app.put('/api/orders/:id', async (req, res) => {
 
 app.use('/api/users', userRoutes);
 
-app.listen(5000, () => console.log('🚀 Serveur sur http://localhost:5000'));
 
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
