@@ -6,6 +6,16 @@ const path = require('path');
 const fs = require('fs'); // Pour gérer les fichiers système (utile pour la suppression)
 const userRoutes = require('./routes/users'); // Chemin vers le fichier users.js
 
+require("dotenv").config();
+
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
+
 
 
 const app = express();
@@ -70,10 +80,7 @@ const uploadProductMedia = multer({
 });
 
 
-// --- Connexion à MongoDB ---
-mongoose.connect('mongodb://localhost:27017/ecom-site-tunisie') // Remplacez 'ecom-site-tunisie' par le nom de votre BDD
-    .then(() => console.log('Connecté à MongoDB !'))
-    .catch(err => console.error('Erreur de connexion à MongoDB :', err));
+
 
 // --- Définition du Schéma et Modèle de Produit ---
 const productSchema = new mongoose.Schema({
