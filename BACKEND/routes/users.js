@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+// 👇 Add this right after your imports
+router.get('/', (req, res) => {
+  res.send('🟢 User route up');
+});
 
 // ➕ Route pour l'inscription
 router.post('/register', async (req, res) => {
