@@ -28,7 +28,7 @@ app.use(express.json()); // Permet d'analyser les requêtes JSON
 app.use(express.urlencoded({ extended: true })); // Added to handle URL-encoded data if needed
 
 // Servir les fichiers statiques (images/vidéos uploadées)
-// Accès via http://https://techaven.onrender.com:5000/uploads/nom_du_fichier.jpg
+// Accès via https://techaven.onrender.com/uploads/nom_du_fichier.jpg
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- Configuration de Multer pour le téléchargement de fichiers ---

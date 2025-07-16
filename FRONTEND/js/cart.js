@@ -1,7 +1,7 @@
 // js/cart.js
 
 // API URL for fetching product details (needed to get full product info when adding by ID)
-const API_URL = 'http://https://techaven.onrender.com:5000/api/products';
+const API_URL = 'https://techaven.onrender.com/api/products';
 
 // --- NOUVELLES FONCTIONS POUR LA GESTION DE L'UTILISATEUR ET DE LA CLÉ DU PANIER ---
 

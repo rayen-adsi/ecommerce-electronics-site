@@ -319,7 +319,7 @@
         }
         
         try {
-          const response = await fetch(`http://https://techaven.onrender.com:5000/api/products/${productId}?_=${Date.now()}`);
+          const response = await fetch(`https://techaven.onrender.com/api/products/${productId}?_=${Date.now()}`);
         if (!response.ok) {
             throw new Error('Failed to fetch product');
         }
@@ -342,10 +342,10 @@ if (quantityElement) {
             // Collect all media URLs (images and videos) and their types
             const allMedia = [];
             if (product.images && product.images.length > 0) {
-                product.images.forEach(img => allMedia.push({ type: 'image', url: `http://https://techaven.onrender.com:5000${img}` }));
+                product.images.forEach(img => allMedia.push({ type: 'image', url: `https://techaven.onrender.com${img}` }));
             }
             if (product.videos && product.videos.length > 0) {
-                product.videos.forEach(vid => allMedia.push({ type: 'video', url: `http://https://techaven.onrender.com:5000${vid}` }));
+                product.videos.forEach(vid => allMedia.push({ type: 'video', url: `https://techaven.onrender.com${vid}` }));
             }
 
             let mainMediaTag = '';

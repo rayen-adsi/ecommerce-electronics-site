@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: item.name,
                 price: effectivePrice, // Store the actual price paid
                 quantity: item.cartQuantity, // This will be the quantity for the order
-                imageUrl: item.images && item.images.length > 0 ? `http://https://techaven.onrender.com:5000${item.images[0]}` : 'https://via.placeholder.com/50x50?text=No+Img' // Store image URL for admin
+                imageUrl: item.images && item.images.length > 0 ? `https://techaven.onrender.com${item.images[0]}` : 'https://via.placeholder.com/50x50?text=No+Img' // Store image URL for admin
             };
         });
 
@@ -190,7 +190,7 @@ for (const cartItem of cart) {
     }
 
     try {
-        const res = await fetch(`http://https://techaven.onrender.com:5000/api/products/${productId}/decrement`, {
+        const res = await fetch(`https://techaven.onrender.com/api/products/${productId}/decrement`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -247,7 +247,7 @@ try {
     async function submitOrderToServer(orderData) {
     try {
         console.log("Sending order:", orderData);
-        const response = await fetch('http://https://techaven.onrender.com:5000/api/orders', {
+        const response = await fetch('https://techaven.onrender.com/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)

@@ -237,7 +237,7 @@
     </section>
     </section>
     <script>
-        const API_URL = 'http://https://techaven.onrender.com:5000/api/products'; // Ensure this matches your backend API URL
+        const API_URL = 'https://techaven.onrender.com/api/products'; // Ensure this matches your backend API URL
 
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         const userControls = document.getElementById("user-controls");
@@ -305,7 +305,7 @@
                     };
 
                     const imageUrl = product.images && product.images.length > 0
-                        ? `http://https://techaven.onrender.com:5000${product.images[0]}`
+                        ? `https://techaven.onrender.com${product.images[0]}`
                         : 'https://via.placeholder.com/200x200?text=Image+Produit';
 
                     const outOfStockOverlay = isOutOfStock ? `<div class="out-of-stock-overlay">Rupture de Stock</div>` : '';

@@ -35,7 +35,7 @@ async function loadOrders() {
     console.log("loadOrders: Attempting to fetch orders from backend.");
 
     try {
-        const response = await fetch('http://https://techaven.onrender.com:5000/api/orders');
+        const response = await fetch('https://techaven.onrender.com/api/orders');
         
         if (!response.ok) {
             throw new Error(`Server responded with ${response.status}`);
@@ -142,7 +142,7 @@ async function loadOrders() {
     // Function to update order status (NO STOCK DECREMENT HERE ANYMORE)
 async function updateOrderStatus(orderId, newStatus) {
   try {
-    const response = await fetch(`http://https://techaven.onrender.com:5000/api/orders/${orderId}`, {
+    const response = await fetch(`https://techaven.onrender.com/api/orders/${orderId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
