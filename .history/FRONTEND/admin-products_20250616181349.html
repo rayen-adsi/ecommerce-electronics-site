@@ -489,7 +489,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5000/api/products'; // L'URL de votre backend
+        const API_URL = 'http://https://techaven.onrender.com:5000/api/products'; // L'URL de votre backend
 
         // --- Fonctions pour gérer les inputs d'images et de vidéos ---
         function addImageInput() {
@@ -697,7 +697,7 @@
                 // Affichage des images (utilisant l'URL du backend)
                 product.images.forEach(imagePath => {
                     const img = document.createElement('img');
-                    img.src = `http://localhost:5000${imagePath}`; // Utilisez l'URL complète du backend
+                    img.src = `http://https://techaven.onrender.com:5000${imagePath}`; // Utilisez l'URL complète du backend
                     img.alt = product.name;
                     mediaGallery.appendChild(img);
                 });
@@ -705,7 +705,7 @@
                 // Affichage des vidéos (utilisant l'URL du backend)
                 product.videos.forEach(videoPath => {
                     const video = document.createElement('video');
-                    video.src = `http://localhost:5000${videoPath}`; // Utilisez l'URL complète du backend
+                    video.src = `http://https://techaven.onrender.com:5000${videoPath}`; // Utilisez l'URL complète du backend
                     video.controls = true;
                     video.muted = true;
                     video.autoplay = false;
@@ -752,7 +752,7 @@
                 imagePreviews.innerHTML = ''; // Vider les aperçus précédents
                 product.images.forEach(imagePath => {
                     const img = document.createElement('img');
-                    img.src = `http://localhost:5000${imagePath}`; // Utilisez l'URL complète du backend
+                    img.src = `http://https://techaven.onrender.com:5000${imagePath}`; // Utilisez l'URL complète du backend
                     img.alt = 'Existing Image';
                     imagePreviews.appendChild(img);
                 });
@@ -761,7 +761,7 @@
                 videoPreviews.innerHTML = ''; // Vider les aperçus précédents
                 product.videos.forEach(videoPath => {
                     const video = document.createElement('video');
-                    video.src = `http://localhost:5000${videoPath}`;
+                    video.src = `http://https://techaven.onrender.com:5000${videoPath}`;
                     video.controls = true;
                     video.muted = true;
                     video.autoplay = false;

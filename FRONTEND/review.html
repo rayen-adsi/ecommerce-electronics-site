@@ -772,7 +772,7 @@ languageSelects.forEach(select => {
     reviewsListContainer.innerHTML = `<p>${translations[currentLang]['review_page.loading_reviews'] || 'Chargement des avis...'}</p>`;
 
     try {
-        const res = await fetch('http://localhost:5000/api/reviews/approved');
+        const res = await fetch('http://https://techaven.onrender.com:5000/api/reviews/approved');
         const reviews = await res.json();
 
         reviewsListContainer.innerHTML = '';
@@ -796,7 +796,7 @@ if (review.media && review.media.length > 0) {
     mediaGalleryHtml = `<div class="review-media-gallery">
         ${review.media.map(mediaItem => `
             <img 
-              src="http://localhost:5000${mediaItem.filePath}" 
+              src="http://https://techaven.onrender.com:5000${mediaItem.filePath}" 
               alt="media" 
               class="review-media-thumbnail"
             >`).join('')}
@@ -848,7 +848,7 @@ if (review.media && review.media.length > 0) {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/api/reviews', {
+        const response = await fetch('http://https://techaven.onrender.com:5000/api/reviews', {
             method: 'POST',
             body: formData
         });

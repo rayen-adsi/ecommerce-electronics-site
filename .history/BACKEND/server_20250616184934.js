@@ -15,7 +15,7 @@ app.use(express.json()); // Permet d'analyser les requêtes JSON
 app.use(express.urlencoded({ extended: true })); // Added to handle URL-encoded data if needed
 
 // Servir les fichiers statiques (images/vidéos uploadées)
-// Accès via http://localhost:5000/uploads/nom_du_fichier.jpg
+// Accès via http://https://techaven.onrender.com:5000/uploads/nom_du_fichier.jpg
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- Configuration de Multer pour le téléchargement de fichiers ---
@@ -68,7 +68,7 @@ const uploadProductMedia = multer({
 
 
 // --- Connexion à MongoDB ---
-mongoose.connect('mongodb://localhost:27017/ecom-site-tunisie') // Remplacez 'ecom-site-tunisie' par le nom de votre BDD
+mongoose.connect('mongodb://https://techaven.onrender.com:27017/ecom-site-tunisie') // Remplacez 'ecom-site-tunisie' par le nom de votre BDD
     .then(() => console.log('Connecté à MongoDB !'))
     .catch(err => console.error('Erreur de connexion à MongoDB :', err));
 
@@ -365,8 +365,8 @@ app.delete('/api/reviews/:id', async (req, res) => {
 // --- Démarrer le serveur ---
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur le port ${PORT}`);
-    console.log(`Accédez à votre frontend admin via http://localhost:8080/index.html`); // Rappel pour le frontend admin
-    console.log(`Accédez à votre page produits via http://localhost:8080/categories-pc.html`); // Rappel pour la page produits
+    console.log(`Accédez à votre frontend admin via http://https://techaven.onrender.com:8080/index.html`); // Rappel pour le frontend admin
+    console.log(`Accédez à votre page produits via http://https://techaven.onrender.com:8080/categories-pc.html`); // Rappel pour la page produits
 });
 const express = require("express");
 const cors = require("cors");
@@ -402,5 +402,5 @@ app.post("/upload", upload.array("images", 5), (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://https://techaven.onrender.com:${PORT}`);
 });

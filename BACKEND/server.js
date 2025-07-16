@@ -28,7 +28,7 @@ app.use(express.json()); // Permet d'analyser les requêtes JSON
 app.use(express.urlencoded({ extended: true })); // Added to handle URL-encoded data if needed
 
 // Servir les fichiers statiques (images/vidéos uploadées)
-// Accès via http://localhost:5000/uploads/nom_du_fichier.jpg
+// Accès via http://https://techaven.onrender.com:5000/uploads/nom_du_fichier.jpg
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- Configuration de Multer pour le téléchargement de fichiers ---
@@ -697,6 +697,6 @@ app.post('/api/users/reset-password', async (req, res) => {
 // --- Démarrer le serveur ---
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur le port ${PORT}`);
-    console.log(`Accédez à votre frontend admin via http://localhost:8080/index.html`); // Rappel pour le frontend admin
-    console.log(`Accédez à votre page produits via http://localhost:8080/categories-pc.html`); // Rappel pour la page produits
+    console.log(`Accédez à votre frontend admin via http://https://techaven.onrender.com:8080/index.html`); // Rappel pour le frontend admin
+    console.log(`Accédez à votre page produits via http://https://techaven.onrender.com:8080/categories-pc.html`); // Rappel pour la page produits
 });
