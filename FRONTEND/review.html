@@ -181,6 +181,17 @@
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+.products-page-page-container .back-link {
+    color: #F9F9F9;              /* Blue color */
+    font-weight: bold;           /* Bold text */
+    text-decoration: none;       /* Remove underline */
+    display: inline-block;
+    margin: 20px 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
 
   </style>
 <body>
@@ -251,7 +262,9 @@
 
 </header>
 
-
+            <div class="products-page-page-container">
+        <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
+    </div>
     <main class="review-form-container">
         <h1 data-i18n="review_page.heading">Soumettez votre avis</h1>
         <p data-i18n="review_page.intro">Nous serions ravis d'entendre parler de votre expérience avec TechHaven. Vos commentaires nous aident à nous améliorer !</p>
