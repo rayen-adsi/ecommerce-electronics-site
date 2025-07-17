@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gestion des Produits - TechHaven</title>
-    <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
+    <link rel="icon" href="images/lo5.png" type="image/png">
     <link rel="stylesheet" href="css/styles.css"> <style>
         /* General Body Styling (consistent with other admin pages) */
         body {
@@ -749,13 +749,29 @@
                 // Important : Pour les fichiers existants, on ne peut pas les "remettre" dans un input type="file"
                 // On va les afficher comme aperçus et gérer leur persistance/suppression côté backend
                 const imagePreviews = document.getElementById('imagePreviews');
+                let imagesToDelete = []; // Global array to track deleted images
                 imagePreviews.innerHTML = ''; // Vider les aperçus précédents
                 product.images.forEach(imagePath => {
-                    const img = document.createElement('img');
-                    img.src = `https://techaven.onrender.com${imagePath}`; // Utilisez l'URL complète du backend
-                    img.alt = 'Existing Image';
-                    imagePreviews.appendChild(img);
-                });
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('image-preview-wrapper');
+
+                const img = document.createElement('img');
+                img.src = `https://techaven.onrender.com${imagePath}`;
+                img.alt = 'Existing Image';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = '🗑️';
+                deleteBtn.classList.add('delete-image-btn');
+                deleteBtn.onclick = () => {
+                    wrapper.remove();
+                    imagesToDelete.push(imagePath); // Track deleted images
+                };
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(deleteBtn);
+                imagePreviews.appendChild(wrapper);
+            });
+
 
                 const videoPreviews = document.getElementById('videoPreviews');
                 videoPreviews.innerHTML = ''; // Vider les aperçus précédents

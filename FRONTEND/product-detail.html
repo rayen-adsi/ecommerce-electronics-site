@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TecHaven - Détails du Produit</title>
-    <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
+    <link rel="icon" href="images/lo5.png" type="image/png">
     <link rel="stylesheet" href="css/styles.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
@@ -235,13 +235,59 @@
                 justify-content: flex-start;
             }
         }
+        .product-guarantee-banner {
+    background: #f5faff;
+    border-left: 4px solid #007bff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    color: #333;
+}
+
+.product-guarantee-banner ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 10px;
+}
+
+.product-guarantee-banner li {
+    margin-bottom: 5px;
+}
+
+.review-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.review-button:hover {
+    background-color: #0056b3;
+}
+.new-price-box {
+    background-color: #fff6e0;
+    border: 2px dashed #ffc107;
+    color: #444;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1em;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
     </style>
 </head>
 <body>
 
     <header class="main-header">
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="TechHaven Logo">
+            <img src="images/newlogo.png" alt="TechHaven Logo">
         </a>
 
         
@@ -389,7 +435,11 @@ if (quantityElement) {
             // Old Price
             let oldPriceHtml = '';
             if (product.oldPrice) {
-                oldPriceHtml = `<span class="old-price">Prix Neuf: ${product.oldPrice.toFixed(2)}TND</span>`;
+                oldPriceHtml = `
+                    <div class="new-price-box">
+                        <strong>Prix si acheté neuf :</strong> ${product.oldPrice.toFixed(2)} TND
+                    </div>`;
+
             }
             let promopriceHtml = "";
             if (product.promotion_price){
@@ -420,7 +470,19 @@ if (quantityElement) {
                     ${characteristicsHtml}
                     
                     <p><strong>Quantité disponible:</strong> ${product.quantity}</p>
+
+                    <!-- 🌟 Start of Banner Section -->
+                    <div class="product-guarantee-banner">
+                        <ul>
+                            <li>✅ 6 mois sous garantie</li>
+                            <li>✅ 7 jours de test, satisfait ou remboursé</li>
+                        </ul>
+                        <a href="https://www.facebook.com/KB18031989/reviews" target="_blank" class="review-button">Voir les avis clients</a>
+                    </div>
+                    <!-- 🌟 End of Banner Section -->
+
                     <button id="addToCartBtn" class="${buttonClass}" ${isOutOfStock ? 'disabled' : ''}>${buttonText}</button>
+
                 </div>
             `;
 

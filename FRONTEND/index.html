@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>TecHaven - Computer Store</title>
-    <link rel="icon" href="images/logo2-removebg-preview (2).png" type="image/png">
+    <link rel="icon" href="images/lo5.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
  
     <header class="main-header">
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="TechHaven Logo">
+            <img src="images/newlogo.png" alt="TechHaven Logo">
         </a>
  
         <div class="search-wrapper">
@@ -61,7 +61,7 @@
         </header>
 <header class="mobile-header">
   <a href="index.html" class="logo">
-    <img src="images/logo.png" alt="TechHaven Logo">
+    <img src="images/newlogo.png" alt="TechHaven Logo">
   </a>
 
   <div class="icons">
@@ -85,7 +85,7 @@
   <select class="language-select">
     <option value="fr">🇫🇷</option>
     <option value="en">🇬🇧</option>
-    <option value="ar">🇸🇦</option>
+    <option value="ar">TN</option>
     <option value="es">🇪🇸</option>
     <option value="de">🇩🇪</option>
     <option value="it">🇮🇹</option>
@@ -112,23 +112,22 @@
         <div class="slides">
             <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8');">
                 <div class="slide-content">
-                    <h1 data-i18n="hero1.title">Welcome to TecHaven</h1>
-                    <p data-i18n="hero1.subtitle">Your destination for computers, smartphones & smart things</p>
-                    <a href="#nos-categories" class="hero-button" data-i18n="hero1.button">Shop Now</a>
-                </div>
-            </div>
-            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475');">
-                <div class="slide-content">
-                    <h1 data-i18n="hero2.title">🔥 Hot Offers This Week</h1>
-                    <a href="promo.html" class="hero-button" data-i18n="hero2.button">See Deals</a>
+                    <h1 data-i18n="hero1.title">Informatique d’occasion, de vraies occasions.</h1>
+                    <a href="promo.html" class="hero-button" data-i18n="hero1.button">Voir les offres</a>
+                    <a href="#nos-categories" class="hero-button">Découvrir nos produits</a>
                 </div>
             </div>
             <div class="slide" style="background-image: url('images/bg.png');">
                 <div class="slide-content">
-                    <h1 data-i18n="hero3.title">Rejoignez la Communauté TechHaven!</h1>
-                    <p data-i18n="hero3.subtitle">Votre Source de Confiance pour la Technologie.</p>
-                    <a href="#customer-testimonials" class="hero-button primary" data-i18n="hero3.button1">Lire les Avis Clients</a>
+                    <h1 data-i18n="hero2.title">7 jours de test, 3 mois de garantie, satisfait ou remboursé.</h1>
+                    <a href="service.html" class="hero-button" data-i18n="hero2.button">Lire notre politique de service</a>
                     <a href="https://wa.me/41767576430" class="hero-button secondary" data-i18n="hero3.button2">Contactez-nous</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475');">
+                <div class="slide-content">
+                    <h1 data-i18n="hero3.title">Importé de Suisse, à un prix imbattable.</h1>
+                    <a href="#nos-categories" class="hero-button primary" data-i18n="hero3.button1">Nos catégories</a>
                 </div>
             </div>
         </div>
@@ -224,8 +223,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <span data-i18n="footer.copyright">&copy; <span id="current-year"></span> TecHaven. Tous droits réservés.</span>
-        </div>
+  <span data-i18n="footer.copyright">
+    &copy; <span id="current-year"></span> TecHaven. Tous droits réservés.
+  </span>
+  <li><a href="service.html" class="footer-policy-link">Lire notre politique de service</a></li>
+</div>
+
     </footer>
  
     <script src="js/cart.js"></script>
@@ -426,20 +429,16 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "nav.contact": "Contact",
  
                 // Hero Banner (Slide 1)
-                "hero1.title": "Bienvenue à TecHaven",
-                "hero1.subtitle": "Votre destination pour ordinateurs, smartphones & objets connectés",
-                "hero1.button": "Acheter maintenant",
+                "hero1.title": "Informatique d’occasion, de vraies occasions.",
+                "hero1.button": " Voir les offres",
  
                 // Hero Banner (Slide 2)
-                "hero2.title": "🔥 Offres Exceptionnelles Cette Semaine",
-                "hero2.subtitle": "Jusqu'à 30% de réduction sur les accessoires de jeu",
-                "hero2.button": "Voir les offres",
+                "hero2.title": "7 jours de test, 3 mois de garantie, satisfait ou remboursé.",
+                "hero2.button": "Lire notre politique de service",
  
                 // Hero Banner (Slide 3)
-                "hero3.title": "Rejoignez la Communauté TechHaven!",
-                "hero3.subtitle": "Votre Source de Confiance pour la Technologie.",
-                "hero3.button1": "Lire les Avis Clients",
-                "hero3.button2": "Contactez-nous",
+                "hero3.title": " Importé de Suisse, à un prix imbattable.",
+                "hero3.button1": "Nos catégories",
  
                 // Categories Section
                 "categories.title": "Nos Catégories",
@@ -484,20 +483,15 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "nav.contact": "Contact",
  
                 // Hero Banner (Slide 1)
-                "hero1.title": "Welcome to TechHaven",
-                "hero1.subtitle": "Your destination for computers, smartphones & smart things",
-                "hero1.button": "Shop Now",
- 
-                // Hero Banner (Slide 2)
-                "hero2.title": "🔥 Hot Offers This Week",
-                "hero2.subtitle": "Get up to 30% off gaming accessories",
-                "hero2.button": "See Deals",
- 
-                // Hero Banner (Slide 3)
-                "hero3.title": "Join the TechHaven Community!",
-                "hero3.subtitle": "Your Trusted Source for Technology.",
-                "hero3.button1": "Read Customer Reviews",
-                "hero3.button2": "Contact Us",
+                "hero1.title": "Used tech, real deals.",
+                "hero1.button": "View offers",
+
+                "hero2.title": "7-day trial, 3-month warranty, satisfaction guaranteed.",
+                "hero2.button": "Read our service policy",
+
+                "hero3.title": "Imported from Switzerland, at an unbeatable price.",
+                "hero3.button1": "Our categories",
+
  
                 // Categories Section
                 "categories.title": "Our Categories",
@@ -541,21 +535,15 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "nav.promo": "صفحة العروض",
                 "nav.contact": "اتصل بنا",
  
-                // Hero Banner (Slide 1)
-                "hero1.title": "مرحباً بكم في TecHaven",
-                "hero1.subtitle": "وجهتك لأجهزة الكمبيوتر، الهواتف الذكية، والأجهزة الذكية",
-                "hero1.button": "تسوق الآن",
- 
-                // Hero Banner (Slide 2)
-                "hero2.title": "🔥 عروض ساخنة هذا الأسبوع",
-                "hero2.subtitle": "خصم يصل إلى 30% على إكسسوارات الألعاب",
-                "hero2.button": "شاهد العروض",
- 
-                // Hero Banner (Slide 3)
-                "hero3.title": "انضم إلى مجتمع TecHaven!",
-                "hero3.subtitle": "مصدرك الموثوق للتكنولوجيا.",
-                "hero3.button1": "قراءة آراء العملاء",
-                "hero3.button2": "اتصل بنا",
+                "hero1.title": "معلوماتية مستعملة، بأسعار حقيقية.",
+                "hero1.button": "عرض العروض",
+
+                "hero2.title": "7 أيام تجربة، 3 أشهر ضمان، استرجاع كامل إن لم تكن راضيًا.",
+                "hero2.button": "اقرأ سياسة الخدمة",
+
+                "hero3.title": "مستوردة من سويسرا، بسعر لا يُضاهى.",
+                "hero3.button1": "فئاتنا",
+
  
                 // Categories Section
                 "categories.title": "فئاتنا",
@@ -600,22 +588,15 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "nav.promo": "Página de promociones",
         "nav.contact": "Contacto",
  
-        // Hero Banner (Slide 1)
-        "hero1.title": "Bienvenido a TechHaven",
-        "hero1.subtitle": "Tu destino para ordenadores, smartphones y dispositivos inteligentes",
-        "hero1.button": "Comprar ahora",
- 
-        // Hero Banner (Slide 2)
-        "hero2.title": "🔥 Ofertas Calientes Esta Semana",
-        "hero2.subtitle": "Hasta 30% de descuento en accesorios de gaming",
-        "hero2.button": "Ver Ofertas",
- 
-        // Hero Banner (Slide 3)
-        "hero3.title": "¡Únete a la Comunidad TechHaven!",
-        "hero3.subtitle": "Tu Fuente de Confianza para la Tecnología.",
-        "hero3.button1": "Leer Opiniones de Clientes",
-        "hero3.button2": "Contáctanos",
- 
+        "hero1.title": "Informática de segunda mano, verdaderas oportunidades.",
+        "hero1.button": "Ver ofertas",
+
+        "hero2.title": "7 días de prueba, 3 meses de garantía, satisfacción o reembolso.",
+        "hero2.button": "Leer nuestra política de servicio",
+
+        "hero3.title": "Importado de Suiza, a un precio inmejorable.",
+        "hero3.button1": "Nuestras categorías",
+
         // Categories Section
         "categories.title": "Nuestras Categorías",
         "category.pcs": "PCs",
@@ -652,23 +633,15 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "nav.promo": "Angebotsseite",
         "nav.contact": "Kontakt",
  
-        // Hero Banner (Slide 1)
-        "hero1.title": "Willkommen bei TechHaven",
-        "hero1.subtitle": "Ihr Ziel für Computer, Smartphones & Smart Things",
-        "hero1.button": "Jetzt einkaufen",
- 
-        // Hero Banner (Slide 2)
-        "hero2.title": "🔥 Heiße Angebote diese Woche",
-        "hero2.subtitle": "Bis zu 30% Rabatt auf Gaming-Zubehör",
-        "hero2.button": "Angebote ansehen",
- 
-        // Hero Banner (Slide 3)
-        "hero3.title": "Treten Sie der TechHaven-Community bei!",
-        "hero3.subtitle": "Ihre vertrauenswürdige Quelle für Technologie.",
-        "hero3.button1": "Kundenbewertungen lesen",
-        "hero3.button2": "Kontaktieren Sie uns",
- 
-        // Categories Section
+        "hero1.title": "Gebruikte IT, echte koopjes.",
+        "hero1.button": "Bekijk aanbiedingen",
+
+        "hero2.title": "7 dagen op proef, 3 maanden garantie, niet tevreden geld terug.",
+        "hero2.button": "Lees ons servicebeleid",
+
+        "hero3.title": "Geïmporteerd uit Zwitserland, voor een onverslaanbare prijs.",
+        "hero3.button1": "Onze categorieën",
+
         "categories.title": "Unsere Kategorien",
         "category.pcs": "PCs",
         "category.smartphones": "Smartphones",
@@ -703,22 +676,16 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "nav.promo": "プロモーションページ",
         "nav.contact": "お問い合わせ",
  
-        // Hero Banner (Slide 1)
-        "hero1.title": "テックヘブンへようこそ",
-        "hero1.subtitle": "コンピューター、スマートフォン、スマートデバイスの専門店",
-        "hero1.button": "今すぐ購入",
- 
-        // Hero Banner (Slide 2)
-        "hero2.title": "🔥 今週の特別オファー",
-        "hero2.subtitle": "ゲーミングアクセサリーが最大30%オフ",
-        "hero2.button": "セールを見る",
- 
-        // Hero Banner (Slide 3)
-        "hero3.title": "テックヘブンコミュニティに参加しよう！",
-        "hero3.subtitle": "テクノロジーの信頼できる情報源。",
-        "hero3.button1": "お客様のレビューを読む",
-        "hero3.button2": "お問い合わせ",
- 
+        "hero1.title": "中古パソコン、本当のお得。",
+        "hero1.button": "オファーを見る",
+
+        "hero2.title": "7日間の試用、3ヶ月保証、満足できなければ返金。",
+        "hero2.button": "サービスポリシーを読む",
+
+        "hero3.title": "スイスから輸入、他にない価格。",
+        "hero3.button1": "カテゴリを見る",
+
+        
         // Categories Section
         "categories.title": "カテゴリー",
         "category.pcs": "PC",
@@ -755,21 +722,15 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
         "nav.promo": "Pagina promozioni",
         "nav.contact": "Contatti",
  
-        // Hero Banner (Slide 1)
-        "hero1.title": "Benvenuti a TechHaven",
-        "hero1.subtitle": "La tua destinazione per computer, smartphone e dispositivi intelligenti",
-        "hero1.button": "Acquista ora",
- 
-        // Hero Banner (Slide 2)
-        "hero2.title": "🔥 Offerte imperdibili questa settimana",
-        "hero2.subtitle": "Fino al 30% di sconto sugli accessori gaming",
-        "hero2.button": "Vedi le offerte",
- 
-        // Hero Banner (Slide 3)
-        "hero3.title": "Unisciti alla comunità TechHaven!",
-        "hero3.subtitle": "La tua fonte di fiducia per la tecnologia.",
-        "hero3.button1": "Leggi le recensioni dei clienti",
-        "hero3.button2": "Contattaci",
+        "hero1.title": "Informatica usata, vere occasioni.",
+        "hero1.button": "Vedi le offerte",
+
+        "hero2.title": "7 giorni di prova, 3 mesi di garanzia, soddisfatti o rimborsati.",
+        "hero2.button": "Leggi la nostra politica di servizio",
+
+        "hero3.title": "Importato dalla Svizzera, a un prezzo imbattibile.",
+        "hero3.button1": "Le nostre categorie",
+
  
         // Categories Section
         "categories.title": "Le Nostre Categorie",
@@ -807,21 +768,15 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
         "nav.promo": "促销页面",
         "nav.contact": "联系我们",
  
-        // Hero Banner (Slide 1)
-        "hero1.title": "欢迎来到 TechHaven",
-        "hero1.subtitle": "您购买电脑、智能手机和智能设备的理想之地",
-        "hero1.button": "立即购买",
- 
-        // Hero Banner (Slide 2)
-        "hero2.title": "🔥 本周热卖优惠",
-        "hero2.subtitle": "游戏配件最高30%折扣",
-        "hero2.button": "查看优惠",
- 
-        // Hero Banner (Slide 3)
-        "hero3.title": "加入 TechHaven 社区！",
-        "hero3.subtitle": "您值得信赖的技术来源。",
-        "hero3.button1": "阅读客户评论",
-        "hero3.button2": "联系我们",
+        "hero1.title": "二手电脑，真正实惠。",
+        "hero1.button": "查看优惠",
+
+        "hero2.title": "7天试用，3个月保修，不满意可退款。",
+        "hero2.button": "阅读我们的服务政策",
+
+        "hero3.title": "瑞士进口，价格无与伦比。",
+        "hero3.button1": "我们的分类",
+
  
         // Categories Section
         "categories.title": "我们的分类",
