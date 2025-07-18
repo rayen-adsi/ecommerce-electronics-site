@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecHaven - Détails du Produit</title>
+    <title>SUISSTECH - Détails du Produit</title>
     <link rel="icon" href="images/lo5.png" type="image/png">
     <link rel="stylesheet" href="css/styles.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -150,6 +150,36 @@
             margin-bottom: 10px;
             display: block;
         }
+      .crossed-price {
+    text-decoration: line-through;
+    color: #888 !important;
+    font-size: 1.2rem !important;
+    font-weight: normal !important;
+}
+.price-neuf {
+    color: #a78bfa; /* Light violet */
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* Infinite bounce loop */
+.bounce-loop {
+    animation: softBounce 2s ease-in-out infinite;
+}
+
+@keyframes softBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+
+
 
         .product-info .old-price {
             font-size: 1.2em;
@@ -159,7 +189,7 @@
         .product-info .promo-price{
             font-size: 2.2em;
             font-weight: bold;
-            color: #a72828;
+            color: #28a745;
             margin-bottom: 10px;
             display: block;
         }
@@ -287,7 +317,7 @@
 
     <header class="main-header">
         <a href="index.html" class="logo">
-            <img src="images/logo8.png" alt="TechHaven Logo">
+            <img src="images/logo8.png" alt="SUISSTECH Logo">
         </a>
 
         
@@ -309,7 +339,7 @@
     </header>
     
     <div class="product-detail-container">
-        <a href="index.html" class="back-link">&larr; Retour à l'Accueil</a>
+    <a href="javascript:history.back()" class="back-link">&larr; Retour</a>
         <div id="product-details">
             <p class="loading-message">Chargement des détails du produit...</p>
         </div>
@@ -432,18 +462,17 @@ if (quantityElement) {
                 characteristicsHtml += '</ul>';
             }
 
-            // Old Price
-            let oldPriceHtml = '';
-            if (product.oldPrice) {
-                oldPriceHtml = `
-                    <div class="new-price-box">
-                        <strong>Prix si acheté neuf :</strong> ${product.oldPrice.toFixed(2)} TND
-                    </div>`;
-
-            }
+let oldPriceHtml = '';
+if (product.oldPrice) {
+    oldPriceHtml = `
+        <div class="price-neuf bounce-loop">
+            Prix si acheté neuf : ${product.oldPrice.toFixed(2)} TND
+        </div>`;
+}
+        
             let promopriceHtml = "";
             if (product.promotion_price){
-                         promopriceHtml=`<span class="promo-price">prix en promo: ${product.promotion_price.toFixed(2)}TND</span>` ;
+                         promopriceHtml=`<span class="promo-price">Prix en promo: ${product.promotion_price.toFixed(2)}TND</span>` ;
                 }
             
             // "Add to Cart" button logic
@@ -461,7 +490,10 @@ if (quantityElement) {
                 <div class="product-info">
                     <h1>${product.name}</h1>
                     ${promopriceHtml}
-                    <span class="price-display">${product.price.toFixed(2)}TND</span>
+                    <span class="${product.promotion_price ? 'price-display crossed-price' : 'price-display'}">
+    Prix de base: ${product.price.toFixed(2)}TND
+</span>
+
                     ${oldPriceHtml}
                     
                     <h2>Description</h2>
@@ -582,7 +614,7 @@ if (quantityElement) {
     <footer class="main-footer">
     <div class="footer-content">
         <div class="footer-section about">
-            <h3>À Propos de TecHaven</h3>
+            <h3>À Propos de SUISSTECH</h3>
             <p>Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.</p>
         </div>
         <div class="footer-section links">
@@ -608,7 +640,7 @@ if (quantityElement) {
         </div>
     </div>
     <div class="footer-bottom">
-        &copy; <span id="current-year"></span> TecHaven. Tous droits réservés.
+        &copy; <span id="current-year"></span> SUISSTECH. Tous droits réservés.
     </div>
 </footer>
 
