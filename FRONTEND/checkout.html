@@ -350,6 +350,15 @@
                         <label for="paypal">PayPal (Indisponible pour le moment)</label>
                     </div>
                 </div>
+<div id="accountPrompt" style="display: none; margin-top: 20px; padding: 15px; background-color: #1e2a3a; border-radius: 8px; color: white;">
+  <p style="margin-bottom: 10px;">
+    🔐 Vous pouvez créer un compte pour suivre vos commandes et retrouver facilement vos informations lors de vos prochaines visites.
+  </p>
+  <button onclick="redirectToSignup()" style="padding: 10px 20px; background-color: #ff5e5e; color: white; border: none; border-radius: 6px; cursor: pointer;">
+    Créer un compte
+  </button>
+</div>
+
                 <div id="paymentNotification" class="notification-message"></div>
             </div>
 
@@ -381,6 +390,22 @@
     <button id="custom-alert-ok-btn" class="notification-button">OK</button>
   </div>
 </div>
+
+<script>
+  function redirectToSignup() {
+    localStorage.setItem("signupRedirectAfterOrder", "true");
+    window.location.href = "signup.html";
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const isUserConnected = localStorage.getItem("currentUser");
+    const promptBox = document.getElementById("accountPrompt");
+
+    if (!isUserConnected && promptBox) {
+      promptBox.style.display = "block";
+    }
+  });
+</script>
 
 
 

@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 // ➕ Route pour l'inscription
 router.post('/register', async (req, res) => {
   try {
-    const { nom, prenom, email, password, telephone, ville, adresse } = req.body;
+    const { nom, prenom, email, password, telephone} = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "Email déjà utilisé." });
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
     const newUser = new User({
       nom, prenom, email,
       password: hashedPassword,
-      telephone, ville, adresse
+      telephone,
     });
 
     await newUser.save();

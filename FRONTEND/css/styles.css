@@ -26,7 +26,7 @@ body {
 }
 
 .logo img {
-    height: 200px; /* Adjusted height for desktop logo - was 200px which is very large */
+    height: 175px; /* Adjusted height for desktop logo - was 200px which is very large */
     width: auto; /* Maintain aspect ratio */
 }
 

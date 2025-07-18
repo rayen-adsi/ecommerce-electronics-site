@@ -19,13 +19,12 @@ function getCurrentUser() {
 // Fonction pour obtenir la clé de stockage du panier spécifique à l'utilisateur
 // Retourne null si l'utilisateur n'est pas connecté, empêchant le stockage persistant
 function getCartStorageKey() {
-    const user = getCurrentUser();
-    if (user && user._id) { // Assurez-vous que l'ID de l'utilisateur est disponible
-        console.log("getCartStorageKey: Utilisateur connecté. Clé:", `cart_${user._id}`); // LOG DE DÉBOGAGE
-        return `cart_${user._id}`;
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (currentUser && currentUser.email) {
+        return `cart_${currentUser.email}`; // panier de l'utilisateur connecté
+    } else {
+        return "guest_cart"; // panier temporaire pour utilisateur non connecté
     }
-    console.log("getCartStorageKey: Aucun utilisateur connecté. Pas de clé persistante."); // LOG DE DÉBOGAGE
-    return null; // Si pas d'utilisateur connecté, pas de clé de stockage persistante.
 }
 
 // --- FIN DES NOUVELLES FONCTIONS ---
@@ -53,19 +52,15 @@ function getCart() {
 // Utility to save cart to localStorage for the current user
 function saveCart(cart) {
     const storageKey = getCartStorageKey();
-    if (!storageKey) {
-        console.warn("saveCart: Impossible de sauvegarder le panier: utilisateur non connecté ou ID manquant.");
-        return; // Ne sauvegarde pas si pas de clé (pas d'utilisateur connecté)
-    }
-
     try {
         localStorage.setItem(storageKey, JSON.stringify(cart));
-        console.log("saveCart: Panier sauvegardé avec clé", storageKey, ":", cart); // LOG DE DÉBOGAGE
-        updateCartBadge(); // Update badge whenever cart changes
+        console.log("saveCart: Panier sauvegardé avec clé", storageKey, ":", cart);
+        updateCartBadge();
     } catch (e) {
         console.error("saveCart: Erreur lors de la sauvegarde du panier dans localStorage", e);
     }
 }
+
 
 // Add a product to the cart
 async function addToCart(productId, quantity = 1) {
@@ -73,10 +68,6 @@ async function addToCart(productId, quantity = 1) {
     console.log("addToCart: Appelée pour productId:", productId, "quantity:", quantity); // LOG DE DÉBOGAGE
     console.log("addToCart: Utilisateur actuel:", user); // LOG DE DÉBOGAGE
 
-    if (!user) {
-        showNotification("Veuillez vous connecter pour ajouter des articles au panier.", 'error');
-        return false; // Empêche l'ajout si non connecté
-    }
 
     let cart = getCart(); // Obtient le panier de l'utilisateur connecté
 

@@ -122,7 +122,6 @@ const Review = mongoose.model('Review', reviewSchema);
 
 // --- Définition du Schéma et Modèle de Commande (Order) ---
 const orderSchema = new mongoose.Schema({
-   userId: { type: String, required: true },
     orderId: { type: String, required: true, unique: true }, // Client-generated unique ID for the order
     customerInfo: { // Details of the customer at the time of order
         fullName: { type: String, required: true },
@@ -153,7 +152,7 @@ app.use('/api/users', userRoutes);
 // Route pour ajouter un nouveau produit
 app.post('/api/orders', async (req, res) => {
     try {
-        const { userId, orderId, customerInfo, items, totalAmount, paymentMethod, orderDate, status } = req.body;
+        const { orderId, customerInfo, items, totalAmount, paymentMethod, orderDate, status } = req.body;
 
         const validatedItems = [];
 
@@ -182,7 +181,6 @@ app.post('/api/orders', async (req, res) => {
         }
 
         const newOrder = new Order({
-            userId,
             orderId,
             customerInfo,
             items: validatedItems,

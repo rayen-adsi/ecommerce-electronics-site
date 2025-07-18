@@ -155,37 +155,6 @@
       <label for="telephone">Téléphone</label>
       <input type="tel" id="telephone" required />
 
-      <label for="ville">Ville</label>
-      <select id="ville" required>
-        <option value="">-- Sélectionnez votre ville --</option>
-        <option>Ariana</option>
-        <option>Béja</option>
-        <option>Ben Arous</option>
-        <option>Bizerte</option>
-        <option>Gabès</option>
-        <option>Gafsa</option>
-        <option>Jendouba</option>
-        <option>Kairouan</option>
-        <option>Kasserine</option>
-        <option>Kébili</option>
-        <option>Kef</option>
-        <option>Mahdia</option>
-        <option>Manouba</option>
-        <option>Médenine</option>
-        <option>Monastir</option>
-        <option>Nabeul</option>
-        <option>Sfax</option>
-        <option>Sidi Bouzid</option>
-        <option>Siliana</option>
-        <option>Sousse</option>
-        <option>Tataouine</option>
-        <option>Tozeur</option>
-        <option>Tunis</option>
-        <option>Zaghouan</option>
-      </select>
-
-      <label for="adresse">Adresse</label>
-      <input type="text" id="adresse" required />
 
       <button type="submit">S'inscrire</button>
     </form>
@@ -208,6 +177,27 @@
       const input = document.getElementById(id);
       input.type = input.type === "password" ? "text" : "password";
     }
+function transferGuestCartToUser(userEmail) {
+  const guestCart = JSON.parse(localStorage.getItem("guest_cart")) || [];
+  const userCartKey = `cart_${userEmail}`;
+  const userCart = JSON.parse(localStorage.getItem(userCartKey)) || [];
+
+  // Merge items (avoid duplicates by ID)
+  guestCart.forEach(guestItem => {
+    const existing = userCart.find(item => item.id === guestItem.id);
+    if (existing) {
+      existing.quantity += guestItem.quantity;
+    } else {
+      userCart.push(guestItem);
+    }
+  });
+
+  // Save new cart to user
+  localStorage.setItem(userCartKey, JSON.stringify(userCart));
+  // Remove guest cart
+  localStorage.removeItem("guest_cart");
+  localStorage.removeItem("guestId");
+}
 
 async function validateForm(event) {
   event.preventDefault();
@@ -221,8 +211,6 @@ async function validateForm(event) {
   const password = document.getElementById('password').value;
   const confirm = document.getElementById('confirm-password').value;
   const telephone = document.getElementById('telephone').value;
-  const ville = document.getElementById('ville').value;
-  const adresse = document.getElementById('adresse').value;
 
   if (password.length < 8) {
     showCustomAlert("⚠️ Le mot de passe doit contenir au moins 8 caractères.", 'error');
@@ -237,7 +225,7 @@ async function validateForm(event) {
   }
 
   const userData = {
-    nom, prenom, email, password, telephone, ville, adresse
+    nom, prenom, email, password, telephone
   };
 
   try {
@@ -254,11 +242,20 @@ async function validateForm(event) {
       result = await response.json();
     }
 
-    if (response.ok) {
-      showCustomAlert("✅ Inscription réussie !");
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
+   if (response.ok) {
+  showCustomAlert("✅ Inscription réussie !");
+
+localStorage.setItem("currentUser", JSON.stringify({
+  prenom: userData.prenom,
+  nom: userData.nom,
+  email: userData.email,
+  telephone: userData.telephone
+}));
+ // ✅ Transfer guest cart to user cart
+  transferGuestCartToUser(userData.email);
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 2000);
     } else {
       showCustomAlert("❌ " + (result.message || "Erreur lors de l'inscription."), 'error');
       setTimeout(() => window.location.reload(), 3000);

@@ -132,6 +132,25 @@
         toggleText.textContent = "👁 Afficher le mot de passe";
       }
     }
+    function transferGuestCartToUser(userEmail) {
+  const guestCart = JSON.parse(localStorage.getItem("guest_cart")) || [];
+  const userCartKey = `cart_${userEmail}`;
+  const userCart = JSON.parse(localStorage.getItem(userCartKey)) || [];
+
+  // Merge items: avoid duplicates based on product ID
+  guestCart.forEach(guestItem => {
+    const existingItem = userCart.find(item => item.id === guestItem.id);
+    if (existingItem) {
+      existingItem.quantity += guestItem.quantity;
+    } else {
+      userCart.push(guestItem);
+    }
+  });
+
+  localStorage.setItem(userCartKey, JSON.stringify(userCart));
+  localStorage.removeItem("guest_cart");
+  localStorage.removeItem("guestId");
+}
 
   async function login() {
     const email = document.getElementById("email").value.toLowerCase();
@@ -166,6 +185,8 @@
       if (response.ok) {
         localStorage.setItem("currentUser", JSON.stringify(data.user));
         localStorage.setItem("role", "user");
+          // ✅ Transfer guest cart
+  transferGuestCartToUser(data.user.email);
         showCustomAlert("✅ Connexion réussie !");
         setTimeout(() => {
       window.location.href = 'index.html'; // Or 'login.html'

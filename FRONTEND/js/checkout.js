@@ -114,11 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("placeOrderBtn: Clicked.");
 
         const user = getCurrentUser();
-        if (!user || !user._id) { // Added !user._id check for robustness
-            showNotification("Veuillez vous connecter pour passer une commande.", 'error');
-            console.log("placeOrderBtn: Order failed - User not logged in or missing ID.");
-            return;
-        }
 
         const cart = getCart();
         if (cart.length === 0) {
@@ -162,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const orderDetails = {
-            userId: user._id,
             orderId: 'ORD-' + Date.now() + Math.floor(Math.random() * 1000), // Generate a unique client-side order ID
             customerInfo: {
                 fullName: document.getElementById('fullName').value,
