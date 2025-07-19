@@ -614,6 +614,19 @@ app.put('/api/orders/:id', async (req, res) => {
         res.status(500).json({ message: 'Failed to update order status.' });
     }
 });
+// GET /api/orders/user/:userId - Get orders for a specific user
+app.get('/api/orders/user/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const orders = await Order.find({ userId }).sort({ orderDate: -1 });
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error('Erreur lors du chargement des commandes utilisateur :', error);
+        res.status(500).json({ message: 'Erreur lors du chargement des commandes.' });
+    }
+});
+
 // ... (Your existing app.listen at the very end of the file) ...
 
 

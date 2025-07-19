@@ -283,7 +283,7 @@
             </div>
             <div class="footer-section contact">
                 <h3>Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i>5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
                 <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
                 <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
                 <div class="social-icons">
@@ -310,7 +310,7 @@
 
         if (currentUser) {
             userControls.innerHTML = `
-                <div class="icon-button">
+                <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
                     <span class="icon">👋</span>
                     <span class="text">Bonjour, ${currentUser.prenom}</span>
                 </div>

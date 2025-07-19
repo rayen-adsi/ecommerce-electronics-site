@@ -388,7 +388,7 @@
             </div>
             <div class="footer-section contact">
                 <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.address">5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</span></p>
+                <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.address">📍 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</span></p>
                 <p><i class="fas fa-phone"></i> <span data-i18n="footer.phone">+41 76 757 64 30</span></p>
                 <p><i class="fas fa-envelope"></i> <span data-i18n="footer.email">techaven03@gmail.com</span></p>
                 <div class="social-icons">
@@ -453,7 +453,7 @@ const translations = {
         "nav.my_account": "",
         "nav.cart": "Panier",
         "footer.contact_title": "Contactez-nous",
-        "footer.address": "5 rue el Fadhel Ben Achour, Ezzahra, Tunisia",
+        "footer.address": "📍 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia",
         "footer.phone": "+41 76 757 64 30",
         "footer.email": "techaven03@gmail.com",
         "footer.copyright": "SUISSTECH. Tous droits réservés.",
@@ -767,7 +767,7 @@ const translations = {
         function updateLoginUI() {
             if (currentUser) {
                 userControls.innerHTML = `
-                    <div class="icon-button">
+                    <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
                         <span class="icon">👋</span>
                         <span class="text" data-i18n="greeting.text">${translations[currentLang]['greeting.text']}</span>, ${currentUser.prenom}
                     </div>

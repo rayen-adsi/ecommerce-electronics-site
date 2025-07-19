@@ -260,7 +260,7 @@
 
         if (currentUser) {
             userControls.innerHTML = `
-                <div class="icon-button">
+                <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
                     <span class="icon">👋</span>
                     <span class="text">Bonjour, ${currentUser.prenom}</span>
                 </div>

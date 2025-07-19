@@ -358,13 +358,24 @@
 #createAccountBtn:hover {
   background-color: #059669;
 }
-
+    .products-page-page-container .back-link {
+    color: #F9F9F9;              /* Blue color */
+    font-weight: bold;           /* Bold text */
+    text-decoration: none;       /* Remove underline */
+    display: inline-block;
+    margin: 20px 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
 
     </style>
 </head>
 <body>
 
- 
+ <div class="products-page-page-container">
+        <a href="javascript:history.back()" class="back-link" data-i18n="back_to_home">&larr; Retour</a>
+    </div>
 
     <div class="checkout-container">
         <h2 class="checkout-header">Passer votre commande</h2>

@@ -243,22 +243,22 @@
         const userControls = document.getElementById("user-controls");
 
         if (currentUser) {
-            userControls.innerHTML = `
-                <div class="icon-button">
-                    <span class="icon">👋</span>
-                    <span class="text">Bonjour, ${currentUser.prenom}</span>
-                </div>
-                <button onclick="logout()" style="
-                    margin-left: 10px;
-                    background-color: #ff5e5e;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                ">Déconnexion</button>
-            `;
-        }
+    userControls.innerHTML = `
+    <a href="order-history.html" class="icon-button" style="text-decoration: none; color: inherit;">
+        <span class="icon">👋</span>
+        <span class="text">Bonjour, ${currentUser.prenom}</span>
+    </a>
+        <button onclick="logout()" style="
+            margin-left: 10px;
+            background-color: #ff5e5e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        ">Déconnexion</button>
+    `;
+}
 
         function logout() {
             localStorage.removeItem("currentUser");
