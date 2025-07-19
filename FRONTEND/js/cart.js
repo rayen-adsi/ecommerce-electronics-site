@@ -16,14 +16,16 @@ function getCurrentUser() {
     }
 }
 
+
+
 // Fonction pour obtenir la clé de stockage du panier spécifique à l'utilisateur
 // Retourne null si l'utilisateur n'est pas connecté, empêchant le stockage persistant
 function getCartStorageKey() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser = getCurrentUser(); // utilise la fonction sûre
     if (currentUser && currentUser.email) {
-        return `cart_${currentUser.email}`; // panier de l'utilisateur connecté
+        return `cart_${currentUser.email}`;
     } else {
-        return "guest_cart"; // panier temporaire pour utilisateur non connecté
+        return "guest_cart";
     }
 }
 

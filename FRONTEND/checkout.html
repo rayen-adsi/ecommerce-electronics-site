@@ -307,6 +307,58 @@
 .notification-button:hover {
     background-color: #f1f1f1;
 }
+#guestPasswordFields {
+  display: none;
+}
+#guestPasswordFields {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #1e293b;
+  border-radius: 10px;
+  color: #f8fafc;
+}
+
+#guestPasswordFields label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  color: #ff5e5e; /* Yellow tone to match the 🔐 emoji */
+}
+
+#guestPasswordFields input[type="password"] {
+  display: inline-block;
+  width: calc(50% - 6px);
+  margin-right: 8px;
+  margin-bottom: 10px;
+  padding: 0.6rem 0.8rem;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #f1f5f9;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#guestPasswordFields input[type="password"]:focus {
+  border-color: #3b82f6;
+}
+
+#createAccountBtn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#createAccountBtn:hover {
+  background-color: #059669;
+}
+
 
     </style>
 </head>
@@ -332,6 +384,12 @@
 
                     <label for="shippingAddress">Adresse de livraison</label>
                     <textarea id="shippingAddress" required placeholder="Numéro de rue, Nom de rue, Ville, Code Postal"></textarea>
+<div id="guestPasswordFields" style="display: none;">
+  <label>🔐 Créez un compte en définissant un mot de passe ci-dessous (facultatif)</label>
+  <input type="password" id="newPassword" placeholder="Mot de passe" />
+  <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" />
+  <button type="button" id="createAccountBtn" style="margin-top: 8px;">Créer un compte maintenant</button>
+</div>
 
                     </form>
 
@@ -350,15 +408,6 @@
                         <label for="paypal">PayPal (Indisponible pour le moment)</label>
                     </div>
                 </div>
-<div id="accountPrompt" style="display: none; margin-top: 20px; padding: 15px; background-color: #1e2a3a; border-radius: 8px; color: white;">
-  <p style="margin-bottom: 10px;">
-    🔐 Vous pouvez créer un compte pour suivre vos commandes et retrouver facilement vos informations lors de vos prochaines visites.
-  </p>
-  <button onclick="redirectToSignup()" style="padding: 10px 20px; background-color: #ff5e5e; color: white; border: none; border-radius: 6px; cursor: pointer;">
-    Créer un compte
-  </button>
-</div>
-
                 <div id="paymentNotification" class="notification-message"></div>
             </div>
 
@@ -391,21 +440,7 @@
   </div>
 </div>
 
-<script>
-  function redirectToSignup() {
-    localStorage.setItem("signupRedirectAfterOrder", "true");
-    window.location.href = "signup.html";
-  }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const isUserConnected = localStorage.getItem("currentUser");
-    const promptBox = document.getElementById("accountPrompt");
-
-    if (!isUserConnected && promptBox) {
-      promptBox.style.display = "block";
-    }
-  });
-</script>
 
 
 
