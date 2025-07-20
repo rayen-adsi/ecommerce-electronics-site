@@ -69,6 +69,10 @@
     <span class="mobile-icon" onclick="toggleMobileSearch()">
       <i class="fas fa-search"></i>
     </span>
+    <!-- Order History Icon -->
+<a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
+</a>
 
     <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
@@ -114,7 +118,7 @@
                 <div class="slide-content">
                     <h1 data-i18n="hero1.title">Informatique d’occasion, de vraies occasions.</h1>
                     <a href="promo.html" class="hero-button" data-i18n="hero1.button">Voir les offres</a>
-                    <a href="#nos-categories" class="hero-button">Découvrir nos produits</a>
+                    <a href="#nos-categories" class="hero-button" data-i18n="hero22.button">Découvrir nos produits</a>
                 </div>
             </div>
             <div class="slide" style="background-image: url('images/bg.png');">
@@ -213,7 +217,7 @@
             </div>
             <div class="footer-section contact">
                 <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-map-marker-alt"></i> 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</p>
                 <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
                 <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
                 <div class="social-icons">
@@ -226,7 +230,7 @@
   <span data-i18n="footer.copyright">
     &copy; <span id="current-year"></span> SUISSTECH. Tous droits réservés.
   </span>
-  <li><a href="service.html" class="footer-policy-link">Lire notre politique de service</a></li>
+  <li><a href="service.html" class="footer-policy-link"data-i18n="footer.link">Lire notre politique de service</a></li>
 </div>
 
     </footer>
@@ -287,13 +291,26 @@ const API_BASE_URL = 'https://techaven.onrender.com/api'; // Ensure this is cons
  
         function updateLoginUI(lang) {
            if (currentUser) {
-    userControls.innerHTML = `
-        <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
-            <span class="icon">👋</span>
-            <span class="text" data-i18n="header.greeting">
-                ${lang === "es" ? "Hola" : lang === 'en' ? 'Hello' : lang === 'ar' ? 'مرحباً' : 'Bonjour'}, ${currentUser.prenom}
-            </span>
-        </div>
+userControls.innerHTML = `
+<div class="user-menu-wrapper" onclick="toggleUserMenu()">
+  <span class="user-menu-icon">👋</span>
+  <span class="user-menu-text" data-i18n="header.greeting">
+    ${lang === "es" ? "Hola" : lang === 'en' ? 'Hello' : lang === 'ar' ? 'مرحباً' : 'Bonjour'}, ${currentUser.prenom}
+  </span>
+  <i class="fas fa-chevron-down"></i>
+
+  <div class="user-menu-dropdown" id="userDropdownMenu">
+    <a href="order-history.html" class="dropdown-link">
+      <i class="fas fa-box-open dropdown-icon"></i>
+      <span data-i18n="header.order_history">Historique des commandes</span>
+    </a>
+    <button onclick="logout()" class="dropdown-link logout-btn">
+      <i class="fas fa-sign-out-alt dropdown-icon"></i>
+      <span data-i18n="header.logout_button">Déconnexion</span>
+    </button>
+  </div>
+</div>
+
         <button onclick="logout()" style="
             margin-left: 10px;
             background-color: #ff5e5e;
@@ -302,7 +319,6 @@ const API_BASE_URL = 'https://techaven.onrender.com/api'; // Ensure this is cons
             padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-        " data-i18n="header.logout_button"></button>
     `;
                 // Manually set text for the dynamic logout button after creation
                 const logoutButton = userControls.querySelector('button');
@@ -324,7 +340,13 @@ const API_BASE_URL = 'https://techaven.onrender.com/api'; // Ensure this is cons
                 }
             }
         }
- 
+ function toggleUserMenu() {
+    const dropdown = document.getElementById("userDropdownMenu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+
+
  
         function logout() {
             localStorage.removeItem("currentUser");
@@ -421,6 +443,7 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "header.cart": "Mon Panier",
                 "header.greeting": "Bonjour", // For dynamic greeting
                 "header.logout_button": "Déconnexion",
+                "header.order_history":"Historique des commandes",
  
                 // Navigation Links
                 "nav.home": "Accueil",
@@ -433,11 +456,12 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 // Hero Banner (Slide 1)
                 "hero1.title": "Informatique d’occasion, de vraies occasions.",
                 "hero1.button": " Voir les offres",
+                "hero22.button": "Découvrir nos produits",
  
                 // Hero Banner (Slide 2)
                 "hero2.title": "7 jours de test, 3 mois de garantie, satisfait ou remboursé.",
                 "hero2.button": "Lire notre politique de service",
- 
+                "hero3.button2": "Contactez-nous",
                 // Hero Banner (Slide 3)
                 "hero3.title": " Importé de Suisse, à un prix imbattable.",
                 "hero3.button1": "Nos catégories",
@@ -466,7 +490,8 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "footer.about_text": "Votre destination unique pour des PC, des composants et des accessoires informatiques de haute qualité. Nous nous engageons à offrir les meilleures technologies et un service client exceptionnel.",
                 "footer.links_title": "Liens Utiles",
                 "footer.my_account": "",
-                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tous droits réservés." // Placeholder for year
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tous droits réservés.", // Placeholder for year
+                "footer.link":"Lire notre politique de service"
             },
             en: {
                 // Header/Navigation
@@ -475,6 +500,7 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "header.cart": "My Cart",
                 "header.greeting": "Hello",
                 "header.logout_button": "Log Out",
+                "header.order_history":"Order History",
  
                 // Navigation Links
                 "nav.home": "Home",
@@ -487,10 +513,11 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 // Hero Banner (Slide 1)
                 "hero1.title": "Used tech, real deals.",
                 "hero1.button": "View offers",
-
+                "hero22.button": "Discover our products",
+ 
                 "hero2.title": "7-day trial, 3-month warranty, satisfaction guaranteed.",
                 "hero2.button": "Read our service policy",
-
+                "hero3.button2": "Contact us",
                 "hero3.title": "Imported from Switzerland, at an unbeatable price.",
                 "hero3.button1": "Our categories",
 
@@ -513,13 +540,13 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "search_results.no_products": "No products found for your search.",
                 "product_card.add_to_cart": "Add to Cart",
                 "product_card.out_of_stock": "Out of Stock",
-
                 // Footer
                 "footer.about_title": "About SUISSTECH",
                 "footer.about_text": "Your one-stop destination for high-quality PCs, components, and computer accessories. We are committed to providing the best technology and exceptional customer service.",
                 "footer.links_title": "Useful Links",
                 "footer.my_account": "My Account",
-                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. All Rights Reserved."
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. All Rights Reserved.",
+                "footer.link": "Read our service policy"
             },
             ar: {
                 // Header/Navigation
@@ -539,10 +566,10 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
  
                 "hero1.title": "معلوماتية مستعملة، بأسعار حقيقية.",
                 "hero1.button": "عرض العروض",
-
+                "hero22.button": "اكتشف منتجاتنا",
                 "hero2.title": "7 أيام تجربة، 3 أشهر ضمان، استرجاع كامل إن لم تكن راضيًا.",
                 "hero2.button": "اقرأ سياسة الخدمة",
-
+                "hero3.button2": "اتصل بنا",
                 "hero3.title": "مستوردة من سويسرا، بسعر لا يُضاهى.",
                 "hero3.button1": "فئاتنا",
 
@@ -565,13 +592,14 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
                 "search_results.no_products": "لم يتم العثور على منتجات لبحثك.",
                 "product_card.add_to_cart": "أضف إلى السلة",
                 "product_card.out_of_stock": "نفدت الكمية",
-
+                "header.order_history":"سجل الطلبات",
                 // Footer
                 "footer.about_title": "حول SUISSTECH",
                 "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
                 "footer.links_title": "روابط مفيدة",
                 "footer.my_account": "حسابي",
-                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. جميع الحقوق محفوظة."
+                "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. جميع الحقوق محفوظة.",
+                "footer.link": "اقرأ سياسة الخدمة الخاصة بنا"
             },
             // spanish
              es: { // ADD THIS NEW SPANISH TRANSLATION BLOCK
@@ -592,10 +620,10 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
  
         "hero1.title": "Informática de segunda mano, verdaderas oportunidades.",
         "hero1.button": "Ver ofertas",
-
+        "hero22.button": "Descubre nuestros productos",
         "hero2.title": "7 días de prueba, 3 meses de garantía, satisfacción o reembolso.",
         "hero2.button": "Leer nuestra política de servicio",
-
+        "hero3.button2": "Contáctanos",
         "hero3.title": "Importado de Suiza, a un precio inmejorable.",
         "hero3.button1": "Nuestras categorías",
 
@@ -611,13 +639,14 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "testimonials.intro": "Conversaciones auténticas que hablan por sí solas. Descubre por qué nuestros clientes adoran SUISSTECH.",
         "testimonials.note": "*Por razones de privacidad, los nombres y números han sido difuminados en las capturas de pantalla.",
         "testimonials.button": "¡Comparte tu experiencia!",
- 
+        "header.order_history":"Historial de pedidos",
         // Footer
         "footer.about_title": "Acerca de SUISSTECH",
         "footer.about_text": "Tu destino único para PCs, componentes y accesorios informáticos de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
         "footer.links_title": "Enlaces Útiles",
         "footer.my_account": "Mi Cuenta",
-        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Todos los derechos reservados."
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Todos los derechos reservados.",
+        "footer.link": "Lee nuestra política de servicio"
     },
      de: { // ADD THIS NEW GERMAN TRANSLATION BLOCK
         // Header/Navigation
@@ -637,10 +666,10 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
  
         "hero1.title": "Gebruikte IT, echte koopjes.",
         "hero1.button": "Bekijk aanbiedingen",
-
+        "hero22.button": "Entdecken Sie unsere Produkte",
         "hero2.title": "7 dagen op proef, 3 maanden garantie, niet tevreden geld terug.",
         "hero2.button": "Lees ons servicebeleid",
-
+         "hero3.button2": "Kontaktieren Sie uns",
         "hero3.title": "Geïmporteerd uit Zwitserland, voor een onverslaanbare prijs.",
         "hero3.button1": "Onze categorieën",
 
@@ -655,13 +684,14 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "testimonials.intro": "Authentische Gespräche, die für sich sprechen. Entdecken Sie, warum unsere Kunden SUISSTECH lieben.",
         "testimonials.note": "*Aus Datenschutzgründen wurden Namen und Nummern auf den Screenshots unkenntlich gemacht.",
         "testimonials.button": "Teilen Sie Ihre Erfahrung!",
- 
+        "header.order_history":"Bestellverlauf",
         // Footer
         "footer.about_title": "Über SUISSTECH",
         "footer.about_text": "Ihr One-Stop-Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
         "footer.links_title": "Nützliche Links",
         "footer.my_account": "Mein Konto",
-        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Alle Rechte vorbehalten."
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Alle Rechte vorbehalten.",
+        "footer.link": "Lesen Sie unsere Servicebedingungen"
     },ja: { // ADD THIS NEW JAPANESE TRANSLATION BLOCK
         // Header/Navigation
         "header.search_placeholder": "検索...",
@@ -680,10 +710,10 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
  
         "hero1.title": "中古パソコン、本当のお得。",
         "hero1.button": "オファーを見る",
-
+        "hero22.button": "私たちの製品を見つける",
         "hero2.title": "7日間の試用、3ヶ月保証、満足できなければ返金。",
         "hero2.button": "サービスポリシーを読む",
-
+        "hero3.button2": "お問い合わせ",
         "hero3.title": "スイスから輸入、他にない価格。",
         "hero3.button1": "カテゴリを見る",
 
@@ -700,13 +730,14 @@ let currentLang = localStorage.getItem('lang') || 'fr'; // Default to French
         "testimonials.intro": "信頼できるお客様の声。なぜお客様がTechHavenを愛しているのかをご覧ください。",
         "testimonials.note": "※プライバシー保護のため、スクリーンショットの氏名と番号は隠されています。",
         "testimonials.button": "あなたの体験を共有する！",
- 
+        "header.order_history":"注文履歴",
         // Footer
         "footer.about_title": "SUISSTECHについて",
         "footer.about_text": "高品質なPC、コンポーネント、コンピューターアクセサリーのワンストップショップです。最高のテクノロジーと優れた顧客サービスを提供することをお約束します。",
         "footer.links_title": "便利なリンク",
         "footer.my_account": "マイアカウント",
-        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 無断複写・転載を禁じます。"
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 無断複写・転載を禁じます。",
+        "footer.link": "サービス方針を読む"
     },
 it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
         // Header/Navigation
@@ -726,10 +757,10 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
  
         "hero1.title": "Informatica usata, vere occasioni.",
         "hero1.button": "Vedi le offerte",
-
+        "hero22.button": "Scopri i nostri prodotti",
         "hero2.title": "7 giorni di prova, 3 mesi di garanzia, soddisfatti o rimborsati.",
         "hero2.button": "Leggi la nostra politica di servizio",
-
+        "hero3.button2": "Contattaci",
         "hero3.title": "Importato dalla Svizzera, a un prezzo imbattibile.",
         "hero3.button1": "Le nostre categorie",
 
@@ -746,13 +777,14 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
         "testimonials.intro": "Conversazioni autentiche che parlano da sole. Scopri perché i nostri clienti amano SUISSTECH.",
         "testimonials.note": "*Per motivi di privacy, nomi e numeri sono stati oscurati negli screenshot.",
         "testimonials.button": "Condividi la tua esperienza!",
- 
+        "header.order_history":"Storico ordini",
         // Footer
         "footer.about_title": "Informazioni su SUISSTECH",
         "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire la migliore tecnologia e un servizio clienti eccezionale.",
         "footer.links_title": "Link utili",
         "footer.my_account": "Il mio account",
-        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tutti i diritti riservati."
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tutti i diritti riservati.",
+        "footer.link": "Leggi la nostra politica di servizio"
     },
     zh: { // ADD THIS NEW CHINESE TRANSLATION BLOCK (Simplified Chinese)
         // Header/Navigation
@@ -772,10 +804,10 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
  
         "hero1.title": "二手电脑，真正实惠。",
         "hero1.button": "查看优惠",
-
+        "hero22.button": "探索我们的产品",
         "hero2.title": "7天试用，3个月保修，不满意可退款。",
         "hero2.button": "阅读我们的服务政策",
-
+        "hero3.button2": "联系我们",
         "hero3.title": "瑞士进口，价格无与伦比。",
         "hero3.button1": "我们的分类",
 
@@ -792,13 +824,14 @@ it: { // ADD THIS NEW ITALIAN TRANSLATION BLOCK
         "testimonials.intro": "真实的对话，不言而喻。了解为什么我们的客户喜爱 SUISSTECH。",
         "testimonials.note": "*出于隐私原因，屏幕截图中的姓名和号码已模糊处理。",
         "testimonials.button": "分享您的体验！",
- 
+        "header.order_history":"订单历史",
         // Footer
         "footer.about_title": "关于 SUISSTECH",
         "footer.about_text": "您购买高品质电脑、组件和电脑配件的一站式目的地。我们致力于提供最好的技术和卓越的客户服务。",
         "footer.links_title": "有用链接",
         "footer.my_account": "我的账户",
-        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 保留所有权利。"
+        "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 保留所有权利。",
+        "footer.link": "阅读我们的服务政策"
     },
     // ... (rest of your existing translations and script) ...
 };

@@ -234,7 +234,9 @@
   </a>
 
   <div class="icons">
-
+    <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
+</a>
     <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
       <i class="fas fa-user"></i>
@@ -333,7 +335,7 @@
             </div>
             <div class="footer-section contact">
                 <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-map-marker-alt"></i> 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</p>
                 <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
                 <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
                 <div class="social-icons">
@@ -344,7 +346,7 @@
         </div>
                 <div class="footer-bottom">
          SUISSTECH. Tous droits réservés.
-        <li><a href="service.html" class="footer-policy-link">Lire notre politique de service</a></li>
+        <li><a href="service.html" class="footer-policy-link"data-i18n="footer.link">Lire notre politique de service</a></li>
 </div>
     </footer>
 
@@ -369,9 +371,10 @@
     // Ensure this is defined. If you have it in a separate file, load that file BEFORE this script.
     const translations = {
         fr: {
-            "header.greeting": "Bonjour",
-            "header.logout_button": "Déconnexion",
-            "header.login": "Connexion",
+             "header.order_history": "Historique des commandes",
+            "greeting.text": "Bonjour",
+            "logout.text": "Déconnexion",
+            "login.text": "Connexion",
             "header.search_placeholder": "Rechercher...",
             "header.cart": "Mon Panier",
             "review_page.title": "SUISSTECH - Soumettre un Avis",
@@ -398,12 +401,14 @@
             "nav.promo": "page de promo",
             "footer.my_account": "",
             "footer.contact_title": "Contactez-nous",
-            "footer.copyright": "&copy; <span id='current-year'></span> SUISSTECH. Tous droits réservés."
+            "footer.copyright": "&copy; <span id='current-year'></span> SUISSTECH. Tous droits réservés.",
+            "footer.link":"Lire notre politique de service"
         },
         en: { // Add English translations or other languages as needed
-            "header.greeting": "Hello",
-            "header.logout_button": "Logout",
-            "header.login": "Login",
+            "header.order_history": "Order History",
+            "greeting.text": "Hello",
+            "logout.text": "Logout",
+            "login.text": "Login",
             "header.search_placeholder": "Search...",
             "header.cart": "My Cart",
             "review_page.title": "SUISSTECH - Submit a Review",
@@ -430,14 +435,16 @@
             "nav.promo": "Promo page",
             "footer.my_account": "My Account",
             "footer.contact_title": "Contact Us",
-            "footer.copyright": "&copy; <span id='current-year'></span> SUISSTECH. All rights reserved."
+            "footer.copyright": "&copy; <span id='current-year'></span> SUISSTECH. All rights reserved.",
+            "footer.link": "Read our service policy"
         },
          ar: {
+            "header.order_history": "تاريخ الطلبات",
             "header.search_placeholder": "بحث...",
-            "header.login": "تسجيل الدخول",
+            "login.text": "تسجيل الدخول",
             "header.cart": "سلتي",
-            "header.greeting": "مرحباً",
-            "header.logout_button": "تسجيل الخروج",
+            "greeting.text": "مرحباً",
+            "logout.text": "تسجيل الخروج",
             "nav.home": "الرئيسية",
             "nav.pc": "أجهزة الكمبيوتر",
             "nav.smartphones": "الهواتف الذكية",
@@ -466,14 +473,16 @@
             "footer.about_text": "وجهتك الوحيدة لأجهزة الكمبيوتر والمكونات وملحقات الكمبيوتر عالية الجودة. نحن ملتزمون بتقديم أفضل التقنيات وخدمة عملاء استثنائية.",
             "footer.links_title": "روابط مفيدة",
             "footer.my_account": "حسابي",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> تيك هافن. جميع الحقوق محفوظة."
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> تيك هافن. جميع الحقوق محفوظة.",
+            "footer.link": "اقرأ سياسة الخدمة الخاصة بنا"
         },
          es: {
+            "header.order_history": "Historial de pedidos",
             "header.search_placeholder": "Buscar...",
-            "header.login": "Iniciar Sesión",
+            "login.text": "Iniciar Sesión",
             "header.cart": "Mi Carrito",
-            "header.greeting": "Hola",
-            "header.logout_button": "Cerrar Sesión",
+            "greeting.text": "Hola",
+            "logout.text": "Cerrar Sesión",
             "nav.home": "Inicio",
             "nav.pc": "PC",
             "nav.smartphones": "Smartphones",
@@ -502,14 +511,16 @@
             "footer.about_text": "Tu destino único para PCs, componentes y accesorios informáticos de alta calidad. Nos comprometemos a ofrecer la mejor tecnología y un servicio al cliente excepcional.",
             "footer.links_title": "Enlaces Útiles",
             "footer.my_account": "Mi Cuenta",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Todos los derechos reservados."
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Todos los derechos reservados.",
+            "footer.link": "Lee nuestra política de servicio"
         },
         de: {
+            "header.order_history": "Bestellverlauf",
             "header.search_placeholder": "Suchen...",
-            "header.login": "Anmelden",
+            "login.text": "Anmelden",
             "header.cart": "Mein Warenkorb",
-            "header.greeting": "Hallo",
-            "header.logout_button": "Abmelden",
+            "greeting.text": "Hallo",
+            "logout.text": "Abmelden",
             "nav.home": "Startseite",
             "nav.pc": "PCs",
             "nav.smartphones": "Smartphones",
@@ -538,14 +549,16 @@
             "footer.about_text": "Ihr One-Stop-Ziel für hochwertige PCs, Komponenten und Computerzubehör. Wir sind bestrebt, die beste Technologie und einen außergewöhnlichen Kundenservice zu bieten.",
             "footer.links_title": "Nützliche Links",
             "footer.my_account": "Mein Konto",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Alle Rechte vorbehalten."
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Alle Rechte vorbehalten.",
+            "footer.link": "Lesen Sie unsere Servicebedingungen"
         },
          it: { // ITALIAN
+            "header.order_history": "Storico ordini",
             "header.search_placeholder": "Cerca...",
-            "header.login": "Accedi",
+            "login.text": "Accedi",
             "header.cart": "Il mio carrello",
-            "header.greeting": "Ciao",
-            "header.logout_button": "Esci",
+            "greeting.text": "Ciao",
+            "logout.text": "Esci",
             "nav.home": "Home",
             "nav.pc": "PC",
             "nav.smartphones": "Smartphone",
@@ -574,14 +587,16 @@
             "footer.about_text": "La tua destinazione unica per PC, componenti e accessori informatici di alta qualità. Ci impegniamo a offrire la migliore tecnologia e un servizio clienti eccezionale.",
             "footer.links_title": "Link utili",
             "footer.my_account": "Il mio account",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tutti i diritti riservati."
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tutti i diritti riservati.",
+            "footer.link": "Leggi la nostra politica di servizio"
         },
         zh: { // CHINESE (Simplified)
+            "header.order_history": "订单历史",
             "header.search_placeholder": "搜索...",
-            "header.login": "登录",
+            "login.text": "登录",
             "header.cart": "我的购物车",
-            "header.greeting": "你好",
-            "header.logout_button": "退出",
+            "greeting.text": "你好",
+            "logout.text": "退出",
             "nav.home": "首页",
             "nav.pc": "电脑",
             "nav.smartphones": "智能手机",
@@ -610,14 +625,16 @@
             "footer.about_about": "您购买高品质电脑、组件和电脑配件的一站式目的地。我们致力于提供最好的技术和卓越的客户服务。", // Note: "about_about" should likely be "about_text"
             "footer.links_title": "有用链接",
             "footer.my_account": "我的账户",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 保留所有权利。"
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 保留所有权利。",
+            "footer.link": "阅读我们的服务政策"
         },
         ja: {
+            "header.order_history": "注文履歴",
             "header.search_placeholder": "検索...",
-            "header.login": "ログイン",
+            "login.text": "ログイン",
             "header.cart": "マイカート",
-            "header.greeting": "こんにちは",
-            "header.logout_button": "ログアウト",
+            "greeting.text": "こんにちは",
+            "logout.text": "ログアウト",
             "nav.home": "ホーム",
             "nav.pc": "PC",
             "nav.smartphones": "スマートフォン",
@@ -646,7 +663,8 @@
             "footer.about_text": "高品質なPC、コンポーネント、PCアクセサリーのワンストップショップです。最高の技術と優れた顧客サービスを提供することをお約束します。",
             "footer.links_title": "役立つリンク",
             "footer.my_account": "マイアカウント",
-            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 無断転載を禁じます。"
+            "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. 無断転載を禁じます。",
+            "footer.link": "サービス方針を読む"
         }
 
         // Add more languages as needed
@@ -685,42 +703,52 @@
         });
     }
 
-    // --- USER LOGIN/LOGOUT UI ---
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const userControls = document.getElementById("user-controls");
+       // --- User Authentication ---
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        const userControls = document.getElementById("user-controls");
 
-    function updateLoginUI(lang) {
-        if (currentUser) {
-            userControls.innerHTML = `
-                <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
-                    <span class="icon">👋</span>
-                    <span class="text">${translations[lang]['header.greeting'] || translations['fr']['header.greeting']}, ${currentUser.prenom}</span>
-                </div>
-                <button onclick="logout()" style="
-                    margin-left: 10px;
-                    background-color: #ff5e5e;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                ">${translations[lang]['header.logout_button'] || translations['fr']['header.logout_button']}</button>
-            `;
-        } else {
-            userControls.innerHTML = `
-                <a href="login.html" class="icon-button">
-                    <span class="icon">👤</span>
-                    <span class="text">${translations[lang]['header.login'] || translations['fr']['header.login']}</span>
-                </a>
-            `;
+function updateLoginUI() {
+  if (currentUser) {
+    userControls.innerHTML = `
+      <div class="user-menu-wrapper">
+        <div class="icon-button dropdown-toggle" onclick="toggleUserMenu()" style="cursor: pointer;">
+          <span class="icon">👋</span>
+          <span class="text">${translations[currentLang]['greeting.text']}, ${currentUser.prenom}</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="user-menu-dropdown" id="userDropdownMenu">
+          <a href="order-history.html" class="dropdown-link">
+            <i class="fas fa-box-open dropdown-icon"></i>
+            <span>${translations[currentLang]['header.order_history'] || 'Historique des commandes'}</span>
+          </a>
+          <button onclick="logout()" class="dropdown-link logout-btn">
+            <i class="fas fa-sign-out-alt dropdown-icon"></i>
+            <span>${translations[currentLang]['logout.text'] || 'Déconnexion'}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    userControls.innerHTML = `
+      <a href="login.html" class="icon-button">
+        <span class="icon">👤</span>
+        <span class="text">${translations[currentLang]['login.text']}</span>
+      </a>
+    `;
+  }
+  applyTranslations();
+}
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("role");
+            window.location.reload();
         }
-    }
+        function toggleUserMenu() {
+  const dropdown = document.getElementById("userDropdownMenu");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
 
-    function logout() {
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("role");
-        window.location.reload();
-    }
            const languageSelects = document.querySelectorAll('.language-select');
 
 languageSelects.forEach(select => {

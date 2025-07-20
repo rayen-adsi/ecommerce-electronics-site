@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>SUISSTECH - Produits Smartphone</title>
     <link rel="icon" href="images/lo5.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
@@ -284,7 +286,9 @@
     <span class="mobile-icon" onclick="toggleMobileSearch()">
       <i class="fas fa-search"></i>
     </span>
-
+    <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
+</a>
     <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
       <i class="fas fa-user"></i>
@@ -388,7 +392,7 @@
             </div>
             <div class="footer-section contact">
                 <h3 data-i18n="footer.contact_title">Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.address">📍 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</span></p>
+                <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.address">5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</span></p>
                 <p><i class="fas fa-phone"></i> <span data-i18n="footer.phone">+41 76 757 64 30</span></p>
                 <p><i class="fas fa-envelope"></i> <span data-i18n="footer.email">techaven03@gmail.com</span></p>
                 <div class="social-icons">
@@ -401,7 +405,7 @@
         <span data-i18n="footer.copyright">
             &copy; <span id="current-year"></span> SUISSTECH. Tous droits réservés.
         </span>
-        <li><a href="service.html" class="footer-policy-link">Lire notre politique de service</a></li>
+        <li><a href="service.html" class="footer-policy-link"data-i18n="footer.link">Lire notre politique de service</a></li>
         </div>
     </footer>
 
@@ -424,6 +428,7 @@
         // COMPLETE TRANSLATIONS OBJECT
        const translations = {
                 fr: {
+                    "header.order_history": "Historique des commandes",
                     "page.smartphones_title": "SUISSTECH - Smartphones",
                     "search.placeholder": "Rechercher...",
                     "login.text": "Connexion",
@@ -453,12 +458,14 @@
                     "nav.my_account": "",
                     "nav.cart": "Panier",
                     "footer.contact_title": "Contactez-nous",
-                    "footer.address": "📍 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia",
+                    "footer.address": "5 rue el Fadhel Ben Achour, Ezzahra, Tunisia",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "Tous droits réservés."
+                  "footer.copyright": "© <span id=\"current-year-placeholder\"></span> SUISSTECH. Tous droits réservés.", // Placeholder for year
+                "footer.link":"Lire notre politique de service", // Will be handled dynamically for year
                 },
                 en: {
+                    "header.order_history": "Order History",
                     "page.smartphones_title": "SUISSTECH - Smartphones",
                     "search.placeholder": "Search...",
                     "login.text": "Login",
@@ -491,9 +498,11 @@
                     "footer.address": "123 Tech Street, Tunis, Tunisia",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "All rights reserved."
+                    "footer.copyright": "All rights reserved.",
+                "footer.link": "Read our service policy"
                 },
                 ar: {
+                    "header.order_history": "تاريخ الطلبات",
                     "page.smartphones_title": "تيك هافن - هواتف ذكية",
                     "search.placeholder": "بحث...",
                     "login.text": "تسجيل الدخول",
@@ -526,9 +535,11 @@
                     "footer.address": "123 شارع التكنولوجيا، تونس، تونس",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "جميع الحقوق محفوظة."
+                    "footer.copyright": "جميع الحقوق محفوظة.",
+                "footer.link": "اقرأ سياسة الخدمة الخاصة بنا"
                 },
                 es: {
+                    "header.order_history": "Historial de pedidos",
                     "page.smartphones_title": "SUISSTECH - Smartphones",
                     "search.placeholder": "Buscar...",
                     "login.text": "Iniciar Sesión",
@@ -561,9 +572,11 @@
                     "footer.address": "123 Calle de la Tecnología, Túnez, Túnez",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "Todos los derechos reservados."
+                    "footer.copyright": "Todos los derechos reservados.",
+                "footer.link": "Lee nuestra política de servicio"
                 },
                 de: {
+                    "header.order_history": "Bestellverlauf",
                     "page.smartphones_title": "SUISSTECH - Smartphones",
                     "search.placeholder": "Suchen...",
                     "login.text": "Anmelden",
@@ -596,9 +609,11 @@
                     "footer.address": "123 Tech-Straße, Tunis, Tunesien",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "Alle Rechte vorbehalten."
+                    "footer.copyright": "Alle Rechte vorbehalten.",
+                "footer.link": "Lesen Sie unsere Servicebedingungen"
                 },
                 it: {
+                    "header.order_history": "Storico ordini",
                     "page.smartphones_title": "SUISSTECH - Smartphones",
                     "search.placeholder": "Cerca...",
                     "login.text": "Accedi",
@@ -631,9 +646,11 @@
                     "footer.address": "123 Via della Tech, Tunisi, Tunisia",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "Tutti i diritti riservati."
+                    "footer.copyright": "Tutti i diritti riservati.",
+                "footer.link": "Leggi la nostra politica di servizio"
                 },
                 zh: { // Simplified Chinese
+                    "header.order_history": "订单历史",
                     "page.smartphones_title": "SUISSTECH - 智能手机",
                     "search.placeholder": "搜索...",
                     "login.text": "登录",
@@ -666,9 +683,11 @@
                     "footer.address": "突尼斯，突尼斯，科技路123号",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "保留所有权利。"
+                    "footer.copyright": "保留所有权利。",
+                "footer.link": "阅读我们的服务政策"
                 },
                 ja: {
+                    "header.order_history": "注文履歴",
                     "page.smartphones_title": "SUISSTECH - スマートフォン",
                     "search.placeholder": "検索...",
                     "login.text": "ログイン",
@@ -701,7 +720,8 @@
                     "footer.address": "チュニス、テック通り123番地、チュニジア",
                     "footer.phone": "+41 76 757 64 30",
                     "footer.email": "techaven03@gmail.com",
-                    "footer.copyright": "全著作権所有。"
+                    "footer.copyright": "全著作権所有。",
+                "footer.link": "サービス方針を読む"
                 }
             };
 
@@ -740,43 +760,52 @@
             document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
         }
 
-        // --- User Authentication ---
+          // --- User Authentication ---
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         const userControls = document.getElementById("user-controls");
 
-        function updateLoginUI() {
-            if (currentUser) {
-                userControls.innerHTML = `
-                    <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
-                        <span class="icon">👋</span>
-                        <span class="text" data-i18n="greeting.text">${translations[currentLang]['greeting.text']}</span>, ${currentUser.prenom}
-                    </div>
-                    <button onclick="logout()" style="
-                        margin-left: 10px;
-                        background-color: #ff5e5e;
-                        color: white;
-                        border: none;
-                        padding: 6px 12px;
-                        border-radius: 6px;
-                        cursor: pointer;
-                    " data-i18n="logout.text">${translations[currentLang]['logout.text']}</button>
-                `;
-            } else {
-                userControls.innerHTML = `
-                    <a href="login.html" class="icon-button">
-                        <span class="icon">👤</span>
-                        <span class="text" data-i18n="login.text">${translations[currentLang]['login.text']}</span>
-                    </a>
-                `;
-            }
-            applyTranslations(); // Re-apply translations after dynamic content update
-        }
+function updateLoginUI() {
+  if (currentUser) {
+    userControls.innerHTML = `
+      <div class="user-menu-wrapper">
+        <div class="icon-button dropdown-toggle" onclick="toggleUserMenu()" style="cursor: pointer;">
+          <span class="icon">👋</span>
+          <span class="text">${translations[currentLang]['greeting.text']}, ${currentUser.prenom}</span>
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="user-menu-dropdown" id="userDropdownMenu">
+          <a href="order-history.html" class="dropdown-link">
+            <i class="fas fa-box-open dropdown-icon"></i>
+            <span>${translations[currentLang]['header.order_history'] || 'Historique des commandes'}</span>
+          </a>
+          <button onclick="logout()" class="dropdown-link logout-btn">
+            <i class="fas fa-sign-out-alt dropdown-icon"></i>
+            <span>${translations[currentLang]['logout.text'] || 'Déconnexion'}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    userControls.innerHTML = `
+      <a href="login.html" class="icon-button">
+        <span class="icon">👤</span>
+        <span class="text">${translations[currentLang]['login.text']}</span>
+      </a>
+    `;
+  }
+  applyTranslations();
+}
 
         function logout() {
             localStorage.removeItem("currentUser");
             localStorage.removeItem("role");
             window.location.reload();
         }
+        function toggleUserMenu() {
+  const dropdown = document.getElementById("userDropdownMenu");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
 
          const languageSelects = document.querySelectorAll('.language-select');
 

@@ -227,7 +227,9 @@
   </a>
 
   <div class="icons">
-
+    <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
+</a>
     <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
       <i class="fas fa-user"></i>
@@ -283,7 +285,7 @@
             </div>
             <div class="footer-section contact">
                 <h3>Contactez-nous</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Rue de la Tech, Tunis, Tunisie</p>
+                <p><i class="fas fa-map-marker-alt"></i> 5 rue el Fadhel Ben Achour, Ezzahra, Tunisia</p>
                 <p><i class="fas fa-phone"></i> +41 76 757 64 30</p>
                 <p><i class="fas fa-envelope"></i> techaven03@gmail.com</p>
                 <div class="social-icons">
@@ -296,7 +298,7 @@
   <span data-i18n="footer.copyright">
     &copy; <span id="current-year"></span> SUISSTECH. Tous droits réservés.
   </span>
-  <li><a href="service.html" class="footer-policy-link">Lire notre politique de service</a></li>
+  <li><a href="service.html" class="footer-policy-link"data-i18n="footer.link">Lire notre politique de service</a></li>
 </div>
     </footer>
 
@@ -308,29 +310,40 @@
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         const userControls = document.getElementById("user-controls");
 
-        if (currentUser) {
-            userControls.innerHTML = `
-                <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
-                    <span class="icon">👋</span>
-                    <span class="text">Bonjour, ${currentUser.prenom}</span>
-                </div>
-                <button onclick="logout()" style="
-                    margin-left: 10px;
-                    background-color: #ff5e5e;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                ">Déconnexion</button>
-            `;
-        }
+       if (currentUser) {
+
+    userControls.innerHTML = `
+  <div class="dropdown-container" id="dropdownContainer">
+    <div class="icon-button dropdown-toggle" onclick="toggleUserMenu()" style="cursor: pointer;">
+      <span class="icon">👋</span>
+      <span class="text">Bonjour, ${currentUser.prenom}</span>
+      <i class="fas fa-chevron-down" style="margin-left: 6px;"></i>
+    </div>
+    <div class="user-menu-dropdown hidden" id="userDropdownMenu">
+      <a href="order-history.html" class="dropdown-link">
+        <i class="fas fa-box-open dropdown-icon"></i>
+        Historique des commandes
+      </a>
+      <button onclick="logout()" class="dropdown-link logout-btn">
+        <i class="fas fa-sign-out-alt dropdown-icon"></i>
+        Déconnexion
+      </button>
+    </div>
+  </div>
+`;
+       }
+
 
         function logout() {
             localStorage.removeItem("currentUser");
             localStorage.removeItem("role");
             window.location.reload();
         }
+ function toggleUserMenu() {
+    const dropdown = document.getElementById("userDropdownMenu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
     </script>
     
     <script src="js/cart.js"></script>
