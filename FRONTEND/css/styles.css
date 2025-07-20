@@ -1442,6 +1442,22 @@ html {
     height: 100px; /* Adjusted height for desktop logo - was 200px which is very large */
     width: auto; /* Maintain aspect ratio */
 }
+.hero-button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 14px 28px; /* Adjusted padding for better consistency */
+    text-decoration: none;
+    border-radius: 25px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    transition: background 0.3s;
+        margin-bottom: 15px; /* space between buttons */
+    display: inline-block; /* Ensures padding and sizing work correctly */
+}
+
+.hero-button:hover {
+    background-color: #e6594e;
+}
 }
 .language-container {
   flex-shrink: 0;
@@ -1465,6 +1481,26 @@ html {
     padding: 8px;
     overflow-x: auto; /* Prevent clipping */
   }
+  .logo img {
+    height: 100px; /* Adjusted height for desktop logo - was 200px which is very large */
+    width: auto; /* Maintain aspect ratio */
+}
+.hero-button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 14px 28px; /* Adjusted padding for better consistency */
+    text-decoration: none;
+    border-radius: 25px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    transition: background 0.3s;
+        margin-bottom: 15px; /* space between buttons */
+    display: inline-block; /* Ensures padding and sizing work correctly */
+}
+
+.hero-button:hover {
+    background-color: #e6594e;
+}
 
   .mobile-header .language-container {
     flex: 0 0 auto;

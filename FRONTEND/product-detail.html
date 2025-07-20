@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SUISSTECH - Détails du Produit</title>
     <link rel="icon" href="images/lo5.png" type="image/png">
-    <link rel="stylesheet" href="css/styles.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         /* --- Styles Spécifiques à cette page --- */
         .product-detail-container {
@@ -337,6 +341,46 @@
 
         
     </header>
+    <header class="mobile-header">
+  <a href="index.html" class="logo">
+    <img src="images/logo8.png" alt="SUISSTECH Logo">
+  </a>
+
+  <div class="icons">
+
+  <div id="order-history-icon" style="display: none;">
+  <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i>
+  </a>
+</div>
+
+
+    <!-- USER / LOGIN / LOGOUT -->
+    <span id="mobile-user-control" class="mobile-icon">
+      <i class="fas fa-user"></i>
+    </span>
+
+    <!-- CART ICON -->
+    <a href="cart.html" class="mobile-icon cart-container">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge" id="mobile-cart-count">0</span>
+    </a>
+
+
+</div>
+
+<div id="mobile-search-container" class="mobile-search hidden">
+  <div class="mobile-search-wrapper">
+    <i class="fas fa-search search-icon-inside"></i>
+    <input type="text" id="mobileSearchInput" placeholder="Rechercher un produit..." />
+    <i class="fas fa-times clear-icon" onclick="clearMobileSearch()"></i>
+  </div>
+  <div id="mobileSearchResultsDropdown" class="search-results-dropdown"></div>
+</div>
+
+
+</header>
+
     
     <div class="product-detail-container">
     <a href="javascript:history.back()" class="back-link">&larr; Retour</a>
@@ -351,31 +395,50 @@
 
     <script>
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const orderHistoryIcon = document.getElementById("order-history-icon");
+
+if (currentUser && orderHistoryIcon) {
+  orderHistoryIcon.style.display = "inline-block"; // or "flex" if needed
+}
+
+
+        // Script de gestion de l'utilisateur (Connexion/Déconnexion)
+
         const userControls = document.getElementById("user-controls");
 
-        if (currentUser) {
-            userControls.innerHTML = `
-                <div class="icon-button" onclick="window.location.href='order-history.html'" style="cursor: pointer;">
-                    <span class="icon">👋</span>
-                    <span class="text">Bonjour, ${currentUser.prenom}</span>
-                </div>
-                <button onclick="logout()" style="
-                    margin-left: 10px;
-                    background-color: #ff5e5e;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                ">Déconnexion</button>
-            `;
-        }
+       if (currentUser) {
+
+    userControls.innerHTML = `
+  <div class="dropdown-container" id="dropdownContainer">
+    <div class="icon-button dropdown-toggle" onclick="toggleUserMenu()" style="cursor: pointer;">
+      <span class="icon">👋</span>
+      <span class="text">Bonjour, ${currentUser.prenom}</span>
+      <i class="fas fa-chevron-down" style="margin-left: 6px;"></i>
+    </div>
+    <div class="user-menu-dropdown hidden" id="userDropdownMenu">
+      <a href="order-history.html" class="dropdown-link">
+        <i class="fas fa-box-open dropdown-icon"></i>
+        Historique des commandes
+      </a>
+      <button onclick="logout()" class="dropdown-link logout-btn">
+        <i class="fas fa-sign-out-alt dropdown-icon"></i>
+        Déconnexion
+      </button>
+    </div>
+  </div>
+`;
+       }
+
 
         function logout() {
             localStorage.removeItem("currentUser");
             localStorage.removeItem("role");
             window.location.reload();
         }
+ function toggleUserMenu() {
+    const dropdown = document.getElementById("userDropdownMenu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
     </script>
     <script src="js/cart.js"></script>
    <script>
@@ -607,7 +670,106 @@ if (product.oldPrice) {
             mainMedia.onclick = null; // Disable zoom event for videos
         }
     }
+document.addEventListener('DOMContentLoaded', () => {
+           
+    // Example for product-detail.html:
+    if (document.getElementById('product-details')) { // Check if product-details container exists
+        // Ensure fetchAndDisplayProductDetails is defined elsewhere in your script for product-detail.html
+        fetchAndDisplayProductDetails(); // Call your function to display product details
+    }
+    const mobileUserControl = document.getElementById("mobile-user-control");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+if (mobileUserControl) {
+  if (currentUser) {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user-check"></i>
+      <span style="font-size: 10px; display: block;">${currentUser.prenom}</span>
+    `;
+  } else {
+    mobileUserControl.innerHTML = `
+      <i class="fas fa-user"></i>
+      <span style="font-size: 10px; display: block;">Connecter</span>
+    `;
+  }
+
+  mobileUserControl.addEventListener("click", () => {
+    if (currentUser) {
+      const confirmLogout = confirm(`Se déconnecter de ${currentUser.prenom} ?`);
+      if (confirmLogout) logout();
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+}
+
+
+ 
+
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+  const mobileInput = document.getElementById("mobileSearchInput");
+  const mobileDropdown = document.getElementById("mobileSearchResultsDropdown");
+
+  if (mobileInput) {
+    mobileInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const query = mobileInput.value.trim();
+        displayMobileSuggestions(query);
+      }, 300);
+    });
+
+    mobileDropdown.addEventListener("click", (event) => {
+      const clickedItem = event.target.closest(".search-result-item");
+      if (clickedItem && clickedItem.dataset.productId) {
+        window.location.href = `product-detail.html?id=${clickedItem.dataset.productId}`;
+        mobileDropdown.style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!mobileInput.contains(event.target) && !mobileDropdown.contains(event.target)) {
+        mobileDropdown.style.display = 'none';
+      }
+    });
+  }
+});
+function displayMobileSuggestions(query) {
+  const dropdown = document.getElementById('mobileSearchResultsDropdown');
+  dropdown.innerHTML = '';
+  dropdown.style.display = 'none';
+
+  if (query.length < 2) return;
+
+  const results = allProductsForSearch.filter(product =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  if (results.length > 0) {
+    results.slice(0, 5).forEach(product => {
+      const div = document.createElement('div');
+      div.classList.add('search-result-item');
+      div.dataset.productId = product._id;
+      div.innerHTML = `
+        <img src="${product.images?.[0] ? `${API_BASE_URL.replace('/api', '')}${product.images[0]}` : 'https://via.placeholder.com/50x50?text=No+Image'}" alt="${product.name}">
+        <div class="search-result-item-info">
+          <h4>${product.name}</h4>
+          <p>${product.description?.substring(0, 50) || ''}</p>
+        </div>
+        <span class="price-display">${product.promotion_price ?? product.price} TND</span>
+      `;
+      dropdown.appendChild(div);
+    });
+    dropdown.style.display = 'block';
+  } else {
+    const noResult = document.createElement('div');
+    noResult.className = 'no-search-results';
+    noResult.textContent = translations[currentLang]['no_results_message'];
+    dropdown.appendChild(noResult);
+    dropdown.style.display = 'block';
+  }
+}
     // Call the function when the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', fetchAndDisplayProductDetails);
 </script>

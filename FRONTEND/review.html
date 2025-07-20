@@ -234,10 +234,11 @@
   </a>
 
   <div class="icons">
-    <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
-    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
-</a>
-    <!-- USER / LOGIN / LOGOUT -->
+      <div id="order-history-icon" style="display: none;">
+  <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i>
+  </a>
+</div>    <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
       <i class="fas fa-user"></i>
     </span>
@@ -702,9 +703,14 @@
             applyTranslations(); // Re-apply translations for entire page
         });
     }
+       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const orderHistoryIcon = document.getElementById("order-history-icon");
+
+if (currentUser && orderHistoryIcon) {
+  orderHistoryIcon.style.display = "inline-block"; // or "flex" if needed
+}
 
        // --- User Authentication ---
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         const userControls = document.getElementById("user-controls");
 
 function updateLoginUI() {

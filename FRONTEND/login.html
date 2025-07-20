@@ -86,7 +86,7 @@
   <div id="customAlert" class="popup-alert"></div>
   <div class="login-box">
     <div class="products-page-page-container">
-        <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Retour à l'Accueil</a>
+        <a href="javascript:history.back()" class="back-link" data-i18n="back_to_home">&larr; Retour</a>
     </div>
     <h2>Connectez-vous à votre compte</h2>
     <h5>Vous n'avez pas de compte ?</h5>
@@ -189,7 +189,11 @@
   transferGuestCartToUser(data.user.email);
         showCustomAlert("✅ Connexion réussie !");
         setTimeout(() => {
-      window.location.href = 'index.html'; // Or 'login.html'
+      if (document.referrer) {
+  window.history.back();
+} else {
+  window.location.href = "index.html";
+}
     }, 1000);
       } else {
         showCustomAlert("❌ " + data.message, 'error');

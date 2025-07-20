@@ -227,10 +227,11 @@
   </a>
 
   <div class="icons">
-    <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
-    <i class="fas fa-box-open"></i> <!-- Font Awesome icon for orders -->
-</a>
-    <!-- USER / LOGIN / LOGOUT -->
+      <div id="order-history-icon" style="display: none;">
+  <a href="order-history.html" class="mobile-icon-button" title="Historique des commandes">
+    <i class="fas fa-box-open"></i>
+  </a>
+</div>    <!-- USER / LOGIN / LOGOUT -->
     <span id="mobile-user-control" class="mobile-icon">
       <i class="fas fa-user"></i>
     </span>
@@ -251,7 +252,7 @@
     <div id="notification-container"></div> 
     
     <div class="cart-container">
-        <a href="index.html" class="back-link">&larr; Continuer mes achats</a>
+        <a href="javascript:history.back()" class="back-link">&larr; Continuer mes achats</a>
         <h1>Mon Panier</h1>
         <div id="cart-items" class="cart-items">
             <p class="empty-cart-message">Votre panier est vide pour le moment.</p>
@@ -306,8 +307,15 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
     <script>
+               const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const orderHistoryIcon = document.getElementById("order-history-icon");
+
+if (currentUser && orderHistoryIcon) {
+  orderHistoryIcon.style.display = "inline-block"; // or "flex" if needed
+}
+
         // Script de gestion de l'utilisateur (Connexion/Déconnexion)
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
         const userControls = document.getElementById("user-controls");
 
        if (currentUser) {
