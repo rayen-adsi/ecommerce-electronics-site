@@ -207,7 +207,7 @@ app.post('/api/products', uploadProductMedia.fields([
 ]), async (req, res) => {
     try {
         // Récupération des données du formulaire
-        const { name, description, characteristics, price, oldPrice, quantity, category } = req.body;
+        const { name, description, characteristics, price, promotion_price, oldPrice, quantity, category } = req.body;
 
         // Récupérer les chemins des fichiers téléchargés par Multer
         const imagePaths = req.files['productImages'] ? req.files['productImages'].map(file => `/uploads/${file.filename}`) : [];
@@ -218,6 +218,7 @@ app.post('/api/products', uploadProductMedia.fields([
             description,
             characteristics: characteristics ? JSON.parse(characteristics) : [],
             price: parseFloat(price),
+            promotion_price: promotion_price ? parseFloat(promotion_price) : null,
             oldPrice: oldPrice ? parseFloat(oldPrice) : null,
             quantity: parseInt(quantity),
             images: imagePaths,
@@ -246,9 +247,22 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-// Route pour récupérer un seul produit par ID
+// ✅ GOOD - separate route blocks
 app.get('/api/products/:id', async (req, res) => {
-    // Route pour décrémenter la quantité d’un produit (après une commande)
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Produit non trouvé' });
+        }
+        res.set('Cache-Control', 'no-store');
+        res.status(200).json(product);
+    } catch (error) {
+        console.error('Erreur lors de la récupération du produit par ID :', error);
+        res.status(500).json({ message: 'Erreur serveur lors de la récupération du produit', error: error.message });
+    }
+});
+
+// ✅ Now properly start the next route
 app.patch('/api/products/:id/decrement', async (req, res) => {
     const { id } = req.params;
     const { quantity } = req.body;
@@ -271,18 +285,6 @@ app.patch('/api/products/:id/decrement', async (req, res) => {
     }
 });
 
-    try {
-        const product = await Product.findById(req.params.id);
-        if (!product) {
-            return res.status(404).json({ message: 'Produit non trouvé' });
-        }
-        res.set('Cache-Control', 'no-store');
-        res.status(200).json(product);
-    } catch (error) {
-        console.error('Erreur lors de la récupération du produit par ID :', error);
-        res.status(500).json({ message: 'Erreur serveur lors de la récupération du produit', error: error.message });
-    }
-});
 
 // Route pour modifier un produit (par ID)
 app.put('/api/products/:id', uploadProductMedia.fields([

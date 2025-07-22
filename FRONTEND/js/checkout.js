@@ -165,7 +165,7 @@ localStorage.setItem("currentUser", JSON.stringify({
         document.getElementById('phone').value = user.telephone || '';
         document.getElementById('shippingAddress').value = `${user.adresse || ''}, ${user.ville || ''}`;
     }
-
+    
     // === Submit Order ===
     placeOrderBtn.addEventListener('click', async (event) => {
         event.preventDefault();
@@ -201,6 +201,37 @@ localStorage.setItem("currentUser", JSON.stringify({
             orderDate: new Date().toISOString(),
             status: 'Pending'
         };
+         // --- IMPORTANT: BEGIN STOCK DECREMENT LOGIC ON CLIENT-SIDE (for demonstration) ---
+        // In a real application, this part should be done on the SERVER/BACKEND after payment confirmation.
+for (const cartItem of cart) {
+    const productId = cartItem._id || (cartItem.product && cartItem.product._id);
+    if (!productId) {
+        console.error("❌ Missing productId for", cartItem);
+        continue;
+    }
+
+    try {
+        const res = await fetch(`https://techaven.onrender.com/api/products/${productId}/decrement`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantity: cartItem.cartQuantity })
+        });
+
+        if (!res.ok) {
+            throw new Error(`Stock update failed for ${cartItem.name}`);
+        }
+
+        console.log(`✅ Stock updated for ${cartItem.name}`);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+        console.log("checkout.js: Products stock updated and saved to localStorage after order placement.");
+
+        // --- END CLIENT-SIDE STOCK DECREMENT ---
 
         try {
             const response = await fetch('https://techaven.onrender.com/api/orders', {

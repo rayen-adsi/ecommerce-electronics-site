@@ -671,7 +671,7 @@
             </div>
             <div class="form-group">
                 <label for="promotionPrice">Prix Promotion (Optionnel) :</label>
-                <input type="number" id="promotionPrice" step="0.01" min="0">
+                <input type="number" id="promotionPrice" name="promotionPrice" step="0.01" min="0">
             </div>
  
             <div class="form-group">
@@ -1113,7 +1113,9 @@ async function createProduct(formData) {
             formData.append('description', document.getElementById('productDescription').value);
             formData.append('price', document.getElementById('productPrice').value);
             formData.append('oldPrice', document.getElementById('productOldPrice').value);
-            formData.append('promotion_price', document.getElementById('promotionPrice').value);
+            const promotionPrice = document.getElementById("promotionPrice").value;
+            formData.append("promotion_price", promotionPrice || "");
+
             formData.append('quantity', document.getElementById('productQuantity').value);
             formData.append('category', document.getElementById('productCategory').value); // IMPORTANT : Ajout de la catégorie
  
